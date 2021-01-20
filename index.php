@@ -71,7 +71,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 			if (!empty($result)) {
 				$_NOTE["PAGE"] = $result['lastPage'];
 				// Retrieve module-specific visitor data
-				if (function_exists(db_retrieve_visitor_data)) {
+				if (function_exists('db_retrieve_visitor_data')) {
 					db_retrieve_visitor_data($result, $_NOTE_MODULE);
 				}
 				
@@ -95,7 +95,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 					// It's up to the module to work out if it wants to store any
 					// POST'd data from the previous page.
 					if ($valid_post) {
-						if (function_exists(db_store_page_data)) {
+						if (function_exists('db_store_page_data')) {
 							db_store_page_data($_NOTE['PAGE'], $_POST, $_NOTE['UID'], $db, $_NOTE_MODULE);
 						}
 						
@@ -105,7 +105,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 						// Record progress
 						$qry = $db->prepare("UPDATE visitors SET lastPage = :page, ipaddr = :ip WHERE uniqueID = :uid");
 						$qry->execute(array(':page'=>$_NOTE["PAGE"],':ip'=>$ip,':uid'=>$_NOTE['UID']));
-						if (function_exists(db_store_visitor_data)) {
+						if (function_exists('db_store_visitor_data')) {
 							db_store_visitor_data($_NOTE['UID'], $db, $_NOTE_MODULE);
 						}
 					}
@@ -115,7 +115,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 				$_NOTE["PAGE"] = 1;
 				$qry = $db->prepare("INSERT INTO visitors (uniqueID,ipaddr,lastPage) VALUES (:uid, :ip, :page)");
 				$result = $qry->execute(array(':uid'=>$_NOTE['UID'],':ip'=>$ip,':page'=>$_NOTE["PAGE"]));
-				if (function_exists(db_store_visitor_data)) {
+				if (function_exists('db_store_visitor_data')) {
 					db_store_visitor_data($_NOTE['UID'], $db, $_NOTE_MODULE);
 				}
 			} else {
@@ -244,7 +244,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 			<?php }
 		} elseif (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 			include 'data.php';
-			if (function_exists(display_module_data)) {
+			if (function_exists('display_module_data')) {
 				display_module_data($db, $_NOTE, $_NOTE_MODULE);
 			}
 			// Close connection
