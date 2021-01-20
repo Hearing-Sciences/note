@@ -16,7 +16,7 @@ if (isset($tmp[0]) && strlen($tmp[0]) > 0) {
 		if (file_exists($_mod_dir) && is_dir($_mod_dir)) {
 			$_NOTE["MODULE_ID"] = $tmp[0];
 			$_NOTE["MODULE_DIR"] = $_mod_dir;
-			$_NOTE["MODULE_PATH"] = '/modules/'.$_NOTE["MODULE_ID"];
+			$_NOTE["MODULE_PATH"] = $_NOTE["BASE_URI"].'modules/'.$_NOTE["MODULE_ID"];
 		}
 	}
 }
@@ -26,7 +26,7 @@ if (isset($tmp[1])) {
 		if (file_exists($_mod_dir) && is_dir($_mod_dir)) {
 			$_NOTE["PART_ID"] = $tmp[1];
 			$_NOTE["MODULE_DIR"] = $_mod_dir;
-			$_NOTE["MODULE_PATH"] = '/modules/'.$_NOTE["MODULE_ID"];
+			$_NOTE["MODULE_PATH"] = $_NOTE["BASE_URI"].'modules/'.$_NOTE["MODULE_ID"];
 		}
 	} else {
 		$_NOTE["PART_ID"] = $tmp[1];
