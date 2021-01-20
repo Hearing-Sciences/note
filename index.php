@@ -99,9 +99,29 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 							db_store_page_data($_NOTE['PAGE'], $_POST, $_NOTE['UID'], $db, $_NOTE_MODULE);
 						}
 						
-						// Move them to the next page
-						$_NOTE["PAGE"] += 1;
-						
+						// If a module sets the TASK_FINISH_FLAG (e.g. if an adaptive
+						// track is completed) then move them forward to a specified page.
+						// TODO: Rename flag and page variables so that they don't mention
+						//       'task' or 'adaptive track' as this functionality could be useful
+						//       for any use case where a module wants to move people forward by
+						//       more than 1 page. The page variable should also not refer to 'debrief' as
+						//       this functionality could be used to jump participantions to
+						//       other task pages also.
+						// TODO: Check existance and validity of 'target' page.
+						if (array_key_exists("TASK_FINISH_FLAG", $_NOTE_MODULE)) {
+                              if ($_NOTE_MODULE["TASK_FINISH_FLAG"]) {
+                                    $_NOTE["PAGE"] = $_NOTE_MODULE['TASK_ADAPTIVETRACK_DEBRIEFPAGECOUNT'];
+                              } 
+							  else {
+                                  $_NOTE["PAGE"] += 1;
+                              }
+                        }
+                        else {
+						      // Move them to the next page
+                              $_NOTE["PAGE"] += 1;
+                        }
+					
+					
 						// Record progress
 						$qry = $db->prepare("UPDATE visitors SET lastPage = :page, ipaddr = :ip WHERE uniqueID = :uid");
 						$qry->execute(array(':page'=>$_NOTE["PAGE"],':ip'=>$ip,':uid'=>$_NOTE['UID']));
