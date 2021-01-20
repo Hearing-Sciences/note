@@ -272,7 +272,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 		} else { ?>
 			<div class="jumbotron">
 				<h2>Get involved in hearing research</h2>
-				<p>This website is used to conduct research into hearing and related conditions. Here you can find research projects being run by <a href="http://www.nottingham.ac.uk/research/groups/hearingsciences">Hearing Sciences</a>, part of the School of Medicine at the University of Nottingham, and by the Hearing Theme of the <a href="https://nottinghambrc.nihr.ac.uk/hearing/">NIHR Nottingham Biomedical Research Centre</a>. For additional information regarding our hearing research, please email <a href="mailto:adele.horobin@nottingham.ac.uk">adele.horobin@nottingham.ac.uk</a> or follow us on Twitter: <a href="https://twitter.com/uonhearsci">@uonhearsci</a> and <a href="https://twitter.com/hearingnihr">@hearingnihr</a></p>
+				<p>This website is used to conduct research into hearing and related conditions such as tinnitus, hyperacusis, and balance disorders. Here you can find research projects being run by <a href="http://www.nottingham.ac.uk/research/groups/hearingsciences">Hearing Sciences</a>, part of the School of Medicine at the University of Nottingham, and as part of the Hearing Theme of the <a href="https://nottinghambrc.nihr.ac.uk/hearing/">NIHR Nottingham Biomedical Research Centre</a>. For additional information regarding our hearing research, please email <a href="mailto:adele.horobin@nottingham.ac.uk">adele.horobin@nottingham.ac.uk</a> or follow us on Twitter: <a href="https://twitter.com/uonhearsci">@uonhearsci</a> and <a href="https://twitter.com/hearingnihr">@hearingnihr</a></p>
 			</div>
 			<div style="height: 200px;"></div>
 	    <?php } ?>
