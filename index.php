@@ -21,9 +21,6 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 	  $db_error = 1;
 	}
 } elseif (isset($_NOTE["MODULE_ID"])) {
-	// Load module-specific parameters
-	include 'modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR."config.php";
-	
 	// Set up session to track user across module pages
 	session_start();
 	$new_visitor = false;
@@ -32,6 +29,9 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 		$_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]] = uniqid($_NOTE["MODULE_ID"].'_');
 	}
 	$_NOTE['UID'] = $_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]];
+	
+	// Load module-specific parameters
+	include 'modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR."config.php";
 	
 	$db_error = 0;
 	try {
