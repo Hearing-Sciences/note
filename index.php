@@ -182,13 +182,13 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
         <meta name="description" content="This website is used to conduct research into hearing and related conditions such as tinnitus, hyperacusis, and balance disorders. Here you can find research projects being run by Hearing Sciences, part of the School of Medicine at the University of Nottingham, and as part of the Hearing Theme of the NIHR Nottingham Biomedical Research Centre.">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
-        <link rel="stylesheet" href="/css/bootstrap-4.6.0/bootstrap.min.css">
-		<link rel="stylesheet" href="/css/jquery-ui-1.12.1/jquery-ui.min.css">
-		<link rel="stylesheet" href="/skin/blue.monday/css/jplayer.blue.monday.css" />
+        <link rel="stylesheet" href="<?php echo $_NOTE["BASE_URI"]; ?>css/bootstrap-4.6.0/bootstrap.min.css">
+		<link rel="stylesheet" href="<?php echo $_NOTE["BASE_URI"]; ?>css/jquery-ui-1.12.1/jquery-ui.min.css">
+		<link rel="stylesheet" href="<?php echo $_NOTE["BASE_URI"]; ?>skin/blue.monday/css/jplayer.blue.monday.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
-	    <link rel="stylesheet" href="/css/main.css">
+	    <link rel="stylesheet" href="<?php echo $_NOTE["BASE_URI"]; ?>css/main.css">
 		
-		<script src="/js/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+		<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/jquery-3.5.1/jquery-3.5.1.min.js"></script>
     </head>
     <body>
     <nav class="navbar navbar-dark bg-dark mb-2 navbar-static-top" role="navigation">
@@ -276,9 +276,9 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
       </footer>
     </div>
 	
-	<script src="/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-	<script src="/js/jplayer-2.9.2/jquery.jplayer.min.js"></script>
-	<script src="/js/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
-	<script src="/js/main.js"></script>
+	<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+	<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/jplayer-2.9.2/jquery.jplayer.min.js"></script>
+	<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+	<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/main.js"></script>
     </body>
 </html>
