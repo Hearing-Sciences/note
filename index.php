@@ -182,13 +182,14 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
         <meta name="description" content="This website is used to conduct research into hearing and related conditions such as tinnitus, hyperacusis, and balance disorders. Here you can find research projects being run by Hearing Sciences, part of the School of Medicine at the University of Nottingham, and as part of the Hearing Theme of the NIHR Nottingham Biomedical Research Centre.">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
-        <link rel="stylesheet" href="<?php echo $_NOTE["BASE_URI"]; ?>css/bootstrap-4.6.0/bootstrap.min.css">
-		<link rel="stylesheet" href="<?php echo $_NOTE["BASE_URI"]; ?>css/jquery-ui-1.12.1/jquery-ui.min.css">
-		<link rel="stylesheet" href="<?php echo $_NOTE["BASE_URI"]; ?>skin/blue.monday/css/jplayer.blue.monday.css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" integrity="sha384-xewr6kSkq3dBbEtB6Z/3oFZmknWn7nHqhLVLrYgzEFRbU/DHSxW7K3B44yWUN60D" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/skin/blue.monday/css/jplayer.blue.monday.css" integrity="sha512-hy+p5g5kWOE+l5AHCBmTo1gq1OetErrJK8u6TT2WQYUVmINNwzu9pu7oyG2f6S+qRJnbGcHu/QXpC2FV4sAvSg==" crossorigin="anonymous" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 	    <link rel="stylesheet" href="<?php echo $_NOTE["BASE_URI"]; ?>css/main.css">
 		
-		<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+		</script>
     </head>
     <body>
     <nav class="navbar navbar-dark bg-dark mb-2 navbar-static-top" role="navigation">
@@ -276,9 +277,9 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
       </footer>
     </div>
 	
-	<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-	<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/jplayer-2.9.2/jquery.jplayer.min.js"></script>
-	<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js" integrity="sha512-g0etrk7svX8WYBp+ZDIqeenmkxQSXjRDTr08ie37rVFc99iXFGxmD0/SCt3kZ6sDNmr8sR0ISHkSAc/M8rQBqg==" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 	<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/main.js"></script>
     </body>
 </html>
