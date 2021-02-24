@@ -29,12 +29,12 @@
 			echo "<td>".$m['timestamp']."</td>";
 			for ($i=0; $i<count($_NOTE_MODULE["PAGES"]); $i++) {
 				if ($i < $m['lastPage']) {
-					echo '<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>';
+					echo '<td><i class="fas fa-check-circle"></i></td>';
 				} elseif ($i == $m['lastPage']) {
 					if ($i == (count($_NOTE_MODULE["PAGES"])-1)) {
-						echo '<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>';
+						echo '<td><i class="fas fa-check-circle"></i></td>';
 					} else {
-						echo '<td><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>';
+						echo '<td><i class="fas fa-user"></i></td>';
 					}
 				} else {
 					echo '<td></td>';
