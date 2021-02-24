@@ -192,9 +192,8 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 		</script>
     </head>
     <body>
-    <nav class="navbar navbar-dark bg-dark mb-2 navbar-static-top" role="navigation">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
       <div class="container">
-        <div class="navbar-header">
           <a class="navbar-brand" href="#">
 			<?php
 				if (isset($_NOTE["MODULE_ID"]) && isset($_NOTE_MODULE['TITLE'])) {
@@ -204,17 +203,16 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 				}
 			?>
 		  </a>
-        </div>
 		<!-- For debugging only, if 'preview' is added to the
 			 end of the module URL then show buttons to allow
 			 the developer to move between module pages quickly -->
-		<?php if ($_NOTE["PART_ID"] === "preview") { ?>
-		<div id="navbar" class="navbar-collapse collapse">
+		<?php if ($_NOTE["BASE_URI"] == '/dev/' && $_NOTE["PART_ID"] === "preview") { ?>
+		<div id="navbarSupportedContent" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<?php if ($_NOTE["PAGE"] > 0) { ?>
-				<li><a href="/<?php echo $_NOTE["MODULE_ID"]; ?>/preview/<?php echo $_NOTE["PAGE"]-1; ?>">&laquo; Back</a></li>
+				<li class="nav-item"><a class="nav-link" href="/<?php echo $_NOTE["MODULE_ID"]; ?>/preview/<?php echo $_NOTE["PAGE"]-1; ?>"><i class="fas fa-angle-left"></i> Back</a></li>
 				<?php } ?>
-				<li><a href="/<?php echo $_NOTE["MODULE_ID"]; ?>/preview/<?php echo $_NOTE["PAGE"]+1; ?>">Next &raquo;</a></li>
+				<li class="nav-item"><a class="nav-link" href="/<?php echo $_NOTE["MODULE_ID"]; ?>/preview/<?php echo $_NOTE["PAGE"]+1; ?>">Next <i class="fas fa-angle-right"></i></a></li>
 			</ul>
 		</div>
 		<?php } ?>
@@ -274,6 +272,11 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
       <hr>
       <footer>
         <p>The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust</p>
+		<?php
+		if ($_NOTE["BASE_URI"] == '/dev/') {
+			echo "<p> (dev system / page_".$_NOTE_MODULE["PAGES"][$_NOTE["PAGE"]].".php / page #".$_NOTE["PAGE"].")</p>";
+		}
+		?>
       </footer>
     </div>
 	
