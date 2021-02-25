@@ -210,9 +210,9 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 		<div id="navbarSupportedContent" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<?php if ($_NOTE["PAGE"] > 0) { ?>
-				<li class="nav-item"><a class="nav-link" href="/<?php echo $_NOTE["MODULE_ID"]; ?>/preview/<?php echo $_NOTE["PAGE"]-1; ?>"><i class="fas fa-angle-left"></i> Back</a></li>
+				<li class="nav-item"><a class="nav-link" href="/dev/<?php echo $_NOTE["MODULE_ID"]; ?>/preview/<?php echo $_NOTE["PAGE"]-1; ?>"><i class="fas fa-angle-left"></i> Back</a></li>
 				<?php } ?>
-				<li class="nav-item"><a class="nav-link" href="/<?php echo $_NOTE["MODULE_ID"]; ?>/preview/<?php echo $_NOTE["PAGE"]+1; ?>">Next <i class="fas fa-angle-right"></i></a></li>
+				<li class="nav-item"><a class="nav-link" href="/dev/<?php echo $_NOTE["MODULE_ID"]; ?>/preview/<?php echo $_NOTE["PAGE"]+1; ?>">Next <i class="fas fa-angle-right"></i></a></li>
 			</ul>
 		</div>
 		<?php } ?>
