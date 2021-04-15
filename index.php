@@ -109,19 +109,18 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 						//       other task pages also.
 						// TODO: Check existance and validity of 'target' page.
 						if (array_key_exists("TASK_FINISH_FLAG", $_NOTE_MODULE)) {
-                              if ($_NOTE_MODULE["TASK_FINISH_FLAG"]) {
-                                    $_NOTE["PAGE"] = $_NOTE_MODULE['TASK_ADAPTIVETRACK_DEBRIEFPAGECOUNT'];
-                              } 
-							  else {
-                                  $_NOTE["PAGE"] += 1;
-                              }
-                        }
-                        else {
-						      // Move them to the next page
-                              $_NOTE["PAGE"] += 1;
-                        }
-					
-					
+							if ($_NOTE_MODULE["TASK_FINISH_FLAG"]) {
+								$_NOTE["PAGE"] = $_NOTE_MODULE['TASK_ADAPTIVETRACK_DEBRIEFPAGECOUNT'];
+							} 
+							else {
+								$_NOTE["PAGE"] += 1;
+							}
+						}
+						else {
+							// Move them to the next page
+							$_NOTE["PAGE"] += 1;
+						}
+						
 						// Record progress
 						$qry = $db->prepare("UPDATE visitors SET lastPage = :page, ipaddr = :ip WHERE uniqueID = :uid");
 						$qry->execute(array(':page'=>$_NOTE["PAGE"],':ip'=>$ip,':uid'=>$_NOTE['UID']));
@@ -257,7 +256,10 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 			</div>
 			<?php }
 		} elseif (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
-			include 'data.php';
+			// Hide default progress table if requested
+			if (!(array_key_exists("HIDE_DEFAULT_PROGRESS_DATA", $_NOTE_MODULE) && $_NOTE_MODULE["HIDE_DEFAULT_PROGRESS_DATA"])) {
+				include 'data.php';
+			}
 			if (function_exists('display_module_data')) {
 				display_module_data($db, $_NOTE, $_NOTE_MODULE);
 			}
