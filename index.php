@@ -17,7 +17,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 	}
 	catch(PDOException $e) {
 	  // Log error
-	  //echo $e->getMessage();
+	  echo $e->getMessage();
 	  $db_error = 1;
 	}
 } elseif (isset($_NOTE["MODULE_ID"])) {
@@ -181,7 +181,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
         <meta name="description" content="This website is used to conduct research into hearing and related conditions such as tinnitus, hyperacusis, and balance disorders. Here you can find research projects being run by Hearing Sciences, part of the School of Medicine at the University of Nottingham, and as part of the Hearing Theme of the NIHR Nottingham Biomedical Research Centre.">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+		<link rel="stylesheet" href="<?php echo $_NOTE["BASE_URI"]; ?>css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" integrity="sha384-xewr6kSkq3dBbEtB6Z/3oFZmknWn7nHqhLVLrYgzEFRbU/DHSxW7K3B44yWUN60D" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/skin/blue.monday/css/jplayer.blue.monday.css" integrity="sha512-hy+p5g5kWOE+l5AHCBmTo1gq1OetErrJK8u6TT2WQYUVmINNwzu9pu7oyG2f6S+qRJnbGcHu/QXpC2FV4sAvSg==" crossorigin="anonymous" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
@@ -196,6 +196,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
       <div class="container">
+		  <h1>
           <a class="navbar-brand" href="#">
 			<?php
 				if (isset($_NOTE["MODULE_ID"]) && isset($_NOTE_MODULE['TITLE'])) {
@@ -205,6 +206,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 				}
 			?>
 		  </a>
+		  </h1>
 		<!-- For debugging only, if 'preview' is added to the
 			 end of the module URL then show buttons to allow
 			 the developer to move between module pages quickly -->
@@ -276,7 +278,11 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
     <div class="container">
       <hr>
       <footer>
+		<?php if (isset($_NOTE_MODULE['FOOTER_COPYRIGHT']) && strlen($_NOTE_MODULE['FOOTER_COPYRIGHT']) > 2): ?>
+		<p><?= ($_NOTE_MODULE['FOOTER_COPYRIGHT']) ?></p>
+		<?php else: ?>
         <p>The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust</p>
+		<?php endif; ?>
 		<?php
 		if ($_NOTE["BASE_URI"] == '/dev/') {
 			echo "<p> (dev system / page_".$_NOTE_MODULE["PAGES"][$_NOTE["PAGE"]].".php / page #".$_NOTE["PAGE"].")</p>";
