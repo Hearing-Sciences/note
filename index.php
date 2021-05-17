@@ -186,12 +186,24 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/skin/blue.monday/css/jplayer.blue.monday.css" integrity="sha512-hy+p5g5kWOE+l5AHCBmTo1gq1OetErrJK8u6TT2WQYUVmINNwzu9pu7oyG2f6S+qRJnbGcHu/QXpC2FV4sAvSg==" crossorigin="anonymous" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 	    <link rel="stylesheet" href="<?php echo $_NOTE["BASE_URI"]; ?>css/main.css">
+		<?php if (file_exists('modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.'experiment.css')): ?>
+			<link rel="stylesheet" href="<?= 'modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.'experiment.css' ?>">
+		<?php endif; ?>
+		<?php if (file_exists('modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.sprintf('page_%s.css',$page_name))): ?>
+			<link rel="stylesheet" href="<?= 'modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.sprintf('page_%s.css',$page_name) ?>">
+		<?php endif; ?>
 		
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js" integrity="sha512-g0etrk7svX8WYBp+ZDIqeenmkxQSXjRDTr08ie37rVFc99iXFGxmD0/SCt3kZ6sDNmr8sR0ISHkSAc/M8rQBqg==" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 		<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/main.js"></script>
+		<?php if (file_exists('modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.'experiment.js')): ?>
+			<script src="<?= 'modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.'experiment.js' ?>"></script>
+		<?php endif; ?>
+		<?php if (file_exists('modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.sprintf('page_%s.js',$page_name))): ?>
+			<script src="<?= 'modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.sprintf('page_%s.js',$page_name) ?>"></script>
+		<?php endif; ?>
     </head>
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
