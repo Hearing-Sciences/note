@@ -210,6 +210,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 			<script language="javascript">
 				$(document).ready(function() {
 					$('.toast').toast('show');
+					$('#nextpage').prop('disabled', true);
 
 					$('#cookie-accept').click(function() {
 						$('.toast').toast('hide');
