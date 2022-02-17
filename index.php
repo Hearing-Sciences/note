@@ -60,6 +60,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 				$_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]] = uniqid($_NOTE["MODULE_ID"].'_');
 			}
 			$_NOTE['UID'] = $_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]];
+			$qry->closeCursor();
 		}
 		
 		if (!($_NOTE["PART_ID"] === "preview") && !$new_visitor) {
@@ -141,6 +142,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 				// Not in database and not a POST so revisiting front page
 				$_NOTE["PAGE"] = 0;
 			}
+			$qry->closeCursor();
 		} 
 		elseif (!($_NOTE["PART_ID"] === "preview")) 
 		{
