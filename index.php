@@ -41,7 +41,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 							PDO::ERRMODE_EXCEPTION);
 		require 'modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.'db.php';
 		
-		$ip = $_SERVER['REMOTE_ADDR'];
+		//$ip = $_SERVER['REMOTE_ADDR'];
 		
 		// Resume a previous session if a valid session code is provided
 		$session_code_err = 0;
@@ -204,8 +204,46 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 		<?php if (file_exists('modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.sprintf('page_%s.js',$page_name))): ?>
 			<script src="<?= 'modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR.sprintf('page_%s.js',$page_name) ?>"></script>
 		<?php endif; ?>
+		<?php if ($new_visitor): ?>
+			<script language="javascript">
+				$(document).ready(function() {
+					$('.toast').toast('show');
+
+					$('#cookie-accept').click(function() {
+						$('.toast').toast('hide');
+						$('#cookieMessage').hide();
+						$('#nextpage').prop('disabled', false);
+					});
+					$('#cookie-deny').click(function() {
+						document.cookie = "PHPSESSID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; 
+						window.location.href = "http://www.nottingham.ac.uk";
+					});
+				});
+			</script>
+		<?php endif; ?>
     </head>
     <body>
+	<?php if ($new_visitor): ?>
+		<div class="fixed-bottom p-4">
+			<div class="toast bg-dark text-white w-100 mw-100" role="alert" data-autohide="false">
+				<div class="toast-body p-4 d-flex flex-column">
+					<h4>Cookie Warning</h4>
+					<div id='cookieMessage' class="text-center"><p class="h4 text-danger">You will need to accept the use of cookies to continue.</p></div>
+					<p>
+					This website stores an essential "session cookie" on your computer. It is used to make sure that your answers are not confused with other people’s. The cookie is removed from your computer at the end of the survey/experiment or when you close your browser window. The website cannot progress without the cookie. If you do not accept this use of a cookie, please close your browser window and do not take part in this survey or experiment. Alternatively, click the button marked <em>No thanks</em> to delete the cookie and be redirected to the University of Nottingham homepage.
+					</p>
+					<div class="ml-auto">
+						<button type="button" class="btn btn-outline-light mr-3" id="cookie-deny">
+							No thanks
+						</button>
+						<button type="button" class="btn btn-light" id="cookie-accept">
+							I'm fine with cookies
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
       <div class="container">
 		  <h1>
