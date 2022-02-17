@@ -2,7 +2,7 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th>UID</th><th>IP</th><th>Last seen</th>
+			<th>UID</th><th>Last seen</th>
 			<?php
 			$last_page = NULL;
 			$dup_page_count = 0;
@@ -25,7 +25,6 @@
 		foreach ($visitors as $m) {
 			echo "<tr>";
 			echo "<td>".$m['uniqueID']."</td>";
-			echo "<td>".$m['ipaddr']."</td>";
 			echo "<td>".$m['timestamp']."</td>";
 			for ($i=0; $i<count($_NOTE_MODULE["PAGES"]); $i++) {
 				if ($i < $m['lastPage']) {

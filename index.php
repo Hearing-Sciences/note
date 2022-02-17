@@ -122,8 +122,8 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 						}
 						
 						// Record progress
-						$qry = $db->prepare("UPDATE visitors SET lastPage = :page, ipaddr = :ip WHERE uniqueID = :uid");
-						$qry->execute(array(':page'=>$_NOTE["PAGE"],':ip'=>$ip,':uid'=>$_NOTE['UID']));
+						$qry = $db->prepare("UPDATE visitors SET lastPage = :page WHERE uniqueID = :uid");
+						$qry->execute(array(':page'=>$_NOTE["PAGE"],':uid'=>$_NOTE['UID']));
 						if (function_exists('db_store_visitor_data')) {
 							db_store_visitor_data($_NOTE['UID'], $db, $_NOTE_MODULE);
 						}
@@ -132,8 +132,8 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 			} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['uid'])) {
 				// Not in database but moved past first page - start tracking from now
 				$_NOTE["PAGE"] = 1;
-				$qry = $db->prepare("INSERT INTO visitors (uniqueID,ipaddr,lastPage) VALUES (:uid, :ip, :page)");
-				$result = $qry->execute(array(':uid'=>$_NOTE['UID'],':ip'=>$ip,':page'=>$_NOTE["PAGE"]));
+				$qry = $db->prepare("INSERT INTO visitors (uniqueID,lastPage) VALUES (:uid, :page)");
+				$result = $qry->execute(array(':uid'=>$_NOTE['UID'],':page'=>$_NOTE["PAGE"]));
 				if (function_exists('db_store_visitor_data')) {
 					db_store_visitor_data($_NOTE['UID'], $db, $_NOTE_MODULE);
 				}
