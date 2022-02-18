@@ -3,3 +3,4 @@
 *.sqlite3
 modules/
 docs/INSTALL.md.backup
+docs/prolific-setup.md.backup

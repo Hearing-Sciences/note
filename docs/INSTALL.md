@@ -1,6 +1,6 @@
 # Installation
 ## Getting the files
-If you are planning to develop surveys and not work with the source code for note, just download a zip file of the contents.
+If you are planning to develop surveys and not work with the source code for note, just download a zip file of the contents. These are available at [https://github.com/Hearing-Sciences/note](https://github.com/Hearing-Sciences/note). If you don't have access, contact Michael or Andrew.
 ## Getting a web server
 You will need a web server in order to view your studies. There are some readily available web servers that can be installed within Windows. One of the most well-known is Wampserver available at [https://www.wampserver.com/en/](https://www.wampserver.com/en/). I'll assume that you will download and install this, but other web servers are available for local installations in Windows. Whatever you use, you will need to make further modifications explained below.
 ## Wampserver Setup
@@ -23,7 +23,7 @@ So the complete section of text should look like this:
     Options +Indexes +Includes +FollowSymLinks +MultiViews
     AllowOverride All
     Require local
-	RewriteEngine On
+    RewriteEngine On
     RewriteBase "/"
     RewriteRule "^note/data/([a-zA-Z0-9\-_]+)$" "/note/index.php?data/$1" [END]
     RewriteRule "^note/([\/a-zA-Z0-9\-_]+)$" "/note/index.php?$1" [END]
