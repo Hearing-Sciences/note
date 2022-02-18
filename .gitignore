@@ -2,3 +2,4 @@
 *.wav
 *.sqlite3
 modules/
+docs/INSTALL.md.backup
