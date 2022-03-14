@@ -1,3 +1,83 @@
+<?php
+	$visitorsQry = $db->query('select COUNT(uniqueID) as total, 
+	strftime("%Y-%m-%d", timestamp) as "day" 
+	from visitors group by "day" order by "day";');
+	$visitors = $visitorsQry->fetchAll();
+	$visits = array();
+	//print_r($visitors); die;
+	while (!empty($visitors)) {
+		$row = array_shift($visitors);
+		$date = new DateTime($row['day']);
+		$visits[$date->format('Y-m-d')] = $row['total'];
+		$date->modify('+1 day');
+		//print($data[0]['day']);
+		while (!empty($visitors) && $visitors[0]['day'] != $date->format('Y-m-d')) {
+			$visits[$date->format('Y-m-d')] = 0;
+			$date->modify('+1 day');
+			//print ($data[0]['day']).', '; print($date->format('Y-m-d').'<br>');
+		}
+	}
+
+	$pageCount = count($_NOTE_MODULE['PAGES']);
+	for ($percentage=1; $percentage<=4; $percentage++) {
+		$progString = 'Between '.(100*($percentage-1)/4).'% and '.(100 * ($percentage)/4).'%';
+		$progressQry = $db->query('select COUNT(uniqueID) as total from visitors where lastPage between '.(($pageCount * ($percentage-1))/4).' and '.(($pageCount * ($percentage))/4).';');	
+		$progArray = $progressQry->fetchAll(PDO::FETCH_ASSOC);
+		$progress[$progString] = $progArray[0]['total'];
+	}
+	//print_r($progress); die;
+
+?>
+<script src="/js/chart.min.js"></script>
+<script language="javascript">
+	$(document).ready(function() {
+		<?php if (!empty($visits)): ?>
+			const visitorCht = $('#visitorTimes');
+			const visitorChart = new Chart (visitorCht, {
+				type: 'line',
+				data: {
+					labels: ['<?= implode("','", array_keys($visits)) ?>'],
+					datasets: [{
+						label: 'Website Visits',
+						data: [<?= implode(",", array_values($visits)) ?>],
+						borderColor: 'rgb(0,255,0)',
+						tension: 0.1
+					}]
+				}
+			})
+		<?php endif; ?>
+		<?php if (!empty($progress)): ?>
+			const progressCht = $('#visitorProgress');
+			const progressChart = new Chart (progressCht, {
+				type: 'pie',
+				data: {
+					labels: ['<?= implode("','", array_keys($progress)) ?>'],
+					datasets: [{
+						label: 'Website Visits',
+						data: [<?= implode(",", array_values($progress)) ?>],
+						backgroundColor: [
+						'rgb(255, 99, 132)',
+						'rgb(255, 153, 0)',
+						'rgb(255, 255, 0)',
+						'rgb(86, 86, 255)'
+						],
+					}]
+				}
+			})
+		<?php endif; ?>
+	});
+</script>
+<div class="row">
+	<div class="col-sm-6">
+		<h3>Visitors by day</h3>
+		<canvas id="visitorTimes"></canvas>
+	</div>
+	<div class="col-sm-3" >
+		<h3>Visitor Progress</h3>
+		<canvas id="visitorProgress"></canvas>
+	</div>
+</div>
+
 <h3>Progress</h3>
 <table class="table table-striped">
 	<thead>
