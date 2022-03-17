@@ -1,7 +1,7 @@
 # Anatomy of a web page
 Each time someone views a page in NOTE, the same *index.php* file is used as a framework. The steps taken can be seen in the flowchart below. Grey shading represents steps that are taken by the NOTE code, blue shading represents steps that are taken by the NOTE code and visible to the participant's browser, and red shading represents steps that require code written by staff.
 
-There are a couple of things that become apparent. The first is that the NOTE code is handling most of the work behind the scenes, reducing the development time as much as possible. The other is that the bulk of the processing is done when the page is requested.
+There are a couple of things that become apparent. The first is that the NOTE code is handling most of the work behind the scenes, reducing the development time as much as possible. The other is that the bulk of the processing is done on the server when the page is requested and before the page is delivered to the browser.
 
 Here is a brief explanation of the steps involved:
 

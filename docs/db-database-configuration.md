@@ -79,6 +79,7 @@ There are three sections to the file.
 The first section contains one or more lines of database execution functions ('*$db->exec*') that create the tables you require for the survey. The single example above creates the *visitors* table that NOTE must have to manage participants. You can skip these commands, but be aware of the following whether you include them or not:
 * These commands are run to create and populate a database if an existing database can't be found. This means that if your database disappears for some reason the survey can re-create it and continue storing data. Although you may be more keen to find out why the database has disappeared!
 * These commands are run **every time a page is loaded**. Therefore, to prevent the scripts overwriting your database you **must** add *IF NOT EXISTS* to every SQL statement that creates a table. Such as in the example above; 'CREATE TABLE **IF NOT EXISTS** visitors'.
+
 ## db_store_page_data: Saving survey data
 This function will be called by NOTE and must contain the code for saving data to the database. **NOTE will not save your data automatically** so you must include something here.
 ## Function variables
@@ -89,12 +90,13 @@ function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE)
 The variables are as follows:
 |Variable|Purpose|
 |---|---|
-|$page|The ID of the page that has just been visited|
-|&$post|The data that was saved in a form on that page|
-|$uid|The unique ID of the participant (which is independent of any survey-specific participant ID you may wish to use)|
-|&$db|The database represented as an object|
-|&$_NOTE_MODULE|Module variables and values created in *config.php*|
-I will briefly mention that some of these variables are passed by reference (they begin with '&\\$' rather than just '\\$'). Please ask if you want to know more.
+|\$page|The ID of the page that has just been visited|
+|\&\$post|The data that was saved in a form on that page|
+|\$uid|The unique ID of the participant (which is independent of any survey-specific participant ID you may wish to use)|
+|\&\$db|The database represented as an object|
+|\&\$_NOTE_MODULE|Module variables and values created in *config.php*|
+I will briefly mention that some of these variables are passed by reference (they begin with '\&\\$' rather than just '\\$'). Please ask if you want to know more.
+
 ### A recipe for getting started with saving data
 There are a couple of programming structures that you can draw from to save data. The function itself can use a *switch ... case* structure to check the name of the page and decide how to proceed. 
 ```php
