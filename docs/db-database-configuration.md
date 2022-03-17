@@ -28,38 +28,19 @@ function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE)
 {
 	switch($_NOTE_MODULE['PAGES'][$page]) {
 
-		case 'screening_questions':
-			// Process date of birth
-			$post['date_of_birth'] = $post['dob']['year'].'-'.$post['dob']['month'].'-'.$post['dob']['day'];
-			// Process fitting dates (now with 'N/A' to totally mess things up)
-			if (is_numeric($post['leff']['year']) || is_numeric($post['leff']['month'])) {
-				$post['left_ear_first_fitted'] = $post['leff']['year'].'-'.$post['leff']['month'].'-01';
-			}
-			if (is_numeric($post['reff']['year']) || is_numeric($post['reff']['month'])) {
-				$post['right_ear_first_fitted'] = $post['reff']['year'].'-'.$post['reff']['month'].'-01';
-			}
-			// Set the HHIE/A according to year of birth
-			if ($post['dob']['year'] < (date('Y')-65)) {
-				$_SESSION['HHI'] = 'hhie';
-			} else {
-				$_SESSION['HHI'] = 'hhia';
-			}
-			
-			$qry    = 	$db->prepare('
-							INSERT INTO screening_questions 
-							(uid, prolific_pid, gender, date_of_birth, country, aided_ear, aid_type_left_ear, aid_model_left_ear, left_ear_first_fitted, how_often_use_left_aid, aid_type_right_ear, aid_model_right_ear, right_ear_first_fitted, how_often_use_right_aid, uses_smartphone )
-							VALUES
-							(:uid, :prolific_pid, :gender, :date_of_birth, :country, :aided_ear, :aid_type_left_ear, :aid_model_left_ear, :left_ear_first_fitted, :how_often_use_left_aid, :aid_type_right_ear, :aid_model_right_ear, :right_ear_first_fitted, :how_often_use_right_aid, :uses_smartphone)
-						');
-			foreach ( ['prolific_pid', 'gender', 'date_of_birth', 'aided_ear', 'country', 'aid_type_left_ear', 'aid_model_left_ear', 'left_ear_first_fitted', 'how_often_use_left_aid', 'aid_type_right_ear', 'aid_model_right_ear', 'right_ear_first_fitted', 'how_often_use_right_aid', 'uses_smartphone'] as $field) {
-				$fields[':'.$field] = $post[$field];
-				$fields[':uid'] = $uid;
-			}
-			$result = $qry->execute($fields);
-			if (!$result) {
-				print_r($qry->errorInfo()); die;
-			}
-			break;		
+		case 'name_of_a_page':
+		$qry    = 	$db->prepare('
+						INSERT INTO my_table 
+						(field1, field2)
+						VALUES
+						(:value1, :value2)
+					');
+		$result = $qry->execute(array(
+				':value1' => $post['value1'],
+				':value2' => $post['value2']
+			)
+		);
+		break;		
 	}
 }
 
