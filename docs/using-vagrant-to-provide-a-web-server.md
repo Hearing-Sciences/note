@@ -7,14 +7,14 @@ You will need the following:
 * At least 8GB RAM (every PC provided by the University in the last six years should have this)
 * About 1GB free space
 * Oracle VirtualBox
-* * Available from [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
-* * Get the *Windows hosts* version.
+    * Available from [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
+    * Get the *Windows hosts* version.
 * The latest version of Vagrant for Windows
-* * Available from [https://www.vagrantup.com/downloads](https://www.vagrantup.com/downloads)
-* * Get the *Amd64* version.
+    * Available from [https://www.vagrantup.com/downloads](https://www.vagrantup.com/downloads)
+    * Get the *Amd64* version.
 * A zip download of the NOTE files
-* * Available from [https://github.com/Hearing-Sciences/note/archive/refs/heads/master.zip](https://github.com/Hearing-Sciences/note/archive/refs/heads/master.zip)
-* * If you don't have access to the GitHub site, ask someone to provide the zip archive.
+    * Available from [https://github.com/Hearing-Sciences/note/archive/refs/heads/master.zip](https://github.com/Hearing-Sciences/note/archive/refs/heads/master.zip)
+    * If you don't have access to the GitHub site, ask someone to provide the zip archive.
 
 First, install VirtualBox. Accept all of the defaults and install everything offered. You might be asked to restart your PC.
 
@@ -72,9 +72,9 @@ You might not want to keep your only copy of surveys on the C:\ drive in case so
   config.vm.synced_folder "<The modules folder you created earlier>", "/var/www/html/note/modules",
     owner: "www-data", group: "www-data", mount_options: ["dmode=775,fmode=664"]
 * There are two changes: 
-* * change *C:\NOTE* to the folder you created earlier.
-* * **Very important:** replace any backslashes with either forward slashes or double-backslashes (i.e. change \ to / or \\)
-* * change */var/www/html/note* to */var/www/html/note/modules*
+    * change *C:\NOTE* to the folder you created earlier.
+    * **Very important:** replace any backslashes with either forward slashes or double-backslashes (i.e. change \ to / or \\)
+    * change */var/www/html/note* to */var/www/html/note/modules*
 
 So the updated section should now look something like this:
 ```
