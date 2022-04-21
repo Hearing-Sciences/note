@@ -3,7 +3,7 @@ Rather than setting up Apache or Nginx manually to create a server, you can depl
 
 You will need the following:
 
-* Admin access to your computer
+* Admin access to your computer 
 * At least 8GB RAM (every PC provided by the University in the last six years should have this)
 * About 1GB free space
 * Oracle VirtualBox
