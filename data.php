@@ -1,4 +1,5 @@
 <?php
+	$today = date('d-m-y h:i:s');
 	$visitorsQry = $db->query('select COUNT(uniqueID) as total, 
 	strftime("%Y-%m-%d", timestamp) as "day" 
 	from visitors group by "day" order by "day";');
@@ -31,6 +32,17 @@
 <script src="/js/chart.min.js"></script>
 <script language="javascript">
 	$(document).ready(function() {
+		$('.clipboardable').click(function() {
+			$id = $(this).attr('target') + '-tsv';
+			$div = $(this).attr('target') + '-message';
+			navigator.clipboard.writeText($($id).text()).then(function() {
+				$($div).html('<div class="text-success h4">Copy successful.</div>').fadeIn();
+			}), function() {
+				$($div).html('<div class="text-danger h4">ERROR</div>');
+			};
+			const myTimeout = setTimeout(clearMessage, 2000);
+		});
+
 		<?php if (!empty($visits)): ?>
 			const visitorCht = $('#visitorTimes');
 			const visitorChart = new Chart (visitorCht, {
@@ -66,7 +78,15 @@
 			})
 		<?php endif; ?>
 	});
+	
+	function clearMessage() {
+		$('.clipboardMessage').html('');
+	}    
+
 </script>
+
+<?= 'Data report run at '.$today ?>
+
 <div class="row">
 	<div class="col-sm-6">
 		<h3>Visitors by day</h3>
@@ -79,6 +99,23 @@
 </div>
 
 <h3>Progress</h3>
+
+<div class="row m-2">
+    <div class="col-sm-6 text-right">
+        <button type="button" class="btn btn-primary clipboardable" target="#progress" id="copyToClipboard">Copy the progress information to the clipboard (TSV format)  <i class="fas fa-copy"></i></button>
+    </div>
+    <div class="col-sm-6 text-left">
+        <div class="clipboardMessage" id="progress-message"></div>
+    </div>
+</div>
+<?php $visitors = $db->query("SELECT * FROM visitors WHERE lastPage > 0"); ?>
+<pre id="progress-tsv" style="display: none;">
+UID&#9;Last seen&#9;Last page
+<?php foreach ($visitors as $m): ?><?= $m['uniqueID'] ?>&#9;<?= $m['timestamp'] ?>&#9;<?= $m['lastPage'] ?>
+
+<?php endforeach; ?>
+</pre>
+
 <table class="table table-striped">
 	<thead>
 		<tr>
