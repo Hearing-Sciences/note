@@ -110,6 +110,7 @@
 </div>
 <?php $visitors = $db->query("SELECT * FROM visitors WHERE lastPage > 0"); ?>
 <pre id="progress-tsv" style="display: none;">
+Data report run at <?= $today ?>
 UID&#9;Last seen&#9;Last page
 <?php foreach ($visitors as $m): ?><?= $m['uniqueID'] ?>&#9;<?= $m['timestamp'] ?>&#9;<?= $m['lastPage'] ?>
 
