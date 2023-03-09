@@ -5,13 +5,22 @@ All experiment modules must contain a README file, either as README.txt or READM
 
 Because the README file might be scanned using a script, it must contain the following exact text:
 
-Experiment name: {name}
+Experiment name:  {name}
 
-Web URL: {url}
+Responsible scientist (name): {name}
 
-Responsible scientist(s): {names **and** email addresses}
+Responsible scientist (email): {email}
 
-Date it closes to data collection {date}
+Responsible scientist (name): {name}
+
+Responsible scientist (email): {email}
+
+...etc for more scientists
+
+Date it closes to data collection (year/month/day): {date}
+
+Other Information: {put extra information here}
+
 
 Replace the {items in braces} with the correct information.
 
