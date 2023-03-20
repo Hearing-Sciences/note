@@ -5,7 +5,7 @@ require 'utils.php';
 
 if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 	// Load module-specific parameters
-	include 'modules'.DIRECTORY_SEPARATOR.$_NOTE["PART_ID"].DIRECTORY_SEPARATOR."config.php";
+	require 'modules'.DIRECTORY_SEPARATOR.$_NOTE["PART_ID"].DIRECTORY_SEPARATOR."config.php";
 	
 	$db_error = 0;
 	try {
@@ -31,7 +31,7 @@ if (isset($_NOTE["MODULE_ID"]) && $_NOTE["MODULE_ID"] === "data") {
 	$_NOTE['UID'] = $_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]];
 	
 	// Load module-specific parameters
-	include 'modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR."config.php";
+	require 'modules'.DIRECTORY_SEPARATOR.$_NOTE["MODULE_ID"].DIRECTORY_SEPARATOR."config.php";
 	
 	$db_error = 0;
 	try {
