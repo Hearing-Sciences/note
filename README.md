@@ -6,4 +6,10 @@ and experiments more efficient by handling the work of hosting multiple projects
 keeping track of participant progress, handling database setup, and simplifying database interactions. Its
 primary purpose is to allow researchers to focus on the design and implementation of their experiment rather
 than the core infrastructure needed to do online testing.
- 
+
+## Revision History
+
+## March 2023
+
+* *config.php* is now required rather than just included.
+* CSS and JavaScript files are now saved locally rather than being downloaded from external URLs.
