@@ -3,7 +3,14 @@ There are plenty of surveys that require their questions to be presented in a ra
 
 I don't claim that the following guide is the only way to achieve this but I have used both of the solutions given here many times and have found them to be robust. And if that doesn't tempt fate, nothing will.
 
-Throughout this guide *{survey}* represents the name of your survey. Keep it simple.
+Throughout this guide *{survey}* represents the name of your survey and other entries in {brackets} should be replaced with something more meaningful. (There may be other things you should change - this everybody's mileage will vary.) Keep it simple.
+
+## The alternatives
+Briefly, there are two ways of achieving this: calling the PHP page multiple times or using a single PHP page using multiple AJAX requests (see images below).
+
+![Calling a page multiple times](./php.png "Calling a page multiple times")
+
+![Multiple AJAX requests](./AJAX.png "Multiple AJAX requests")
 
 ## Both solutions - sort out the question data
 With most surveys of this type there are many similar questions; similar both in the question being asked and the format of the answer. Since there is likely to be a predictable structure, put the questions into the database.
