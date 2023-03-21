@@ -11,6 +11,8 @@ than the core infrastructure needed to do online testing.
 ## Revision History
 
 ## March 21 2023
+### env.php and index.php
+- Single quotes have replaced double quotes wherever possible. PHP scans for variables inside double quoted strings which is a waste of time if not needed.
 
 ### env.php
 
