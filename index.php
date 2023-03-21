@@ -18,10 +18,6 @@ function db_connect($note)
 	}
 }
 
-echo '<pre>';
-print_r($_NOTE);
-echo '</pre>';
-
 if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
 	// Load module-specific parameters
 	require $_NOTE['FS_MODULE_PATH']."config.php";
@@ -193,9 +189,6 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
 }
 ?>
 <!doctype html>
-<pre>
-<?php print_r($_NOTE_MODULE); ?>
-</pre>
 
 <html lang="en">
     <head>
