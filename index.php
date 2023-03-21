@@ -7,7 +7,7 @@ function db_connect($note)
 {
 	try {
 		// Connect and initialise if necessary
-		$db = new PDO('sqlite:'.$note["MODULE_DIR"].DIRECTORY_SEPARATOR.'database.sqlite3');
+		$db = new PDO('sqlite:'.$note['MODULE_DIR'].DIRECTORY_SEPARATOR.'database.sqlite3');
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		return $db;
 	}
@@ -18,23 +18,23 @@ function db_connect($note)
 	}
 }
 
-if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
+if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
 	// Load module-specific parameters
-	require $_NOTE['FS_MODULE_PATH']."config.php";
+	require $_NOTE['FS_MODULE_PATH'].'config.php';
 	$db = db_connect($_NOTE);
 	require $_NOTE['FS_MODULE_PATH'].'db.php'; // for the 'display_module_data' function
-} elseif (isset($_NOTE["MODULE_ID"])) {
+} elseif (isset($_NOTE['MODULE_ID'])) {
 	// Set up session to track user across module pages
 	session_start();
 	$new_visitor = false;
-	if(!isset($_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]])) {
+	if(!isset($_SESSION['uniqueID_'.$_NOTE['MODULE_ID']])) {
 		$new_visitor = true;
-		$_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]] = uniqid($_NOTE["MODULE_ID"].'_');
+		$_SESSION['uniqueID_'.$_NOTE['MODULE_ID']] = uniqid($_NOTE['MODULE_ID'].'_');
 	}
-	$_NOTE['UID'] = $_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]];
+	$_NOTE['UID'] = $_SESSION['uniqueID_'.$_NOTE['MODULE_ID']];
 	
 	// Load module-specific parameters
-	require $_NOTE['FS_MODULE_PATH']."config.php";
+	require $_NOTE['FS_MODULE_PATH'].'config.php';
 
 	try {
 		// Connect and initialise if necessary
@@ -75,30 +75,30 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
 		$session_code_err = 0;
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['uid'])) {
 			$qry = $db->prepare('SELECT lastPage FROM visitors WHERE uniqueID=:uid LIMIT 1');
-			$qry->bindValue(':uid', $_NOTE["MODULE_ID"] . '_' . $_POST['uid']);
+			$qry->bindValue(':uid', $_NOTE['MODULE_ID'] . '_' . $_POST['uid']);
 			$qry->execute();
 			$result = $qry->fetch(PDO::FETCH_ASSOC);
 			if (!empty($result)) {
 				// Participant exists in the database so not a new visitor
-				$_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]] = $_NOTE["MODULE_ID"] . '_' . $_POST['uid'];
+				$_SESSION['uniqueID_'.$_NOTE['MODULE_ID']] = $_NOTE['MODULE_ID'] . '_' . $_POST['uid'];
 				$new_visitor = false;
 			} else {
 				$session_code_err = 1;
 				$new_visitor = true;
-				$_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]] = uniqid($_NOTE["MODULE_ID"].'_');
+				$_SESSION['uniqueID_'.$_NOTE['MODULE_ID']] = uniqid($_NOTE['MODULE_ID'].'_');
 			}
-			$_NOTE['UID'] = $_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]];
+			$_NOTE['UID'] = $_SESSION['uniqueID_'.$_NOTE['MODULE_ID']];
 			$qry->closeCursor();
 		}
 		
-		if (!($_NOTE["PART_ID"] === "preview") && !$new_visitor) {
+		if (!($_NOTE['PART_ID'] === 'preview') && !$new_visitor) {
 			// Check if visitor has been registered and determine current page
 			$qry = $db->prepare('SELECT * FROM visitors WHERE uniqueID=:uid LIMIT 1');
 			$qry->bindValue(':uid', $_NOTE['UID']);
 			$qry->execute();
 			$result = $qry->fetch(PDO::FETCH_ASSOC);
 			if (!empty($result)) {
-				$_NOTE["PAGE"] = $result['lastPage'];
+				$_NOTE['PAGE'] = $result['lastPage'];
 				// Retrieve module-specific visitor data
 				db_retrieve_visitor_data($result, $_NOTE_MODULE);
 				
@@ -112,7 +112,7 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
 					// page has been refreshed rather than submitted and the POST 
 					// relates to the previous page they were on and should be ignored.
 					$valid_post = true;
-					if (isset($_POST['page']) && !($_NOTE["PAGE"] == $_POST['page'])) {
+					if (isset($_POST['page']) && !($_NOTE['PAGE'] == $_POST['page'])) {
 						$valid_post = false;
 					}
 					
@@ -135,45 +135,45 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
 						//       this functionality could be used to jump participantions to
 						//       other task pages also.
 						// TODO: Check existance and validity of 'target' page.
-						if (array_key_exists("TASK_FINISH_FLAG", $_NOTE_MODULE)) {
-							if ($_NOTE_MODULE["TASK_FINISH_FLAG"]) {
-								$_NOTE["PAGE"] = $_NOTE_MODULE['TASK_ADAPTIVETRACK_DEBRIEFPAGECOUNT'];
+						if (array_key_exists('TASK_FINISH_FLAG', $_NOTE_MODULE)) {
+							if ($_NOTE_MODULE['TASK_FINISH_FLAG']) {
+								$_NOTE['PAGE'] = $_NOTE_MODULE['TASK_ADAPTIVETRACK_DEBRIEFPAGECOUNT'];
 							} 
 							else {
-								$_NOTE["PAGE"] += 1;
+								$_NOTE['PAGE'] += 1;
 							}
 						}
 						else {
 							// Move them to the next page
-							$_NOTE["PAGE"] += 1;
+							$_NOTE['PAGE'] += 1;
 						}
 						
 						// Record progress
 						$qry = $db->prepare("UPDATE visitors SET lastPage = :page WHERE uniqueID = :uid");
-						$qry->execute(array(':page'=>$_NOTE["PAGE"],':uid'=>$_NOTE['UID']));
+						$qry->execute(array(':page'=>$_NOTE['PAGE'],':uid'=>$_NOTE['UID']));
 						db_store_visitor_data($_NOTE['UID'], $db, $_NOTE_MODULE);
 					}
 				}
 			} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['uid'])) {
 				// Not in database but moved past first page - start tracking from now
-				$_NOTE["PAGE"] = 1;
+				$_NOTE['PAGE'] = 1;
 				$qry = $db->prepare("INSERT INTO visitors (uniqueID,lastPage) VALUES (:uid, :page)");
-				$result = $qry->execute(array(':uid'=>$_NOTE['UID'],':page'=>$_NOTE["PAGE"]));
+				$result = $qry->execute(array(':uid'=>$_NOTE['UID'],':page'=>$_NOTE['PAGE']));
 				db_store_visitor_data($_NOTE['UID'], $db, $_NOTE_MODULE);
 			} else {
 				// Not in database and not a POST so revisiting front page
-				$_NOTE["PAGE"] = 0;
+				$_NOTE['PAGE'] = 0;
 			}
 			$qry->closeCursor();
 		} 
-		elseif (!($_NOTE["PART_ID"] === "preview")) 
+		elseif (!($_NOTE['PART_ID'] === 'preview')) 
 		{
 			// First visit to page - don't hit database at all
-			$_NOTE["PAGE"] = 0;
+			$_NOTE['PAGE'] = 0;
 		}
-		elseif ($_NOTE["PART_ID"] === "preview" && isset($_NOTE["OTHER_ID"]))
+		elseif ($_NOTE['PART_ID'] === 'preview' && isset($_NOTE['OTHER_ID']))
 		{
-			$_NOTE["PAGE"] = $_NOTE["OTHER_ID"];
+			$_NOTE['PAGE'] = $_NOTE['OTHER_ID'];
 		}
 		
 		// Close connection
@@ -184,8 +184,8 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
 	  //echo $e->getMessage();
 	}
 
-	$page_name = $_NOTE_MODULE["PAGES"][$_NOTE["PAGE"]];
-	$total_pages = count($_NOTE_MODULE["PAGES"]);
+	$page_name = $_NOTE_MODULE['PAGES'][$_NOTE['PAGE']];
+	$total_pages = count($_NOTE_MODULE['PAGES']);
 }
 ?>
 <!doctype html>
@@ -196,7 +196,7 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>
 			<?php
-				if (isset($_NOTE["MODULE_ID"]) && isset($_NOTE_MODULE['TITLE'])) {
+				if (isset($_NOTE['MODULE_ID']) && isset($_NOTE_MODULE['TITLE'])) {
 					echo $_NOTE_MODULE['TITLE']." - ";
 				}
 				echo "Hearing Sciences @ the University of Nottingham";
@@ -221,7 +221,7 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
 		<script src="/js/jquery-ui.min.js"></script>
 		<script src="/js/jquery.jplayer.min.js"></script>
 		<script src="/js/bootstrap.bundle.min.js"></script>
-		<script src="<?php echo $_NOTE["BASE_URI"]; ?>js/main.js"></script>
+		<script src="<?php echo $_NOTE['BASE_URI']; ?>js/main.js"></script>
 		<?php if (file_exists($_NOTE['FS_MODULE_PATH'].'experiment.js')): ?>
 			<script src="<?= $_NOTE['FS_MODULE_PATH'].'experiment.js' ?>"></script>
 		<?php endif; ?>
@@ -235,7 +235,7 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
 		  <h1>
           <a class="navbar-brand" href="#">
 			<?php
-				if (isset($_NOTE["MODULE_ID"]) && isset($_NOTE_MODULE['TITLE'])) {
+				if (isset($_NOTE['MODULE_ID']) && isset($_NOTE_MODULE['TITLE'])) {
 					echo $_NOTE_MODULE['TITLE'];
 				} else {
 					echo "Hearing Sciences - Online Research Portal";
@@ -246,20 +246,20 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
 		<!-- For debugging only, if 'preview' is added to the
 			 end of the module URL then show buttons to allow
 			 the developer to move between module pages quickly -->
-		<?php if ($_NOTE["BASE_URI"] == '/dev/' && $_NOTE["PART_ID"] === "preview") { ?>
+		<?php if ($_NOTE['BASE_URI'] == '/dev/' && $_NOTE['PART_ID'] === 'preview') { ?>
 		<div id="navbarSupportedContent" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<?php if ($_NOTE["PAGE"] > 0) { ?>
-				<li class="nav-item"><a class="nav-link" href="/dev/<?php echo $_NOTE["MODULE_ID"]; ?>/preview/<?php echo $_NOTE["PAGE"]-1; ?>"><i class="fas fa-angle-left"></i> Back</a></li>
+				<?php if ($_NOTE['PAGE'] > 0) { ?>
+				<li class="nav-item"><a class="nav-link" href="/dev/<?php echo $_NOTE['MODULE_ID']; ?>/preview/<?php echo $_NOTE['PAGE']-1; ?>"><i class="fas fa-angle-left"></i> Back</a></li>
 				<?php } ?>
-				<li class="nav-item"><a class="nav-link" href="/dev/<?php echo $_NOTE["MODULE_ID"]; ?>/preview/<?php echo $_NOTE["PAGE"]+1; ?>">Next <i class="fas fa-angle-right"></i></a></li>
+				<li class="nav-item"><a class="nav-link" href="/dev/<?php echo $_NOTE['MODULE_ID']; ?>/preview/<?php echo $_NOTE['PAGE']+1; ?>">Next <i class="fas fa-angle-right"></i></a></li>
 			</ul>
 		</div>
 		<?php } ?>
       </div>
     </nav>
     <div class="container">
-		<?php if ($_NOTE["DISPLAY_ID"] != "data"): ?>
+		<?php if ($_NOTE['DISPLAY_ID'] != 'data'): ?>
 			<!-- Load the appropriate page content -->
 			<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
 				<?php include($_NOTE['FS_MODULE_PATH'].sprintf('page_%s.php',$page_name)); ?>
@@ -272,29 +272,29 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
 			// clear the module session UID to allow the user
 			// to complete the module again in future, either
 			// in the same study or other studies.
-			if (count($_NOTE_MODULE["PAGES"]) == ($_NOTE['PAGE']+1)) {
+			if (count($_NOTE_MODULE['PAGES']) == ($_NOTE['PAGE']+1)) {
 				end_module_session();
 			}
 			
 			// Show a progress bar - currently module-based (i.e. shows
 			// progress through the module) but eventually should be study-based
 			// as studies will comprise multiple modules.
-			if (!$db && $_NOTE["PAGE"] > 0) :?>
+			if (!$db && $_NOTE['PAGE'] > 0) :?>
 			<hr>
 			<div class="progress">
 			  <?php
-				if (($_NOTE["PAGE"]+1) == $total_pages) {
+				if (($_NOTE['PAGE']+1) == $total_pages) {
 					$progress = 100;
 				} else {
-					$progress = round((100/($total_pages-1))*$_NOTE["PAGE"]);
+					$progress = round((100/($total_pages-1))*$_NOTE['PAGE']);
 				}			  
 			  ?><div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $progress; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $progress; ?>%;"><?php echo $progress; ?>%</div>
 			</div>
 			<?php endif; ?>
-		<?php elseif (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data"): ?>
+		<?php elseif (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data'): ?>
 			<?php
 				// Hide default progress table if requested
-				if (!(array_key_exists("HIDE_DEFAULT_PROGRESS_DATA", $_NOTE_MODULE) && $_NOTE_MODULE["HIDE_DEFAULT_PROGRESS_DATA"])) {
+				if (!(array_key_exists("HIDE_DEFAULT_PROGRESS_DATA", $_NOTE_MODULE) && $_NOTE_MODULE['HIDE_DEFAULT_PROGRESS_DATA'])) {
 					include 'data.php';
 				}
 				if (function_exists('display_module_data')) {
@@ -321,8 +321,8 @@ if (isset($_NOTE["DISPLAY_ID"]) && $_NOTE["DISPLAY_ID"] === "data") {
         <p>The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust</p>
 		<?php endif; ?>
 		<?php
-		if ($_NOTE["BASE_URI"] == '/dev/') {
-			echo "<p> (dev system / page_".$_NOTE_MODULE["PAGES"][$_NOTE["PAGE"]].".php / page #".$_NOTE["PAGE"].")</p>";
+		if ($_NOTE['BASE_URI'] == '/dev/') {
+			echo "<p> (dev system / page_".$_NOTE_MODULE['PAGES'][$_NOTE['PAGE']].".php / page #".$_NOTE['PAGE'].")</p>";
 		}
 		?>
       </footer>
