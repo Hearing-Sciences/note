@@ -7,11 +7,11 @@ function encode_email($e) {
 }
 
 function end_module_session() {
-	global $_SESSION;
 	global $_NOTE;
 	unset($GLOBALS['_NOTE']['UID']);
 	unset($GLOBALS['_NOTE']['PAGE']);
 	unset($_SESSION['uniqueID_'.$_NOTE["MODULE_ID"]]);
+	session_destroy();
 }
 
 ?>
