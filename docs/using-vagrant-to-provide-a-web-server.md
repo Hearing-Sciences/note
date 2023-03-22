@@ -57,9 +57,19 @@ vagrant up
 ```
 
 The command ```vagrant halt``` shuts down the server. ```vagrant destroy``` deletes the server completely (but not the shared folders).
+## Things that could go wrong
+### Failure to start after an upgrade
+If you are upgrading the version of the server you might see messages like this:
+```
+VirtualBox error:
 
+VBoxManage.exe: error: Could not rename the directory 'C:\Users\<username>\VirtualBox VMs\ubuntu-jammy-22.04-cloudimg-20230317_1679477845950_29553' to 'C:\Users\<username>\VirtualBox VMs\NOTE-SERVER' to save the settings file (VERR_ALREADY_EXISTS)
+VBoxManage.exe: error: Details: code E_FAIL (0x80004005), component SessionMachine, interface IMachine, callee IUnknown
+VBoxManage.exe: error: Context: "SaveSettings()" at line 3641 of file VBoxManageModifyVM.cpp
+```
+The solution is to delete the folder `C:\Users\<username>\VirtualBox VMs\NOTE-SERVER` and re-run `vagrant up`. 
 ## Advanced - sharing other folders
-You might not want to keep your only copy of surveys on the C:\ drive in case something happens to your computer. If you want to put them somewhere else, here's what to do. This is advanced configuration so expect a bit of trial and error. I'm going to assume that you will want to store them in OneDrive and sync them to your PC.
+You might not want to keep your only copy of surveys on the C:\ drive in case something happens to your computer. If you want to put them somewhere else, here's what to do. This is advanced configuration so expect a bit of trial and error. I'm going to assume that you will want to store them in OneDrive and sync them to your PC. 
 
 * Create a folder on OneDrive called *modules* and sync it to your PC. Look for the folder in Windows Explorer and make a note of the location.
 * Look in *C:\NOTE\server-config* and open the file called *vagrantfile* in Notepad or Notepad++ (or text editor of your choice).
