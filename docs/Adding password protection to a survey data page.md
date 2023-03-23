@@ -31,3 +31,13 @@ This configuration goes in the *server { ... }* section. There will be other loc
 Replace {{survey folder} with the real folder name of your survey and {{name of the file you created earlier}} with, er, the name of the file you created earlier.
 
 Then reload the configuration with `sudo service nginx reload`.
+## Help - I've forgotten the password (or never knew it)
+If you can't remember a password but don't want to delete it, you can create a new user. Just run the *htpasswd* command again but without the *-c* switch:
+```
+sudo htpasswd /etc/nginx/.{name of file} {name of a new user}
+```
+You will be asked to create a password.
+
+If you want to delete the existing password and start again, delete the password file and create a new one with the same name.
+
+This all sounds a bit poor from a security perspective, but remember that (a) you have already logged into the server and (b) you have rights to do things thanks to *sudo*. So the security checks have already been passed to allow you this far.
