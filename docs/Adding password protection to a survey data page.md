@@ -1,10 +1,15 @@
 # Adding password protection to a survey data page
-This is all done on the server, so you will need access to the server's terminal. **If you are not comfortable editing text files on a Linux serve**
+
+This is all done on the server, so you will need access to the server's terminal. **If you are not comfortable editing text files on a Linux server please ask someone to complete this task.**
+
 ## Htpasswd
+
 You will need to make a password file on the server (or use an existing one) in a format that the web server can understand. There is a helpful command to achieve this:
+
 ```
 sudo htpasswd -c /etc/nginx/.{name of file} {name of admin user}
 ```
+
 To break this command down:
 
 * sudo - to perform the task as the root user (you will need to enter your password to confirm this)
@@ -14,11 +19,16 @@ To break this command down:
 * {name of admin user} - this is the admin username you will use with your study later. It can be almost anything you like but don't include any spaces. I have tended to use the initials of the study followed by *_admin* such as *ssq12_admin*
 
 You will be asked for your password to perform the admin task, then asked to set a password for this admin user.
+
 ## Password best practice
+
 At the moment I would recommend that you set the password to be 20 random characters (letters and numbers). You can download random character generators as browser plugins or you could write your own in Matlab, Python, Rust etc. You can copy the password you have created and usually paste it into the terminal using a right mouse button click.
+
 ## Nginx
+
 You will need to edit /etc/nginx/conf.d/surveys.hearing.nottingham.ac.uk.conf with information about your password file.
 Here is a template of the configuration you can edit:
+
 ```
 location /data/{{survey folder}} {
     try_files $uri $uri/ =404 /index.php?$query_string;
@@ -26,16 +36,21 @@ location /data/{{survey folder}} {
     auth_basic_user_file    /etc/nginx/.{{name of the file you created earlier}};
 }
 ```
+
 This configuration goes in the *server { ... }* section. There will be other location statements already so just add yours to the list.
 
 Replace {{survey folder} with the real folder name of your survey and {{name of the file you created earlier}} with, er, the name of the file you created earlier.
 
 Then reload the configuration with `sudo service nginx reload`.
+
 ## Help - I've forgotten the password (or never knew it)
+
 If you can't remember a password but don't want to delete it, you can create a new user. Just run the *htpasswd* command again but without the *-c* switch:
+
 ```
 sudo htpasswd /etc/nginx/.{name of file} {name of a new user}
 ```
+
 You will be asked to create a password.
 
 If you want to delete the existing password and start again, delete the password file and create a new one with the same name.
