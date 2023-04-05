@@ -22,7 +22,15 @@ You will be asked for your password to perform the admin task, then asked to set
 
 ## Password best practice
 
-At the moment I would recommend that you set the password to be 20 random characters (letters and numbers). You can download random character generators as browser plugins or you could write your own in Matlab, Python, Rust etc. You can copy the password you have created and usually paste it into the terminal using a right mouse button click.
+At the moment I would recommend that you set the password to be 20 random characters (letters and numbers). You can download random character generators as browser plugins or you could write your own in Matlab, Python, Rust etc. (Or you could use one included with this package - see below.) You can copy the password you have created and usually paste it into the terminal using a right mouse button click.
+
+### Rust Random Password Generator
+
+Andrew has written a (very) simple password generator in Rust. This is run from the command line and outputs ten 20-character strings using randomly selected alphanumeric characters (i.e. A-Za-z0-9). No symbols are used to prevent unintended consequences such as early string termination.
+
+You can find the program in *utilities/pwgen/target/release/pwgen.exe*. To run the program, open a command line window, *cd* to that folder and run *pwgen.exe*. You can copy one of the strings to the clipboard by double-clicking to select it and right-clicking to copy it.
+
+The source code is included in case you want to improve it. The code is extremely simple so there will be plenty of scope for improvements!
 
 ## Nginx
 
