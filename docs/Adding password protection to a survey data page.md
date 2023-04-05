@@ -24,9 +24,15 @@ You will be asked for your password to perform the admin task, then asked to set
 
 At the moment I would recommend that you set the password to be 20 random characters (letters and numbers). You can download random character generators as browser plugins or you could write your own in Matlab, Python, Rust etc. (Or you could use one included with this package - see below.) You can copy the password you have created and usually paste it into the terminal using a right mouse button click.
 
-### Rust Random Password Generator
+### Linux Random Password Generator
 
-Andrew has written a (very) simple password generator in Rust. This is run from the command line and outputs ten 20-character strings using randomly selected alphanumeric characters (i.e. A-Za-z0-9). No symbols are used to prevent unintended consequences such as early string termination.
+There is a password generator available in Linux called *pwgen*. You can generate ten 20-character passwords from the NOTE server terminal using `pwgen -1 -s 20 10` then pick one to use as the password.
+
+The `-1` option presents the strings in a single column and the `-s` option generates 'completely random passwords.' The default options choose randomly selected alphanumeric characters (i.e. A-Za-z0-9). It is possible to request symbols but strongly discouraged in this case as it can cause unintended consequences such as early string termination. Without symbols there are 704423425546998022968330264616370176 20-character combinations that could be returned, but if that is not sufficiently random then 30 characters could be used instead (giving 591222134364399413463902591994678504204696392694759424 combinations).
+
+### Windows Random Password Generator
+
+Andrew has written a (very) simple password generator in Rust also called *pwgen*. This is run from the **Windows** command line and outputs ten 20-character strings using randomly selected alphanumeric characters (i.e. A-Za-z0-9). No symbols are used to prevent unintended consequences such as early string termination.
 
 You can find the program in *utilities/pwgen/target/release/pwgen.exe*. To run the program, open a command line window, *cd* to that folder and run *pwgen.exe*. You can copy one of the strings to the clipboard by double-clicking to select it and right-clicking to copy it.
 
