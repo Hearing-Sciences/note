@@ -6,7 +6,7 @@ This is all done on the server, so you will need access to the server's terminal
 
 You will need to make a password file on the server (or use an existing one) in a format that the web server can understand. There is a helpful command to achieve this:
 
-```
+```text
 sudo htpasswd -c /etc/nginx/.{name of file} {name of admin user}
 ```
 
@@ -43,7 +43,7 @@ The source code is included in case you want to improve it. The code is extremel
 You will need to edit /etc/nginx/conf.d/surveys.hearing.nottingham.ac.uk.conf with information about your password file.
 Here is a template of the configuration you can edit:
 
-```
+```text
 location /data/{{survey folder}} {
     try_files $uri $uri/ =404 /index.php?$query_string;
     auth_basic      "Only authorised users may continue";
@@ -53,7 +53,7 @@ location /data/{{survey folder}} {
 
 This configuration goes in the *server { ... }* section. There will be other location statements already so just add yours to the list.
 
-Replace {{survey folder} with the real folder name of your survey and {{name of the file you created earlier}} with, er, the name of the file you created earlier.
+Replace {{survey folder}} with the real folder name of your survey and {{name of the file you created earlier}} with, er, the name of the file you created earlier.
 
 Then reload the configuration with `sudo service nginx reload`.
 
@@ -61,7 +61,7 @@ Then reload the configuration with `sudo service nginx reload`.
 
 If you can't remember a password but don't want to delete it, you can create a new user. Just run the *htpasswd* command again but without the *-c* switch:
 
-```
+```text
 sudo htpasswd /etc/nginx/.{name of file} {name of a new user}
 ```
 
