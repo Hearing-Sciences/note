@@ -55,6 +55,7 @@ The packages are in place so it's time to configure them. Broadly, the server wi
 - ... apart from *data.php* which follows a similar system ...
 - ... and files inside *libs* which should be served as they are
 - **not** serve anything else
+  - We especially don't want to let visitors access *.sqlite* files as this would allow access to personal data.
 
 ## 2a. Configure the web server (Nginx)
 
@@ -64,8 +65,8 @@ The following Nginx configuration will serve pages from ```/var/www/surveys.hear
 server {
     listen       443    ssl http2;
     server_name  surveys.hearing.nottingham.ac.uk mslapmedbrc01.nottingham.ac.uk;
-    ssl_certificate  /etc/ssl/2022-10-certs/surveys_hearing_nottingham_ac_uk-bundle.crt;
-    ssl_certificate_key  /etc/ssl/2021-12-certs/surveys_hearing_nottingham_ac_uk.key;
+    ssl_certificate  /etc/ssl/certs/surveys_hearing_nottingham_ac_uk-bundle.crt;
+    ssl_certificate_key  /etc/ssl/certs/surveys_hearing_nottingham_ac_uk.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
     ssl_ciphers ECDH+AESGCM:ECDH+AES256-CBC:ECDH+AES128-CBC:DH+3DES:!ADH:!AECDH:!MD5;
@@ -121,11 +122,14 @@ server {
                 SSLEngine on
                 SSLCertificateFile      /etc/ssl/selfsigned/apache-selfsigned.crt
                 SSLCertificateKeyFile /etc/ssl/selfsigned/apache-selfsigned.key
+                <FilesMatch "\.(sqlite)">
+                        Require all denied
+                </Files>
                 <FilesMatch "\.(cgi|shtml|phtml|php)$">
-                                SSLOptions +StdEnvVars
+                        SSLOptions +StdEnvVars
                 </FilesMatch>
                 <Directory /usr/lib/cgi-bin>
-                                SSLOptions +StdEnvVars
+                        SSLOptions +StdEnvVars
                 </Directory>
                 <directory "/var/www/surveys.hearing.nottingham.ac.uk">
                         RewriteEngine On
@@ -140,3 +144,11 @@ server {
         </VirtualHost>
 </IfModule>
 ```
+
+## 3. Certificates
+
+You will need SSL certificates if the server will be accessible to the public. These should be stored in */etc/ssl/certs* or another folder of your choice, then referred to in the configuration.
+
+## 4. Files
+
+Place your files in */var/www/surveys.hearing.nottingham.ac.uk/* with the main files in the root and surveys in the *modules* subdirectory.
