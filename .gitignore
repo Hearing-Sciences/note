@@ -1,16 +1,8 @@
 *.mp3
 *.wav
 *.sqlite3
+*.md.backup
 modules/
-docs/INSTALL.md.backup
-docs/prolific-setup.md.backup
-docs/setting-up-vscode.md.backup
-docs/anatomy-of-a-web-page.md.backup
-docs/the-conf-file.md.backup
-docs/db-database-configuration.md.backup
-docs/using-vagrant-to-provide-a-web-server.md.backup
-README.md.backup
 webfonts/
-docs/Adding password protection to a survey data page.md.backup
 utilities/pwgen/target/debug/incremental/
 utilities/pwgen/target/debug/deps/
