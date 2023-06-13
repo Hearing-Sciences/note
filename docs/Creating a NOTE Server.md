@@ -51,9 +51,11 @@ sudo apt install -y apache2 libapache2-mod-php sqlite3 php-sqlite3
 The packages are in place so it's time to configure them. Broadly, the server will need to:
 
 - Serve pages from a directory
-- Always open *index.php* and then feed other directory names as arguments ...
-- ... apart from *data.php* which follows a similar system ...
-- ... and files inside *libs* which should be served as they are
+- Apply three sets of rewrite rules:
+  - Catch */{{experiment}}* and feed this into *index.php*
+  - Catch */data/{{experiment}}* and feed this into *data.php*
+  - Catch */dev/{{experiment}}* and feed this into */dev/index.php*
+- Files inside *libs* should be served as they are
 - **not** serve anything else
   - We especially don't want to let visitors access *.sqlite* files as this would allow access to personal data.
 
@@ -65,8 +67,8 @@ The following Nginx configuration will serve pages from ```/var/www/surveys.hear
 server {
     listen       443    ssl http2;
     server_name  surveys.hearing.nottingham.ac.uk mslapmedbrc01.nottingham.ac.uk;
-    ssl_certificate  /etc/ssl/certs/surveys_hearing_nottingham_ac_uk-bundle.crt;
-    ssl_certificate_key  /etc/ssl/certs/surveys_hearing_nottingham_ac_uk.key;
+    ssl_certificate  /etc/ssl/certs/{{certificate}}.crt;
+    ssl_certificate_key  /etc/ssl/certs/{{certificate}}.key;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
     ssl_ciphers ECDH+AESGCM:ECDH+AES256-CBC:ECDH+AES128-CBC:DH+3DES:!ADH:!AECDH:!MD5;
@@ -120,8 +122,8 @@ server {
                 ErrorLog ${APACHE_LOG_DIR}/error.log
                 CustomLog ${APACHE_LOG_DIR}/access.log combined
                 SSLEngine on
-                SSLCertificateFile      /etc/ssl/selfsigned/apache-selfsigned.crt
-                SSLCertificateKeyFile /etc/ssl/selfsigned/apache-selfsigned.key
+                SSLCertificateFile      /etc/ssl/certs/{{certificate}}.crt
+                SSLCertificateKeyFile /etc/ssl/certs/{{certificate}}.key
                 <FilesMatch "\.(sqlite)">
                         Require all denied
                 </Files>
@@ -134,6 +136,8 @@ server {
                 <directory "/var/www/surveys.hearing.nottingham.ac.uk">
                         RewriteEngine On
                         RewriteBase "/"
+                        RewriteRule "^dev/([a-zA-Z0-9\-_]+)$" "/dev/index.php?$1" [END]
+                        RewriteRule "^dev/data/([a-zA-Z0-9\-_]+)$" "/dev/index.php?data/$1" [END]
                         RewriteRule "^data/([a-zA-Z0-9\-_]+)$" "/index.php?data/$1" [END]
                         RewriteRule "^([\/a-zA-Z0-9\-_]+)$" "/index.php?$1" [END]
                 </directory>
@@ -147,8 +151,10 @@ server {
 
 ## 3. Certificates
 
-You will need SSL certificates if the server will be accessible to the public. These should be stored in */etc/ssl/certs* or another folder of your choice, then referred to in the configuration.
+You will need SSL certificates if the server will be accessible to the public. These should be stored in */etc/ssl/certs* or another folder of your choice, then referred to in the configuration. In the files above the certificates are called *{{certificate}}* which will need to be replaced with the correct name. You can use self-signed certificates for local development but web browsers will issue an alert that they shouldn't be trusted.
 
 ## 4. Files
 
 Place your files in */var/www/surveys.hearing.nottingham.ac.uk/* with the main files in the root and surveys in the *modules* subdirectory.
+
+Development files should be stored in the *dev/modules* subdirectory.
