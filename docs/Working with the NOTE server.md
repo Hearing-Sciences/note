@@ -35,10 +35,10 @@ You have very few permissions as a regular user and any privileged actions requi
 |```sudo mkdir /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey```|Create a *test_survey* folder|
 |```sudo cp -r * /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey/```|Copy all files and folders (and their contents) to the folder you just created|
 |```cd /var/www/surveys.hearing.nottingham.ac.uk/dev/```|Change directory to the *dev* area|
-|```sudo chown -R nginx:nginx /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey```|Change the owner and group of the survey folder and contents to the *nginx* user|
-|```sudo chmod -R u+w /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey```|Make sure that the *nginx* user has read and write permissions to the *test_survey* folder and files within|
+|```sudo chown -R nginx:nginx /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey```|Change the owner and group of the survey folder and contents to the *nginx* user. Note the use of a capital 'R'|
+|```sudo chmod -R u+rw /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey```|Make sure that the *nginx* user has read and write permissions to the *test_survey* folder and files within. Note the use of a capital 'R'|
 
-Other ways of transferring files are available: this is just one way. 
+Other ways of transferring files are available: this is just one way.
 
 ## SQLite Permissions
 
