@@ -140,7 +140,7 @@ UID&#9;Last seen&#9;Last page
 	</thead>
 	<tbody>
 		<?php
-		$visitors = $db->query("SELECT * FROM visitors WHERE lastPage > 0");
+		$visitors = $db->query("SELECT * FROM visitors WHERE lastPage > 0 ORDER BY timestamp DESC");
 		foreach ($visitors as $m) {
 			echo "<tr>";
 			echo "<td>".$m['uniqueID']."</td>";
