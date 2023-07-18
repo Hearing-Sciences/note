@@ -1,13 +1,16 @@
 <?php
 
 require 'env.php';
+
+$env = new Env;
+//print_r($env);
 require 'utils.php';
 
-function db_connect($note)
+function db_connect($dir)
 {
 	try {
 		// Connect and initialise if necessary
-		$db = new PDO('sqlite:'.$note['MODULE_DIR'].DIRECTORY_SEPARATOR.'database.sqlite3');
+		$db = new PDO('sqlite:'.$dir.DIRECTORY_SEPARATOR.'database.sqlite3');
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		return $db;
 	}
@@ -17,29 +20,28 @@ function db_connect($note)
 	  return false;
 	}
 }
-
-if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
+if (isset($env->display_id) && $env->display_id === 'data') {
 	// Load module-specific parameters
-	require $_NOTE['FS_MODULE_PATH'].'config.php';
-	$db = db_connect($_NOTE);
-	require $_NOTE['FS_MODULE_PATH'].'db.php'; // for the 'display_module_data' function
-} elseif (isset($_NOTE['MODULE_ID'])) {
+	require $env->fs_module_path.'config.php';
+	$db = db_connect($env->module_dir);
+	require $env->fs_module_path.'db.php'; // for the 'display_module_data' function
+} elseif (isset($env->module_id)) {
 	// Set up session to track user across module pages
 	session_start();
 	$new_visitor = false;
-	if(!isset($_SESSION['uniqueID_'.$_NOTE['MODULE_ID']])) {
+	if(!isset($_SESSION['uniqueID_'.$env->module_id])) {
 		$new_visitor = true;
-		$_SESSION['uniqueID_'.$_NOTE['MODULE_ID']] = uniqid($_NOTE['MODULE_ID'].'_');
+		$_SESSION['uniqueID_'.$env->module_id] = uniqid($env->module_id.'_');
 	}
-	$_NOTE['UID'] = $_SESSION['uniqueID_'.$_NOTE['MODULE_ID']];
+	$env->uid = $_SESSION['uniqueID_'.$env->module_id];
 	
 	// Load module-specific parameters
-	require $_NOTE['FS_MODULE_PATH'].'config.php';
+	require $env->fs_module_path.'config.php';
 
 	try {
 		// Connect and initialise if necessary
-		$db = db_connect($_NOTE);
-		require $_NOTE['FS_MODULE_PATH'].'db.php';
+		$db = db_connect($env->module_dir);
+		require $env->fs_module_path.'db.php';
 		/**
 		 * CRUDE HACK ALERT!
 		 * The required file db.php should contain the functions db_retrieve_visitor_data and db_store_visitor_data.
@@ -75,30 +77,30 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
 		$session_code_err = 0;
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['uid'])) {
 			$qry = $db->prepare('SELECT lastPage FROM visitors WHERE uniqueID=:uid LIMIT 1');
-			$qry->bindValue(':uid', $_NOTE['MODULE_ID'] . '_' . $_POST['uid']);
+			$qry->bindValue(':uid', $env->module_id . '_' . $_POST['uid']);
 			$qry->execute();
 			$result = $qry->fetch(PDO::FETCH_ASSOC);
 			if (!empty($result)) {
 				// Participant exists in the database so not a new visitor
-				$_SESSION['uniqueID_'.$_NOTE['MODULE_ID']] = $_NOTE['MODULE_ID'] . '_' . $_POST['uid'];
+				$_SESSION['uniqueID_'.$env->module_id] = $env->module_id . '_' . $_POST['uid'];
 				$new_visitor = false;
 			} else {
 				$session_code_err = 1;
 				$new_visitor = true;
-				$_SESSION['uniqueID_'.$_NOTE['MODULE_ID']] = uniqid($_NOTE['MODULE_ID'].'_');
+				$_SESSION['uniqueID_'.$env->module_id] = uniqid($env->module_id.'_');
 			}
-			$_NOTE['UID'] = $_SESSION['uniqueID_'.$_NOTE['MODULE_ID']];
+			$env->uid = $_SESSION['uniqueID_'.$env->module_id];
 			$qry->closeCursor();
 		}
 		
-		if (!($_NOTE['PART_ID'] === 'preview') && !$new_visitor) {
+		if (!($env->part_id === 'preview') && !$new_visitor) {
 			// Check if visitor has been registered and determine current page
 			$qry = $db->prepare('SELECT * FROM visitors WHERE uniqueID=:uid LIMIT 1');
-			$qry->bindValue(':uid', $_NOTE['UID']);
+			$qry->bindValue(':uid', $env->uid);
 			$qry->execute();
 			$result = $qry->fetch(PDO::FETCH_ASSOC);
 			if (!empty($result)) {
-				$_NOTE['PAGE'] = $result['lastPage'];
+				$env->page = $result['lastPage'];
 				// Retrieve module-specific visitor data
 				db_retrieve_visitor_data($result, $_NOTE_MODULE);
 				
@@ -112,7 +114,7 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
 					// page has been refreshed rather than submitted and the POST 
 					// relates to the previous page they were on and should be ignored.
 					$valid_post = true;
-					if (isset($_POST['page']) && !($_NOTE['PAGE'] == $_POST['page'])) {
+					if (isset($_POST['page']) && !($env->page == $_POST['page'])) {
 						$valid_post = false;
 					}
 					
@@ -123,7 +125,7 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
 					// POST'd data from the previous page.
 					if ($valid_post) {
 						if (function_exists('db_store_page_data')) {
-							db_store_page_data($_NOTE['PAGE'], $_POST, $_NOTE['UID'], $db, $_NOTE_MODULE);
+							db_store_page_data($env->page, $_POST, $env->uid, $db, $_NOTE_MODULE);
 						}
 						
 						// If a module sets the TASK_FINISH_FLAG (e.g. if an adaptive
@@ -137,43 +139,44 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
 						// TODO: Check existance and validity of 'target' page.
 						if (array_key_exists('TASK_FINISH_FLAG', $_NOTE_MODULE)) {
 							if ($_NOTE_MODULE['TASK_FINISH_FLAG']) {
-								$_NOTE['PAGE'] = $_NOTE_MODULE['TASK_ADAPTIVETRACK_DEBRIEFPAGECOUNT'];
+								$env->page = $_NOTE_MODULE['TASK_ADAPTIVETRACK_DEBRIEFPAGECOUNT'];
 							} 
 							else {
-								$_NOTE['PAGE'] += 1;
+								$env->page += 1;
 							}
 						}
 						else {
 							// Move them to the next page
-							$_NOTE['PAGE'] += 1;
+							$env->page += 1;
 						}
 						
 						// Record progress
 						$qry = $db->prepare("UPDATE visitors SET lastPage = :page WHERE uniqueID = :uid");
-						$qry->execute(array(':page'=>$_NOTE['PAGE'],':uid'=>$_NOTE['UID']));
-						db_store_visitor_data($_NOTE['UID'], $db, $_NOTE_MODULE);
+						$qry->execute(array(':page'=>$env->page,':uid'=>$env->uid));
+						db_store_visitor_data($env->uid, $db, $_NOTE_MODULE);
 					}
 				}
 			} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['uid'])) {
 				// Not in database but moved past first page - start tracking from now
-				$_NOTE['PAGE'] = 1;
+				$env->page = 1;
 				$qry = $db->prepare("INSERT INTO visitors (uniqueID,lastPage) VALUES (:uid, :page)");
-				$result = $qry->execute(array(':uid'=>$_NOTE['UID'],':page'=>$_NOTE['PAGE']));
-				db_store_visitor_data($_NOTE['UID'], $db, $_NOTE_MODULE);
+				$result = $qry->execute(array(':uid'=>$env->uid,':page'=>$env->page));
+				db_store_visitor_data($env->uid, $db, $_NOTE_MODULE);
+				db_store_page_data(0, $_POST, $env->uid, $db, $_NOTE_MODULE);
 			} else {
 				// Not in database and not a POST so revisiting front page
-				$_NOTE['PAGE'] = 0;
+				$env->page = 0;
 			}
 			$qry->closeCursor();
 		} 
-		elseif (!($_NOTE['PART_ID'] === 'preview')) 
+		elseif (!($env->part_id === 'preview')) 
 		{
 			// First visit to page - don't hit database at all
-			$_NOTE['PAGE'] = 0;
+			$env->page = 0;
 		}
-		elseif ($_NOTE['PART_ID'] === 'preview' && isset($_NOTE['OTHER_ID']))
+		elseif ($env->part_id === 'preview' && isset($env->other_id))
 		{
-			$_NOTE['PAGE'] = $_NOTE['OTHER_ID'];
+			$env->page = $env->other_id;
 		}
 		
 		// Close connection
@@ -184,7 +187,7 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
 	  //echo $e->getMessage();
 	}
 
-	$page_name = $_NOTE_MODULE['PAGES'][$_NOTE['PAGE']];
+	$page_name = $_NOTE_MODULE['PAGES'][$env->page];
 	$total_pages = count($_NOTE_MODULE['PAGES']);
 }
 ?>
@@ -196,7 +199,7 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>
 			<?php
-				if (isset($_NOTE['MODULE_ID']) && isset($_NOTE_MODULE['TITLE'])) {
+				if (isset($env->module_id) && isset($_NOTE_MODULE['TITLE'])) {
 					echo $_NOTE_MODULE['TITLE']." - ";
 				}
 				echo "Hearing Sciences @ the University of Nottingham";
@@ -205,28 +208,42 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
         <meta name="description" content="This website is used to conduct research into hearing and related conditions such as tinnitus, hyperacusis, and balance disorders. Here you can find research projects being run by Hearing Sciences, part of the School of Medicine at the University of Nottingham, and as part of the Hearing Theme of the NIHR Nottingham Biomedical Research Centre.">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
+		<?php /*
 		<link rel="stylesheet" href="/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="/css/jquery-ui.css" />
 		<link rel="stylesheet" href="/css/jplayer.blue.monday.css" />
 		<link rel="stylesheet" href="/css/all.min.css" />
-	    <link rel="stylesheet" href="/css/main.css" />
-		<?php if (file_exists($_NOTE['FS_MODULE_PATH'].'experiment.css')): ?>
-			<link rel="stylesheet" href="<?= $_NOTE['FS_MODULE_PATH'].'experiment.css' ?>">
+		*/ ?>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" integrity="sha384-xewr6kSkq3dBbEtB6Z/3oFZmknWn7nHqhLVLrYgzEFRbU/DHSxW7K3B44yWUN60D" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/skin/blue.monday/css/jplayer.blue.monday.css" integrity="sha512-hy+p5g5kWOE+l5AHCBmTo1gq1OetErrJK8u6TT2WQYUVmINNwzu9pu7oyG2f6S+qRJnbGcHu/QXpC2FV4sAvSg==" crossorigin="anonymous" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+
+		<link rel="stylesheet" href="/css/main.css" />
+		<?php if (file_exists($env->fs_module_path.'experiment.css')): ?>
+			<link rel="stylesheet" href="/<?= $env->fs_module_path.'experiment.css' ?>">
 		<?php endif; ?>
-		<?php if (file_exists($_NOTE['FS_MODULE_PATH'].sprintf('page_%s.css',$page_name))): ?>
-			<link rel="stylesheet" href="<?= $_NOTE['FS_MODULE_PATH'].sprintf('page_%s.css',$page_name) ?>">
+		<?php if (file_exists($env->fs_module_path.sprintf('page_%s.css',$page_name))): ?>
+			<link rel="stylesheet" href="<?= $env->fs_module_path.sprintf('page_%s.css',$page_name) ?>">
 		<?php endif; ?>
 		
+		<?php /*
 		<script src="/js/jquery-3.5.1.min.js"></script>
 		<script src="/js/jquery-ui.min.js"></script>
 		<script src="/js/jquery.jplayer.min.js"></script>
 		<script src="/js/bootstrap.bundle.min.js"></script>
-		<script src="<?php echo $_NOTE['BASE_URI']; ?>js/main.js"></script>
-		<?php if (file_exists($_NOTE['FS_MODULE_PATH'].'experiment.js')): ?>
-			<script src="<?= $_NOTE['FS_MODULE_PATH'].'experiment.js' ?>"></script>
+		*/ ?>
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js" integrity="sha512-g0etrk7svX8WYBp+ZDIqeenmkxQSXjRDTr08ie37rVFc99iXFGxmD0/SCt3kZ6sDNmr8sR0ISHkSAc/M8rQBqg==" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+		<script src="<?php echo $env->base_uri; ?>js/main.js"></script>
+		<?php if (file_exists($env->fs_module_path.'experiment.js')): ?>
+			<script src="<?= $env->fs_module_path.'experiment.js' ?>"></script>
 		<?php endif; ?>
-		<?php if (file_exists($_NOTE['FS_MODULE_PATH'].sprintf('page_%s.js',$page_name))): ?>
-			<script src="<?= $_NOTE['FS_MODULE_PATH'].sprintf('page_%s.js',$page_name) ?>"></script>
+		<?php if (file_exists($env->fs_module_path.sprintf('page_%s.js',$page_name))): ?>
+			<script src="<?= $env->fs_module_path.sprintf('page_%s.js',$page_name) ?>"></script>
 		<?php endif; ?>
     </head>
     <body>
@@ -235,7 +252,7 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
 		  <h1>
           <a class="navbar-brand" href="#">
 			<?php
-				if (isset($_NOTE['MODULE_ID']) && isset($_NOTE_MODULE['TITLE'])) {
+				if (isset($env->module_id) && isset($_NOTE_MODULE['TITLE'])) {
 					echo $_NOTE_MODULE['TITLE'];
 				} else {
 					echo "Hearing Sciences - Online Research Portal";
@@ -246,24 +263,28 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
 		<!-- For debugging only, if 'preview' is added to the
 			 end of the module URL then show buttons to allow
 			 the developer to move between module pages quickly -->
-		<?php if ($_NOTE['BASE_URI'] == '/dev/' && $_NOTE['PART_ID'] === 'preview') { ?>
+		<?php if ($env->base_uri == '/dev/' && $env->part_id === 'preview') { ?>
 		<div id="navbarSupportedContent" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<?php if ($_NOTE['PAGE'] > 0) { ?>
-				<li class="nav-item"><a class="nav-link" href="/dev/<?php echo $_NOTE['MODULE_ID']; ?>/preview/<?php echo $_NOTE['PAGE']-1; ?>"><i class="fas fa-angle-left"></i> Back</a></li>
+				<?php if ($env->page > 0) { ?>
+				<li class="nav-item"><a class="nav-link" href="/dev/<?php echo $env->module_id; ?>/preview/<?php echo $env->page-1; ?>"><i class="fas fa-angle-left"></i> Back</a></li>
 				<?php } ?>
-				<li class="nav-item"><a class="nav-link" href="/dev/<?php echo $_NOTE['MODULE_ID']; ?>/preview/<?php echo $_NOTE['PAGE']+1; ?>">Next <i class="fas fa-angle-right"></i></a></li>
+				<li class="nav-item"><a class="nav-link" href="/dev/<?php echo $env->module_id; ?>/preview/<?php echo $env->page+1; ?>">Next <i class="fas fa-angle-right"></i></a></li>
 			</ul>
 		</div>
 		<?php } ?>
       </div>
     </nav>
+	<?php
+		// This is necessary while the code transitions from arrays to objects
+		$_NOTE = $env->toArray();
+	?>
     <div class="container">
-		<?php if ($_NOTE['DISPLAY_ID'] != 'data'): ?>
+		<?php if ($env->display_id != 'data'): ?>
 			<!-- Load the appropriate page content -->
-			<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
-				<?php include($_NOTE['FS_MODULE_PATH'].sprintf('page_%s.php',$page_name)); ?>
-				<input type="hidden" name="page" value="<?php echo $_NOTE['PAGE']; ?>" />
+			<form action="<?php echo $env->request_uri; ?>" method="POST">
+				<?php include($env->fs_module_path.sprintf('page_%s.php',$page_name)); ?>
+				<input type="hidden" name="page" value="<?php echo $env->page; ?>" />
 			</form>
 			
 			<?php
@@ -272,26 +293,26 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
 			// clear the module session UID to allow the user
 			// to complete the module again in future, either
 			// in the same study or other studies.
-			if (count($_NOTE_MODULE['PAGES']) == ($_NOTE['PAGE']+1)) {
+			if (count($_NOTE_MODULE['PAGES']) == ($env->page+1)) {
 				end_module_session();
 			}
 			
 			// Show a progress bar - currently module-based (i.e. shows
 			// progress through the module) but eventually should be study-based
 			// as studies will comprise multiple modules.
-			if (!$db && $_NOTE['PAGE'] > 0) :?>
+			if (!$db && $env->page > 0) :?>
 			<hr>
 			<div class="progress">
 			  <?php
-				if (($_NOTE['PAGE']+1) == $total_pages) {
+				if (($env->page+1) == $total_pages) {
 					$progress = 100;
 				} else {
-					$progress = round((100/($total_pages-1))*$_NOTE['PAGE']);
+					$progress = round((100/($total_pages-1))*$env->page);
 				}			  
 			  ?><div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $progress; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $progress; ?>%;"><?php echo $progress; ?>%</div>
 			</div>
 			<?php endif; ?>
-		<?php elseif (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data'): ?>
+		<?php elseif (isset($env->display_id) && $env->display_id === 'data'): ?>
 			<?php
 				// Hide default progress table if requested
 				if (!(array_key_exists("HIDE_DEFAULT_PROGRESS_DATA", $_NOTE_MODULE) && $_NOTE_MODULE['HIDE_DEFAULT_PROGRESS_DATA'])) {
@@ -300,7 +321,7 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
 				if (function_exists('display_module_data')) {
 					display_module_data($db, $_NOTE, $_NOTE_MODULE);
 				}
-				include_once($_NOTE['FS_MODULE_PATH']."data.php"); // Just in case it isn't included as part of display_module_data above
+				include_once($env->fs_module_path."data.php"); // Just in case it isn't included as part of display_module_data above
 				// Close connection
 				$db = null;
 			?>
@@ -321,8 +342,8 @@ if (isset($_NOTE['DISPLAY_ID']) && $_NOTE['DISPLAY_ID'] === 'data') {
         <p>The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust</p>
 		<?php endif; ?>
 		<?php
-		if ($_NOTE['BASE_URI'] == '/dev/') {
-			echo "<p> (dev system / page_".$_NOTE_MODULE['PAGES'][$_NOTE['PAGE']].".php / page #".$_NOTE['PAGE'].")</p>";
+		if ($env->base_uri == '/dev/') {
+			echo "<p> (dev system / page_".$_NOTE_MODULE['PAGES'][$env->page].".php / page #".$env->page.")</p>";
 		}
 		?>
       </footer>
