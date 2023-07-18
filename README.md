@@ -10,6 +10,10 @@ than the core infrastructure needed to do online testing.
 
 ## Revision History
 
+## July 18 2023
+### env.php and index.php
+*Env.php* has been rewritten as a class managing the NOTE environment. *Index.php* has been updated to use *$env* rather than *$_NOTE* but still generates a *$_NOTE* for backwards compatibility.
+
 ## March 21 2023
 ### env.php and index.php
 
