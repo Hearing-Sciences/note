@@ -71,6 +71,9 @@ class Env {
 		 */
 		$path = $this->split_path($this->url['path']);
 		$dev = NULL;
+		if (in_array($path[0], ['dev'])) {
+			array_shift($path);
+		}
 		if (!empty($path[0])) {
 			if (in_array($path[0], ['data', 'preview'])) {
 				$this->display_id = array_shift($path);
