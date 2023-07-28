@@ -20,6 +20,10 @@ function db_connect($dir)
 	  return false;
 	}
 }
+
+// This is necessary while the code transitions from arrays to objects
+$_NOTE = $env->toArray();
+
 if (isset($env->display_id) && $env->display_id === 'data') {
 	// Load module-specific parameters
 	require $env->fs_module_path.'config.php';
@@ -277,6 +281,7 @@ if (isset($env->display_id) && $env->display_id === 'data') {
     </nav>
 	<?php
 		// This is necessary while the code transitions from arrays to objects
+		// Regenerate array in case things have changed
 		$_NOTE = $env->toArray();
 	?>
     <div class="container">
