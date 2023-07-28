@@ -46,7 +46,7 @@ class Env {
 	 *
 	 * @var string|null
 	 */
-	public $query_string;
+	public $query_string = null;
 	
 	/**
 	 * The name of the survey folder
@@ -123,7 +123,9 @@ class Env {
 		$this->raw_uri = $_SERVER['REQUEST_URI'];
 		$this->base_uri = substr($_SERVER['SCRIPT_NAME'],0,-strlen("index.php"));
 		$this->request_uri = $this->url['path'];
-		$this->query_string = $this->url['query'];
+		if (isset($this->url['query'])) {
+			$this->query_string = $this->url['query'];
+		} 
 		$this->processPath($this->split_path($this->url['path']));
 		$this->part_id = $this->other_id; 
 	}
