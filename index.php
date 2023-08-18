@@ -166,6 +166,7 @@ if (isset($env->display_id) && $env->display_id === 'data') {
 				$qry = $db->prepare("INSERT INTO visitors (uniqueID,lastPage) VALUES (:uid, :page)");
 				$result = $qry->execute(array(':uid'=>$env->uid,':page'=>$env->page));
 				db_store_visitor_data($env->uid, $db, $_NOTE_MODULE);
+				// This saves any responses recorded on the first page, now that we have a UID
 				db_store_page_data(0, $_POST, $env->uid, $db, $_NOTE_MODULE);
 			} else {
 				// Not in database and not a POST so revisiting front page
@@ -288,6 +289,7 @@ if (isset($env->display_id) && $env->display_id === 'data') {
 		<?php if ($env->display_id != 'data'): ?>
 			<!-- Load the appropriate page content -->
 			<form action="<?php echo $env->request_uri; ?>" method="POST">
+				<?php $_NOTE = $env->toArray(); // in case the values have changed ?>
 				<?php include($env->fs_module_path.sprintf('page_%s.php',$page_name)); ?>
 				<input type="hidden" name="page" value="<?php echo $env->page; ?>" />
 			</form>
