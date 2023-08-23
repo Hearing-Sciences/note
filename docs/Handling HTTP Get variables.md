@@ -4,7 +4,7 @@ Previous versions of NOTE parsed the URL in the format *{server}/{action}/{modul
 
 To make use of these variables:
 
-- Direct users to http://surveys.hearing.nottingham.ac.uk/{module}?VAR1=x&VAR2=y
+- Direct users to https://surveys.hearing.nottingham.ac.uk/{module}?VAR1=x&VAR2=y
   - This is a normal URL containing a website and parameters.
   - I've used *VAR1* and *VAR2* but you can call the variables anything that would format correctly in a URL (alphanumerics and the underscore).
 - On the **first page** of your survey call the function *process_get()* with an array of variables to search for. Declare a variable to receive the results.
