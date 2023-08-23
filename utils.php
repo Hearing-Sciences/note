@@ -74,6 +74,8 @@ class Utils
 				if (isset($gets[$var])) {
 					// Sanitise the GET parameter and add it to the array of return values
 					$return_vars[$var] = htmlspecialchars(trim($gets[$var]));
+				} else {
+					$return_vars[$var] = NULL;
 				}
 			}
 		}
