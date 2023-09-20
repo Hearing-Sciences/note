@@ -33,6 +33,8 @@ function process_get(array $vars)
 			if (isset($gets[$var])) {
 				// Sanitise the GET parameter and add it to the array of return values
 				$return_vars[$var] = htmlspecialchars(trim($gets[$var]));
+			} else {
+				$return_vars[$var] = NULL;
 			}
 		}
 	}
@@ -61,7 +63,7 @@ class Utils
 	 * @param Array $vars Variables to look for
 	 * @return Array $returns Variables found
 	 */
-	public function process_get(array $vars) 
+	public static function process_get(array $vars) 
 	{
 		$return_vars = [];
 		if ($_SERVER['REQUEST_METHOD'] === 'GET') {
