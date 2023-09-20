@@ -226,10 +226,10 @@ if (isset($env->display_id) && $env->display_id === 'data') {
 
 		<link rel="stylesheet" href="/css/main.css" />
 		<?php if (file_exists($env->fs_module_path.'experiment.css')): ?>
-			<link rel="stylesheet" href="/<?= $env->module_dir.'/experiment.css' ?>">
+			<link rel="stylesheet" href="/<?= $env->module_path.'/experiment.css' ?>">
 		<?php endif; ?>
 		<?php if (file_exists($env->fs_module_path.sprintf('page_%s.css',$page_name))): ?>
-			<link rel="stylesheet" href="<?= $env->module_dir.'/'.sprintf('page_%s.css',$page_name) ?>">
+			<link rel="stylesheet" href="<?= $env->module_path.'/'.sprintf('page_%s.css',$page_name) ?>">
 		<?php endif; ?>
 		
 		<?php /*
@@ -245,10 +245,10 @@ if (isset($env->display_id) && $env->display_id === 'data') {
 
 		<script src="<?php echo $env->base_uri; ?>js/main.js"></script>
 		<?php if (file_exists($env->fs_module_path.'experiment.js')): ?>
-			<script src="<?= $env->module_dir.'/experiment.js' ?>"></script>
+			<script src="<?= $env->module_path.'/experiment.js' ?>"></script>
 		<?php endif; ?>
 		<?php if (file_exists($env->fs_module_path.sprintf('page_%s.js',$page_name))): ?>
-			<script src="<?= $env->module_dir.'/'.sprintf('page_%s.js',$page_name) ?>"></script>
+			<script src="<?= $env->module_path.'/'.sprintf('page_%s.js',$page_name) ?>"></script>
 		<?php endif; ?>
     </head>
     <body>
