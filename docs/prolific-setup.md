@@ -1,4 +1,7 @@
 # Integrating NOTE with Prolific
+
+⚠️ This information is now out of date due to changes in the way Prolific works. Please don't use these instructions while you can see this warning message.
+
 It is possible to recruit participants from Prolific ([https://prolific.co](https://prolific.co)) and pass their IDs to and from NOTE. Here's how to do it:
 There are two pieces of information required to link NOTE to Prolific: 
 ## Prolific -> NOTE
