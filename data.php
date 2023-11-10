@@ -1,8 +1,9 @@
 <?php
+	$golive_date = isset($_NOTE_MODULE['GOLIVE_DATE']) ? ($_NOTE_MODULE['GOLIVE_DATE']) : '1900-01-01';
 	$today = date('d-m-y h:i:s');
 	$visitorsQry = $db->query('select COUNT(uniqueID) as total, 
-	strftime("%Y-%m-%d", timestamp) as "day" 
-	from visitors group by "day" order by "day";');
+		strftime("%Y-%m-%d", timestamp) as "day" 
+		from visitors where timestamp > date("'.$golive_date.'") group by "day" order by "day";');
 	$visitors = $visitorsQry->fetchAll();
 	$visits = array();
 	//print_r($visitors); die;
@@ -22,12 +23,12 @@
 	$pageCount = count($_NOTE_MODULE['PAGES']);
 	for ($percentage=1; $percentage<=4; $percentage++) {
 		$progString = 'Between '.(100*($percentage-1)/4).'% and '.(100 * ($percentage)/4).'%';
-		$progressQry = $db->query('select COUNT(uniqueID) as total from visitors where lastPage between '.(($pageCount * ($percentage-1))/4).' and '.(($pageCount * ($percentage))/4).';');	
+		$progressQry = $db->query('select COUNT(uniqueID) as total from visitors where timestamp > date("'.$golive_date.'") and lastPage between '.(($pageCount * ($percentage-1))/4).' and '.(($pageCount * ($percentage))/4).';');	
 		$progArray = $progressQry->fetchAll(PDO::FETCH_ASSOC);
 		$progress[$progString] = $progArray[0]['total'];
 	}
 	//print_r($progress); die;
-
+	$db_size = filesize(($_NOTE["FS_MODULE_PATH"].'/database.sqlite3'))/1024/1024;
 ?>
 <script src="/js/chart.min.js"></script>
 <script language="javascript">
@@ -85,7 +86,22 @@
 
 </script>
 
-<?= 'Data report run at '.$today ?>
+<h1><?= 'Data report run at '.$today ?></h1>
+
+<h2>Current database size: <span class="<?= $db_size > 10 ? 'text-danger' : 'text-success'?>"><?= number_format($db_size, 2) ?> MB</span></h2>
+
+<?php if($db_size>10): ?>
+	<div class="border border-danger border-5 p-2">
+	<p>There have been issues with database sizes exceeding 10MB. While this may not be a problem for your survey you may wish to check that data is being saved as efficiently as possible.</p>
+	</div>
+<?php endif; ?>
+
+<h2>Go-live date: <?= $golive_date ?></h2>
+<?php if ($golive_date == '1900-01-01'): ?>
+	<p>NOTE was unable to read a go-live date in the configuration file <em>config.php</em>. Set or check this as <code>$_NOTE_MODULE['golive_date']</code>. NOTE has used '1900-01-01' as the date to make sure that database queries return all of the data.</p>
+<?php else: ?>
+	<p>NOTE has retrieved the go-live date from the configuration file <em>config.php</em>. The charts and progress table below will ignore visitors and data recorded before this date.</p>
+<?php endif; ?>
 
 <div class="row">
 	<div class="col-sm-6">
@@ -108,7 +124,7 @@
         <div class="clipboardMessage" id="progress-message"></div>
     </div>
 </div>
-<?php $visitors = $db->query("SELECT * FROM visitors WHERE lastPage > 0"); ?>
+<?php $visitors = $db->query('SELECT * FROM visitors WHERE timestamp > date("'.$golive_date.'") and lastPage > 0'); ?>
 <pre id="progress-tsv" style="display: none;">
 Data report run at <?= $today ?>
 
@@ -140,7 +156,7 @@ UID&#9;Last seen&#9;Last page
 	</thead>
 	<tbody>
 		<?php
-		$visitors = $db->query("SELECT * FROM visitors WHERE lastPage > 0 ORDER BY timestamp DESC");
+		$visitors = $db->query('SELECT * FROM visitors WHERE lastPage > 0 AND timestamp > date("'.$golive_date.'") ORDER BY timestamp DESC');
 		foreach ($visitors as $m) {
 			echo "<tr>";
 			echo "<td>".$m['uniqueID']."</td>";
