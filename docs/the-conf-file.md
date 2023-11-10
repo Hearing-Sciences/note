@@ -22,6 +22,7 @@ $_NOTE_MODULE['CSS_LIBRARIES'] = [];
 $_NOTE_MODULE['JS_LIBRARIES'] = [];
 $_NOTE_MODULE['COPYRIGHT'] = 'The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust';
 $_NOTE_MODULE['STUDY_TITLE'] = 'My Example Survey';
+$_NOTE_MODULE['GOLIVE_DATE'] = '2023-04-25';
 
 //==============================================================================
 // Order of pages
@@ -41,6 +42,7 @@ $_NOTE_MODULE is an array of module-specific options including:
 | --------------- | -------- | ----------- | ------- |
 | TITLE           | Yes      | The title of your survey | NULL |
 | PAGETITLE       | Yes      | The title of your survey | NULL |
+| GOLIVE_DATE     | No       | The date it will be released to participants in the format *yyyy-mm-dd* | 1900-01-01 |
 | CSS_LIBRARIES   | No       | An array of libraries. At present the only value available is *bootstrap5* which causes NOTE to load the Bootstrap 5 library. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
 | JS_LIBRARIES    | No       | An array of libraries. At present the only value available is *bootstrap5* which causes NOTE to load the Bootstrap 5 JS library. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
 | COPYRIGHT       | Yes      | The copyright message |  |
