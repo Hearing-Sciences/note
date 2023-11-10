@@ -42,7 +42,7 @@ $_NOTE_MODULE is an array of module-specific options including:
 | --------------- | -------- | ----------- | ------- |
 | TITLE           | Yes      | The title of your survey | NULL |
 | PAGETITLE       | Yes      | The title of your survey | NULL |
-| GOLIVE_DATE     | No       | The date it will be released to participants in the format yyyy-mm-dd | 1900-01-01 |
+| GOLIVE_DATE     | No       | The date it will be released to participants in the format *yyyy-mm-dd* | 1900-01-01 |
 | CSS_LIBRARIES   | No       | An array of libraries. At present the only value available is *bootstrap5* which causes NOTE to load the Bootstrap 5 library. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
 | JS_LIBRARIES    | No       | An array of libraries. At present the only value available is *bootstrap5* which causes NOTE to load the Bootstrap 5 JS library. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
 | COPYRIGHT       | Yes      | The copyright message |  |
