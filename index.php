@@ -213,7 +213,7 @@ if (isset($env->display_id) && $env->display_id === 'data') {
         <meta name="description" content="This website is used to conduct research into hearing and related conditions such as tinnitus, hyperacusis, and balance disorders. Here you can find research projects being run by Hearing Sciences, part of the School of Medicine at the University of Nottingham, and as part of the Hearing Theme of the NIHR Nottingham Biomedical Research Centre.">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
-		<?php if (array_key_exists('CSS_LIBRARIES', $_NOTE_MODULE) && in_array('bootstrap5', $_NOTE_MODULE['CSS_LIBRARIES'])): ?>
+		<?php if (is_array($_NOTE_MODULE) && array_key_exists('CSS_LIBRARIES', $_NOTE_MODULE) && in_array('bootstrap5', $_NOTE_MODULE['CSS_LIBRARIES'])): ?>
 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 		<?php else: ?>
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -233,7 +233,7 @@ if (isset($env->display_id) && $env->display_id === 'data') {
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js" integrity="sha512-g0etrk7svX8WYBp+ZDIqeenmkxQSXjRDTr08ie37rVFc99iXFGxmD0/SCt3kZ6sDNmr8sR0ISHkSAc/M8rQBqg==" crossorigin="anonymous"></script>
-		<?php if (array_key_exists('JS_LIBRARIES', $_NOTE_MODULE) && in_array('bootstrap5', $_NOTE_MODULE['JS_LIBRARIES'])): ?>
+		<?php if (is_array($_NOTE_MODULE) && array_key_exists('JS_LIBRARIES', $_NOTE_MODULE) && in_array('bootstrap5', $_NOTE_MODULE['JS_LIBRARIES'])): ?>
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 		<?php else: ?>
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
@@ -296,7 +296,7 @@ if (isset($env->display_id) && $env->display_id === 'data') {
 			// clear the module session UID to allow the user
 			// to complete the module again in future, either
 			// in the same study or other studies.
-			if (count($_NOTE_MODULE['PAGES']) == ($env->page+1)) {
+			if (is_array($_NOTE_MODULE) && count($_NOTE_MODULE['PAGES']) == ($env->page+1)) {
 				end_module_session();
 			}
 			
