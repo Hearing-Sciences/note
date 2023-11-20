@@ -1,5 +1,16 @@
 <?php
-	$golive_date = isset($_NOTE_MODULE['GOLIVE_DATE']) ? ($_NOTE_MODULE['GOLIVE_DATE']) : '1900-01-01';
+	if (isset($_NOTE_MODULE['GOLIVE_DATE'])) {
+		$dt = DateTime::createFromFormat("Y-m-d", $_NOTE_MODULE['GOLIVE_DATE']);
+	} else {
+		$dt = false;
+	}
+
+	if ($dt !== false) {
+		$golive_date = $dt->format('Y-m-d')	;
+	} else {
+		$golive_date = '1900-01-01';
+	}
+	//$golive_date = isset($_NOTE_MODULE['GOLIVE_DATE']) ? ($_NOTE_MODULE['GOLIVE_DATE']) : '1900-01-01';
 	$today = date('d-m-y h:i:s');
 	$visitorsQry = $db->query('select COUNT(uniqueID) as total, 
 		strftime("%Y-%m-%d", timestamp) as "day" 
@@ -98,7 +109,7 @@
 
 <h2>Go-live date: <?= $golive_date ?></h2>
 <?php if ($golive_date == '1900-01-01'): ?>
-	<p>NOTE was unable to read a go-live date in the configuration file <em>config.php</em>. Set or check this as <code>$_NOTE_MODULE['golive_date']</code>. NOTE has used '1900-01-01' as the date to make sure that database queries return all of the data.</p>
+	<p>NOTE was unable to read a go-live date in the configuration file <em>config.php</em>. Set or check this as <code>$_NOTE_MODULE['GOLIVE_DATE']</code>. NOTE has used '1900-01-01' as the date to make sure that database queries return all of the data.</p>
 <?php else: ?>
 	<p>NOTE has retrieved the go-live date from the configuration file <em>config.php</em>. The charts and progress table below will ignore visitors and data recorded before this date.</p>
 <?php endif; ?>
