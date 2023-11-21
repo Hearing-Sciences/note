@@ -1,20 +1,22 @@
 # NOTE Documentation
 
-[Set up a basic environment](Setting-up-a-basic-environment.md)
+[Set up a basic environment](./Setting-up-a-basic-environment.md)
 
-[Create a simple first survey](A-first-NOTE-survey.md)
+[Create a simple first survey](./A-first-NOTE-survey.md)
 
 ## Reference
 
-[Survey file structure](File-Structure.md)
+[Survey file structure](./File-Structure.md)
 
-[The survey configuration file](the-conf-file.md)
+[The survey configuration file](./the-conf-file.md)
 
-[The database configuration file](the-db-file.md)
+[The database configuration file](./the-db-file.md)
 
-[How a NOTE survey page is processed](anatomy-of-a-web-page.md)
+[How a NOTE survey page is processed](./anatomy-of-a-web-page.md)
 
-[Handling GET parameters in NOTE](Handling-HTTP-Get-variables.md)
+[Handling GET parameters in NOTE](./Handling-HTTP-Get-variables.md)
+
+[Randomising the order of questions](./Randomised-order-of-questions.md)
 
 [Password protection for data pages]
 (Adding-password-protection-to-a-survey-data-page.md)
