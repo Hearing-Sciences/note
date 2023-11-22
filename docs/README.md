@@ -30,3 +30,11 @@
 [Using Prolific to recruit participants](HS/prolific-setup.md)
 
 [Server monitoring and troubleshooting](HS/Server-Monitoring-and-Troubleshooting.md)
+
+## Advanced guides
+
+[Creating a React development environment from scratch](./React-environment.md)
+
+[Building a module on a page using React](./React-NOTE-Modules.md)
+
+[Exporting a React module to NOTE](./React-exporting-files.md)
