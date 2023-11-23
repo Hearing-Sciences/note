@@ -18,8 +18,9 @@
 
 [Randomising the order of questions](./Randomised-order-of-questions.md)
 
-[Password protection for data pages]
-(Adding-password-protection-to-a-survey-data-page.md)
+[Copying data to the clipboard](./copying-from-the-data-page.md)
+
+[Password protection for data pages](Adding-password-protection-to-a-survey-data-page.md)
 
 ## Additional Reference for Hearing Sciences Staff
 
