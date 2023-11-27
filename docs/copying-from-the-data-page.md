@@ -53,4 +53,15 @@ Always test everything! These should be all you need to add copying to the clipb
 ## 5. Hints
 
 - Since the data is going into your application there's no need for fancy formatting, tables etc. So you might want to use data that is as 'raw' as possible with tabs or spaces separating columns. (That's why the data ID ends with `-tsv`: the system originally used tab separated values.) The `<pre>` tag helps to limit the unnecessary formatting.
-- You could put the button and the message in two columns of a table or Bootstrap `row` to save space and help prevent the message from shifting data up and down.
+- You could put the button and the message in two columns of a table or Bootstrap `row` to save space and help prevent the message from shifting data up and down. For example:
+
+```html
+<div class="row m-2">
+    <div class="col-sm-5 text-right">
+        <button type="button" class="btn btn-primary clipboardable" target="#responses" id="copyToClipboard">Copy the response text to the clipboard  <i class="fas fa-copy"></i></button>
+    </div>
+    <div class="col-sm-5 text-left">
+        <div class="clipboardMessage" id="responses-message"></div>
+    </div>
+</div>
+```

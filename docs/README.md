@@ -34,6 +34,8 @@
 
 ## Advanced guides
 
+[Testing your survey](./Testing-using-selenium-unittest.md)
+
 [Creating a React development environment from scratch](./React-environment.md)
 
 [Building a module on a page using React](./React-NOTE-Modules.md)
