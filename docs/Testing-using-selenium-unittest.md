@@ -9,7 +9,7 @@ Although it's possible to write tests in JavaScript or PHP Selenium allows you t
 - Install Python for Windows (using whatever system you wish).
 - Open a command prompt, cd to the Python directory and install the components:
   - `python -m pip install selenium`
-  - The *unittest* module should be included already
+  - The *unittest* and *sqlite* modules should be included already
 
 To check everything has been set up create the script *basic-setup.py* containing the following:
 

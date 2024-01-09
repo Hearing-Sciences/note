@@ -35,11 +35,11 @@ You have very few permissions as a regular user and any privileged actions requi
 |```sudo mkdir /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey```|Create a *test_survey* folder|
 |```sudo cp -r * /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey/```|Copy all files and folders (and their contents) to the folder you just created|
 |```cd /var/www/surveys.hearing.nottingham.ac.uk/dev/```|Change directory to the *dev* area|
-|```sudo chown -R nginx:nginx /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey```|Change the owner and group of the survey folder and contents to the *nginx* user. Note the use of a capital 'R'|
-|```sudo chmod -R u+rw /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey```|Make sure that the *nginx* user has read and write permissions to the *test_survey* folder and files within. Note the use of a capital 'R'|
+|```sudo chown -R www-data:www-data /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey```|Change the owner and group of the survey folder and contents to the *www-data* user. Note the use of a capital 'R'|
+|```sudo chmod -R u+rw /var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey```|Make sure that the *www-data* user has read and write permissions to the *test_survey* folder and files within. Note the use of a capital 'R'|
 
 Other ways of transferring files are available: this is just one way.
 
 ## SQLite Permissions
 
-One commonly encountered trap is for everything to look OK but for NOTE to refuse to save any data. It should be immediately apparent because clicking the *Next* button will cause the same page to reload rather than letting you continue. The most likely cause for this is the permissions attached to the database *and the containing folder*. The *nginx* user must have read and write permissions to the database *database.sqlite3* and the parent folder */var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey* (in this case). The commands above will set those permissions but it's easy to forget.
+One commonly encountered trap is for everything to look OK but for NOTE to refuse to save any data. It should be immediately apparent because clicking the *Next* button will cause the same page to reload rather than letting you continue. The most likely cause for this is the permissions attached to the database *and the containing folder*. The *www-data* user must have read and write permissions to the database *database.sqlite3* and the parent folder */var/www/surveys.hearing.nottingham.ac.uk/dev/test_survey* (in this case). The commands above will set those permissions but it's easy to forget.

@@ -7,7 +7,7 @@ This is all done on the server, so you will need access to the server's terminal
 You will need to make a password file on the server (or use an existing one) in a format that the web server can understand. There is a helpful command to achieve this:
 
 ```text
-sudo htpasswd -c /etc/nginx/.{name of file} {name of admin user}
+sudo htpasswd -c /etc/nginx/htpass/.{name of file} {name of admin user}
 ```
 
 To break this command down:
@@ -15,7 +15,7 @@ To break this command down:
 * sudo - to perform the task as the root user (you will need to enter your password to confirm this)
 * htpasswd - the command for managing web server password files
 * -c - for creating a file
-* /etc/nginx/.{name of file} - replace {name of file} with something appropriate. You can use *htpasswd_data_* and the name of your study (without spaces). Not that the file is preceded by a dot - this is intentional. It hides the file from general view.
+* /etc/nginx/htpass/.{name of file} - replace {name of file} with something appropriate. You can use *htpasswd_data_* and the name of your study (without spaces). Not that the file is preceded by a dot - this is intentional. It hides the file from general view.
 * {name of admin user} - this is the admin username you will use with your study later. It can be almost anything you like but don't include any spaces. I have tended to use the initials of the study followed by *_admin* such as *ssq12_admin*
 
 You will be asked for your password to perform the admin task, then asked to set a password for this admin user.
@@ -23,6 +23,8 @@ You will be asked for your password to perform the admin task, then asked to set
 ## Password best practice
 
 At the moment I would recommend that you set the password to be 20 random characters (letters and numbers). You can download random character generators as browser plugins or you could write your own in Matlab, Python, Rust etc. (Or you could use one included with this package - see below.) You can copy the password you have created and usually paste it into the terminal using a right mouse button click.
+
+Store the password files in */etc/nginx/htpass* to keep things tidy.
 
 ### Linux Random Password Generator
 
@@ -40,14 +42,14 @@ The source code is included in case you want to improve it. The code is extremel
 
 ## Nginx
 
-You will need to edit /etc/nginx/conf.d/surveys.hearing.nottingham.ac.uk.conf with information about your password file.
+You will need to edit /etc/nginx/sites-available/surveys.hearing.nottingham.ac.uk.conf with information about your password file.
 Here is a template of the configuration you can edit:
 
 ```text
 location /data/{{survey folder}} {
     try_files $uri $uri/ =404 /index.php?$query_string;
     auth_basic      "Only authorised users may continue";
-    auth_basic_user_file    /etc/nginx/.{{name of the file you created earlier}};
+    auth_basic_user_file    /etc/nginx/htpass/.{{name of the file you created earlier}};
 }
 ```
 
