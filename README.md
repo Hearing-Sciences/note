@@ -14,7 +14,7 @@ than the core infrastructure needed to do online testing.
 ### index.php
 Minor changes have been made to variable checks that remove PHP warnings. For example, if a variable doesn't exist then *array_key_exists* checks will produce a warning so the code now checks that the array exists before checking the key.
 ### blank.html
-A new page has been created containing simple placeholder information to be displayed if a survey is not provided (i.e. someone browses to *https://surveys.hearing.nottingham.ac.uk* without adding /{survey}).
+A new page has been created containing simple placeholder information to be displayed if a survey is not provided (i.e. someone browses to *https://surveys.hearing.nottingham.ac.uk* without adding */{survey}*).
 
 ## July 18 2023
 ### env.php and index.php
