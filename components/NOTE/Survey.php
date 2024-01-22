@@ -227,7 +227,11 @@ class Survey {
 
         if (!empty($path[0])) {
             $this->moduleId = array_shift($path);
-            $modDir = $this->documentRoot.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->moduleId;
+			if ($this->isInDevelopment) {
+				$modDir = $this->documentRoot.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->moduleId;
+			} else {
+				$modDir = $this->documentRoot.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->moduleId;
+			}
 
             if (file_exists($modDir) && is_dir($modDir)) {
 				$this->moduleDir = 'modules/'.$this->moduleId;

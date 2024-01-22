@@ -1,7 +1,7 @@
 <?php
 spl_autoload_register(function ($class) {
     $unixClass = str_replace( "\\", '/', $class );
-    include_once $_SERVER['DOCUMENT_ROOT'].'/components/'.$unixClass.'.php';
+    include_once __DIR__.'/components/'.$unixClass.'.php';
 });
 use NOTE\Survey;
 use NOTE\ErrorHandler;
