@@ -13,6 +13,8 @@ than the core infrastructure needed to do online testing.
 ## January 10 2024
 ### index.php
 Minor changes have been made to variable checks that remove PHP warnings. For example, *array_key_exists* will produce a warning if the entire array doesn't exist so the code now checks that the array exists before checking the key.
+
+Links to supporting libraries have been updated to the most recent versions: jQuery 3.7.1, jQueryUI 1.13.2 and Bootstrap 4.6.2. These are minor version changes which shouldn't introduce any breaking changes.
 ### blank.html
 A new page has been created containing simple placeholder information to be displayed if a survey is not provided (i.e. someone browses to *https://surveys.hearing.nottingham.ac.uk* without adding */{survey}*).
 
