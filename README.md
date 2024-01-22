@@ -10,19 +10,31 @@ than the core infrastructure needed to do online testing.
 
 ## Revision History
 
+## January 22 2024
+
+NOTE has been re-written using a namespace and objects. This will become the v2 release. If you wish to continue developing on the old NOTE and old srever grab the third pre-release from the [releases page](https://github.com/Hearing-Sciences/note/releases).
+
+Documentation is currently being updated and will be available soon.
+
 ## January 10 2024
+
 ### index.php
+
 Minor changes have been made to variable checks that remove PHP warnings. For example, *array_key_exists* will produce a warning if the entire array doesn't exist so the code now checks that the array exists before checking the key.
 
 Links to supporting libraries have been updated to the most recent versions: jQuery 3.7.1, jQueryUI 1.13.2 and Bootstrap 4.6.2. These are minor version changes which shouldn't introduce any breaking changes.
 ### blank.html
+
 A new page has been created containing simple placeholder information to be displayed if a survey is not provided (i.e. someone browses to *https://surveys.hearing.nottingham.ac.uk* without adding */{survey}*).
 
 ## July 18 2023
+
 ### env.php and index.php
+
 *Env.php* has been rewritten as a class *Env* managing the NOTE environment. *Index.php* has been updated to use an instance of Env called *$env* but still generates a *$_NOTE* for backwards compatibility.
 
 ## March 21 2023
+
 ### env.php and index.php
 
 - Single quotes have replaced double quotes wherever possible. PHP scans for variables inside double quoted strings which is a waste of time if not needed.
