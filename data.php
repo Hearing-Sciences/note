@@ -1,46 +1,68 @@
 <?php
-	if (isset($_NOTE_MODULE['GOLIVE_DATE'])) {
-		$dt = DateTime::createFromFormat("Y-m-d", $_NOTE_MODULE['GOLIVE_DATE']);
-	} else {
-		$dt = false;
-	}
+spl_autoload_register(function ($class) {
+    include_once 'components/'.$class.'.php';
+});
+use NOTE\Survey;
 
-	if ($dt !== false) {
-		$golive_date = $dt->format('Y-m-d')	;
-	} else {
-		$golive_date = '1900-01-01';
-	}
-	//$golive_date = isset($_NOTE_MODULE['GOLIVE_DATE']) ? ($_NOTE_MODULE['GOLIVE_DATE']) : '1900-01-01';
-	$today = date('d-m-y h:i:s');
-	$visitorsQry = $db->query('select COUNT(uniqueID) as total, 
-		strftime("%Y-%m-%d", timestamp) as "day" 
-		from visitors where timestamp > date("'.$golive_date.'") group by "day" order by "day";');
-	$visitors = $visitorsQry->fetchAll();
-	$visits = array();
-	//print_r($visitors); die;
-	while (!empty($visitors)) {
-		$row = array_shift($visitors);
-		$date = new DateTime($row['day']);
-		$visits[$date->format('Y-m-d')] = $row['total'];
+$debug = true;
+
+$noteSurvey = new Survey($_SERVER);
+
+// This is necessary while the code transitions from arrays to objects
+$_NOTE = $noteSurvey->toArray();
+
+// Load module-specific parameters
+require $noteSurvey->fsModulePath.'config.php';
+$db = $noteSurvey->participant->db;
+require $noteSurvey->fsModulePath.'db.php'; // for the 'display_module_data' function
+
+if (isset($_NOTE_MODULE['GOLIVE_DATE'])) {
+	$dt = DateTime::createFromFormat("Y-m-d", $_NOTE_MODULE['GOLIVE_DATE']);
+} else {
+	$dt = false;
+}
+
+if ($dt !== false) {
+	$golive_date = $dt->format('Y-m-d')	;
+} else {
+	$golive_date = '1900-01-01';
+}
+
+$today = date('d-m-y h:i:s');
+$visitorsQry = $db->query('select COUNT(uniqueID) as total, 
+	strftime("%Y-%m-%d", timestamp) as "day" 
+	from visitors where timestamp > date("'.$golive_date.'") group by "day" order by "day";');
+$visitors = $visitorsQry->fetchAll();
+$visits = array();
+
+while (!empty($visitors)) {
+	$row = array_shift($visitors);
+	$date = new DateTime($row['day']);
+	$visits[$date->format('Y-m-d')] = $row['total'];
+	$date->modify('+1 day');
+	while (!empty($visitors) && $visitors[0]['day'] != $date->format('Y-m-d')) {
+		$visits[$date->format('Y-m-d')] = 0;
 		$date->modify('+1 day');
-		//print($data[0]['day']);
-		while (!empty($visitors) && $visitors[0]['day'] != $date->format('Y-m-d')) {
-			$visits[$date->format('Y-m-d')] = 0;
-			$date->modify('+1 day');
-			//print ($data[0]['day']).', '; print($date->format('Y-m-d').'<br>');
-		}
 	}
+}
 
-	$pageCount = count($_NOTE_MODULE['PAGES']);
-	for ($percentage=1; $percentage<=4; $percentage++) {
-		$progString = 'Between '.(100*($percentage-1)/4).'% and '.(100 * ($percentage)/4).'%';
-		$progressQry = $db->query('select COUNT(uniqueID) as total from visitors where timestamp > date("'.$golive_date.'") and lastPage between '.(($pageCount * ($percentage-1))/4).' and '.(($pageCount * ($percentage))/4).';');	
-		$progArray = $progressQry->fetchAll(PDO::FETCH_ASSOC);
-		$progress[$progString] = $progArray[0]['total'];
-	}
-	//print_r($progress); die;
-	$db_size = filesize(($_NOTE["FS_MODULE_PATH"].'/database.sqlite3'))/1024/1024;
+$pageCount = count($_NOTE_MODULE['PAGES']);
+for ($percentage=1; $percentage<=4; $percentage++) {
+	$progString = 'Between '.(100*($percentage-1)/4).'% and '.(100 * ($percentage)/4).'%';
+	$progressQry = $db->query('select COUNT(uniqueID) as total from visitors where timestamp > date("'.$golive_date.'") and lastPage between '.(($pageCount * ($percentage-1))/4).' and '.(($pageCount * ($percentage))/4).';');	
+	$progArray = $progressQry->fetchAll(PDO::FETCH_ASSOC);
+	$progress[$progString] = $progArray[0]['total'];
+}
+
+$db_size = filesize(($noteSurvey->fsModulePath.'/database.sqlite3'))/1024/1024;
+
 ?>
+
+<html lang="en">
+
+<head>
+<?php require('components/header.php'); ?>
+
 <script src="/js/chart.min.js"></script>
 <script language="javascript">
 	$(document).ready(function() {
@@ -97,6 +119,26 @@
 
 </script>
 
+</head>
+
+<body>
+<div class="container">
+
+<?php if ($debug): ?>
+<h3>Session data</h3>
+<pre>
+	<?php if (isset($_SESSION) && !empty($_SESSION)): ?>
+    <?php print_r($_SESSION); ?>
+	<?php else: ?>
+	<p>No session values could be found.</p>
+	<?php endif; ?>
+</pre>
+<h3>Before...</h3>
+<pre>
+    <?php print_r($noteSurvey); ?>
+</pre>
+<?php endif; ?>
+
 <h1><?= 'Data report run at '.$today ?></h1>
 
 <h2>Current database size: <span class="<?= $db_size > 10 ? 'text-danger' : 'text-success'?>"><?= number_format($db_size, 2) ?> MB</span></h2>
@@ -150,18 +192,18 @@ UID&#9;Last seen&#9;Last page
 		<tr>
 			<th>UID</th><th>Last seen</th>
 			<?php
-			$last_page = NULL;
+			$lastPage = NULL;
 			$dup_page_count = 0;
 			for ($i=0; $i<count($_NOTE_MODULE["PAGES"]); $i++) {
 				$page_name = $_NOTE_MODULE["PAGES"][$i];
-				if ($page_name === $last_page) {
+				if ($page_name === $lastPage) {
 					$dup_page_count += 1;
 					echo "<th>".$page_name." (".$dup_page_count.")</th>";
 				} else {
 					$dup_page_count = 0;
 					echo "<th>".$page_name."</th>";
 				}
-				$last_page = $page_name;
+				$lastPage = $page_name;
 			} ?>
 		</tr>
 	</thead>
@@ -191,3 +233,15 @@ UID&#9;Last seen&#9;Last page
 	</tbody>
 </table>
 <p></p>
+
+<?php
+include_once($noteSurvey->fsModulePath."data.php"); // Just in case it isn't included as part of display_module_data above
+// Close connection
+$db = null;
+?>
+</div>
+
+<?php require('components/footer.php'); ?>
+
+</body>
+</html>
