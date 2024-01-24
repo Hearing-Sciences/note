@@ -32,7 +32,7 @@ class ErrorHandler extends \error {
         //print_r($this->error);
         if ($this->error->getMessage() === 'Call to a member function exec() on null') {
             return "
-                <div class='container border border-primary p-4'>
+                <div class='container border border-primary p-4 mt-2'>
                 <h3>Error in <code>db.php</code></h3>
                 <p>It is likely that your file contains one or more <code>&dollar;db->exec</code> calls not enclosed in a function. Check your survey's <code>db.php</code> file and group all of your <code>&dollar;db->exec</code> calls within a single function called <code>db_create_tables(&dollar;db)</code> i.e.</p>
                 <code>
@@ -41,6 +41,7 @@ class ErrorHandler extends \error {
                         <em>all of your &dollar;db->exec calls</em>
                     }
                 </code>
+                <p class='text-danger h3'>While this error message is visible your survey data will <strong>not</strong> be saved. You have been warned.</p>
                 </div>
             ";
         }    
