@@ -85,12 +85,16 @@ $_NOTE_MODULE['FOOTER_COPYRIGHT'] = 'This survey is provided by the Hearing Scie
 ```php
 <?php
 
-$db->exec('CREATE TABLE IF NOT EXISTS visitors (
+function db_create_tables()
+{
+    $db->exec('CREATE TABLE IF NOT EXISTS visitors (
         id INTEGER PRIMARY KEY,
         uniqueID TEXT,
         ipaddr TEXT,
         lastPage INTEGER,
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)');
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)'
+    );
+}
 
 function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE) 
 {

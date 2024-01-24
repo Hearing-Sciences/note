@@ -23,12 +23,15 @@ Here is a sample *db.php* file:
 // AL 2022-03-17
 
 // table creation scripts
-$db->exec('CREATE TABLE IF NOT EXISTS visitors (
-                id INTEGER PRIMARY KEY,
-                uniqueID TEXT,
-                ipaddr TEXT,
-                lastPage INTEGER,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)');
+function db_create_tables()
+{
+    $db->exec('CREATE TABLE IF NOT EXISTS visitors (
+                    id INTEGER PRIMARY KEY,
+                    uniqueID TEXT,
+                    ipaddr TEXT,
+                    lastPage INTEGER,
+                    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)');
+}
 
 //========================================================================================================
 // Store page data
@@ -66,9 +69,9 @@ function display_module_data(&$db, $_NOTE, $_NOTE_MODULE) {
 
 There are three sections to the file.
 
-## Table Creation Scripts
+## Table Creation Function
 
-The first section contains one or more lines of database execution functions ('*$db->exec*') that create the tables you require for the survey. The single example above creates the *visitors* table that NOTE must have to manage participants. You can skip these commands, but be aware of the following whether you include them or not:
+The function *db_create_tables()* contains one or more lines of database execution functions ('*$db->exec*') that create the tables you require for the survey. The single example above creates the *visitors* table that NOTE must have to manage participants. This function is optional but be aware of the following whether you include it or not:
 
 - These commands are run to create and populate a database if an existing database can't be found. This means that if your database disappears for some reason the survey can re-create it and continue storing data. Although you may be more keen to find out why the database has disappeared!
 - These commands are run **every time a page is loaded**. Therefore, to prevent the scripts overwriting your database you **must** add *IF NOT EXISTS* to every SQL statement that creates a table. Such as in the example above; 'CREATE TABLE **IF NOT EXISTS** visitors'.

@@ -25,8 +25,16 @@ server {
         try_files $uri =404 /index.php?$query_string;
     }
 
+    location /data/ {
+        try_files $uri =404 /data.php?$query_string;
+    }
+
     location /dev/ {
         try_files $uri =404 /dev/index.php?$query_string;
+    }
+
+    location /dev/data/ {
+        try_files $uri =404 /dev/data.php?$query_string;
     }
 
     location ~ \.php {
