@@ -86,7 +86,7 @@ $noteSurvey->participant->closeDb();
             require($noteSurvey->fsModulePath.sprintf('page_%s.php',$page_name));
         } catch (error $e) {
             $error = new ErrorHandler($e);
-            print $error->pageNotFoundMessage();        
+            print $error->detailedMessage();        
         }
         ?>
 
