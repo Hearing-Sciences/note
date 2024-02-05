@@ -12,7 +12,7 @@ A lightweight framework for conducting research online. NOTE is intended to make
 
 ## January 22 2024
 
-* NOTE has been re-written using a namespace and objects. This will become the v2 release. If you wish to continue developing on the old NOTE and old srever grab the third pre-release from the [releases page](https://github.com/Hearing-Sciences/note/releases).
+* NOTE has been re-written using a namespace and objects. This will become the v2 release. If you wish to continue developing on the old NOTE and old server grab the third pre-release from the [releases page](https://github.com/Hearing-Sciences/note/releases).
 * The index and data pages have been separated so that the data page now exists as a page in its own right. **Changes to nginx.conf are required for this to work.**
 * Documentation is currently being updated and will be available soon.
 
