@@ -2,11 +2,7 @@
 
 Nottingham Online Testing and Experiment (NOTE) framework
 
-A lightweight framework for conducting research online. NOTE is intended to make setting up online tests
-and experiments more efficient by handling the work of hosting multiple projects at once, parsing URLs,
-keeping track of participant progress, handling database setup, and simplifying database interactions. Its
-primary purpose is to allow researchers to focus on the design and implementation of their experiment rather
-than the core infrastructure needed to do online testing.
+A lightweight framework for conducting research online. NOTE is intended to make setting up online tests and experiments more efficient by handling the work of hosting multiple projects at once, parsing URLs, keeping track of participant progress, handling database setup, and simplifying database interactions. Its primary purpose is to allow researchers to focus on the design and implementation of their experiment rather than the core infrastructure needed to do online testing.
 
 ## Revision History
 
@@ -17,6 +13,7 @@ than the core infrastructure needed to do online testing.
 ## January 22 2024
 
 * NOTE has been re-written using a namespace and objects. This will become the v2 release. If you wish to continue developing on the old NOTE and old srever grab the third pre-release from the [releases page](https://github.com/Hearing-Sciences/note/releases).
+* The index and data pages have been separated so that the data page now exists as a page in its own right. **Changes to nginx.conf are required for this to work.**
 * Documentation is currently being updated and will be available soon.
 
 ## January 10 2024
