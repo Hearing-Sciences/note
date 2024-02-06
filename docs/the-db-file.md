@@ -69,7 +69,7 @@ function display_module_data(&$db, $_NOTE, $_NOTE_MODULE) {
 
 There are three sections to the file.
 
-## Table Creation Function
+## db_create_tables: Table Creation
 
 The function *db_create_tables()* contains one or more lines of database execution functions ('*$db->exec*') that create the tables you require for the survey. The single example above creates the *visitors* table that NOTE must have to manage participants. This function is optional but be aware of the following whether you include it or not:
 
@@ -96,6 +96,7 @@ The variables are as follows:
 |\$uid|The unique ID of the participant (which is independent of any survey-specific participant ID you may wish to use)|
 |\&\$db|The database represented as an object|
 |\&\$_NOTE_MODULE|Module variables and values created in *config.php*|
+
 I will briefly mention that some of these variables are passed by reference (they begin with '\&\\$' rather than just '\\$'). Please ask if you want to know more.
 
 ### A recipe for getting started with saving data
@@ -103,12 +104,12 @@ I will briefly mention that some of these variables are passed by reference (the
 There are a couple of programming structures that you can draw from to save data. The function itself can use a *switch ... case* structure to check the name of the page and decide how to proceed.
 
 ```php
-    switch($_NOTE_MODULE['PAGES'][$page]) {
+switch($_NOTE_MODULE['PAGES'][$page]) {
 
-        case 'name_of_a_page':
-        ...
-        break;
-    }
+    case 'name_of_a_page':
+    ...
+    break;
+}
 ```
 
 You will have created **$_NOTE_MODULE\['PAGES'\]** in *config.php* and populated it with page names. Here you can draw from that array and save data appropriate for that page. In the example above, a case has been created for the page name *name_of_a_page*, so if that page has just been viewed and used to create data, the data will be passed here for saving.
@@ -116,17 +117,17 @@ You will have created **$_NOTE_MODULE\['PAGES'\]** in *config.php* and populated
 The other structure to be aware of is the *prepared statement*.
 
 ```php
-    $qry    =     $db->prepare('
-                    INSERT INTO my_table 
-                    (field1, field2)
-                    VALUES
-                    (:value1, :value2)
-                ');
-    $result = $qry->execute(array(
-            ':value1' => $post['value1'],
-            ':value2' => $post['value2']
-        )
-    );
+$qry    =     $db->prepare('
+                INSERT INTO my_table 
+                (field1, field2)
+                VALUES
+                (:value1, :value2)
+            ');
+$result = $qry->execute(array(
+        ':value1' => $post['value1'],
+        ':value2' => $post['value2']
+    )
+);
 ```
 
 Rather than executing a database command directly, the INSERT command is prepared using the *$db->prepare* method. Rather than pasting values in directly, use *placeholders* consisting of a colon followed by a name you will refer to later (in the example, *:value1* and *:value2*). Once the statement is prepared, you can execute it by feeding in an array of placeholders and their corresponding values.

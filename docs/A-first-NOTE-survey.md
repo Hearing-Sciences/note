@@ -165,14 +165,19 @@ You can fill in the box and click *Next* but nothing will be saved at the moment
 
 ### Adding to db.php
 
-Creating the new table and saving data can all be handled in this file. To add a table if necessary, add the following command to the top of the file (just after the `<?php`):
+Creating the new table and saving data can all be handled in this file. To add a table if necessary, add the following command to the *db_create_tables* function:
 
 ```php
-$db->exec('CREATE TABLE IF NOT EXISTS responses (
-    id INTEGER PRIMARY KEY,
-    uniqueID TEXT,
-    response TEXT,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)');
+function db_create_tables($db)
+{
+    // ... other table create statements
+
+    $db->exec('CREATE TABLE IF NOT EXISTS responses (
+        id INTEGER PRIMARY KEY,
+        uniqueID TEXT,
+        response TEXT,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)');
+}
 ```
 
 This will create a table and add a field to store the response. It will also include a column for the unique ID (so you know which visitor issued which response) and a timestamp (so you know when the response was made). The extra columns are optional but useful.

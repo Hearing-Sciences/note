@@ -5,7 +5,7 @@ You will need the following files to create a survey:
 | File | Required? | Notes |
 | ---  | ---       | ----- |
 | [config.php](the-conf-file.md) | Yes | This file defines your survey. The name of the survey, pages to use, order etc. |
-| db.php | Yes | This file contains functions for accessing the survey database and saving data. |
+| [db.php](the-db-file.md) | Yes | This file contains functions for accessing the survey database and saving data. |
 | data.php | Yes | This file should contain code for displaying data, analyses etc. |
 | README.txt | Yes | This file should contain survey details for administrators browsing the server. |
 | page_xxx.php | Yes | Each page in your survey must be in the format *page_xxx.php* where *xxx* is a name unique to the survey. |

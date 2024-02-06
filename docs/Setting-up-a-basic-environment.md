@@ -105,10 +105,11 @@ Once you have NOTE installed locally, you're going to want to write some surveys
 
 ## Visual Studio Code
 
-This can be downloaded and installed from here:
-[Get Visual Studio Code](https://code.visualstudio.com/)
+This can be downloaded and installed from here: [Get Visual Studio Code](https://code.visualstudio.com/)
 
-The software installs into your user profile so no admin privileges should be required. Once installed, it's a good idea to set it up to work with PHP. I recommend the following steps:
+If you are concerned about Microsoft rummaging through your stuff you could install VS Codium instead from here: [Get VS Codium](https://vscodium.com/). Or you could use one of a variety of other text editors such as Notepad++.
+
+VS Code installs into your user profile so no admin privileges should be required. Once installed, it's a good idea to set it up to work with PHP. I recommend the following steps:
 
 - In Visual Studio Code, go to the plugins section and install *PHP Intelephense* (Yes, it really is called that; PHP's symbol/mascot is an elephant)
 - You will need to provide the path to the PHP executable. Open the file:
