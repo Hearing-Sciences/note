@@ -48,7 +48,7 @@ Populate these files with the following simple content:
 $_NOTE_MODULE['TITLE'] = 'A first test survey';
 $_NOTE_MODULE['PAGETITLE'] = 'A first test survey'; // this is the used at the top of most pages
 $_NOTE_MODULE['PAGES'] = [];
-$_NOTE_MODULE['COPYRIGHT'] = 'The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust';
+$_NOTE_MODULE['FOOTER_COPYRIGHT'] = 'The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust';
 $_NOTE_MODULE['STUDY_TITLE'] = 'A first test survey';
 
 //==============================================================================
