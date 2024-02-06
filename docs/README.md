@@ -6,6 +6,8 @@
 
 ## Reference
 
+[Variables](./Variables.md)
+
 [Survey file structure](./File-Structure.md)
 
 [The survey configuration file](./the-conf-file.md)
