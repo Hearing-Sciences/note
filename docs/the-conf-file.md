@@ -22,10 +22,10 @@ $_NOTE_MODULE['CSS_LIBRARIES'] = [];
 $_NOTE_MODULE['JS_LIBRARIES'] = [];
 $_NOTE_MODULE['COPYRIGHT'] = 'The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust';
 $_NOTE_MODULE['STUDY_TITLE'] = 'My Example Survey';
-$_NOTE_MODULE['GOLIVE_DATE'] = '2023-04-25';
+$_NOTE_MODULE['GOLIVE_DATE'] = '2024-04-25';
 
 //==============================================================================
-// Order of pages
+// Order of pages - the pages below are just an example
 //==============================================================================
 
 $_NOTE_MODULE['PAGES'][] = 'welcome';
