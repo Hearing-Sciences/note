@@ -1,6 +1,7 @@
 <?php
 spl_autoload_register(function ($class) {
-    include_once 'components/'.$class.'.php';
+    $unixClass = str_replace( "\\", '/', $class );
+    include_once __DIR__.'/components/'.$unixClass.'.php';
 });
 use NOTE\Survey;
 
