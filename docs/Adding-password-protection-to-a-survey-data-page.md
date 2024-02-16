@@ -47,7 +47,7 @@ Here is a template of the configuration you can edit:
 
 ```text
 location /data/{{survey folder}} {
-    try_files $uri $uri/ =404 /index.php?$query_string;
+    try_files $uri $uri/ =404 /data.php?$query_string;
     auth_basic      "Only authorised users may continue";
     auth_basic_user_file    /etc/nginx/htpass/.{{name of the file you created earlier}};
 }
