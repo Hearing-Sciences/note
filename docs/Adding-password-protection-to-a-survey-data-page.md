@@ -4,7 +4,7 @@ This is all done on the server, so you will need access to the server's terminal
 
 ## Htpasswd
 
-You will need to make a password file on the server (or use an existing one) in a format that the web server can understand. There is a helpful command to achieve this:
+The password files are stored in a dedicated folder within the nginx configuration directory. You will need to make a password file on the server (or use an existing one) in a format that the web server can understand. There is a command to achieve this:
 
 ```text
 sudo htpasswd -c /etc/nginx/htpass/.{name of file} {name of admin user}
