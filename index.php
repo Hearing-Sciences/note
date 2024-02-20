@@ -48,6 +48,10 @@ if (function_exists('db_create_tables')) {
     </div>
 <?php endif; ?>
 <?php
+if (function_exists('db_retrieve_visitor_data')) {
+    db_retrieve_visitor_data($noteSurvey->participant->dbInfo, $_NOTE_MODULE);
+}
+
 if ($noteSurvey->isPostRequest) {
     if (isset($_POST['page']) && $_POST['page'] == $noteSurvey->participant->getLastPageViewed()) {
         if (function_exists('db_store_page_data')) {
@@ -60,6 +64,9 @@ if ($noteSurvey->isPostRequest) {
             }
             
             $noteSurvey->participant->setLastPageViewed($noteSurvey->getPage());
+            if (function_exists('db_store_visitor_data')) {
+                db_store_visitor_data($noteSurvey->participant->getUid(), $db, $_NOTE_MODULE);
+            }
         }
     }
 }
