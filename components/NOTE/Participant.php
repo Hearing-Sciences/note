@@ -24,6 +24,8 @@ class Participant {
 
     public $db;
 
+    public $dbInfo;
+
     public function __construct($module, $path, $options) 
     {
         $this->dbConnect($path);
@@ -98,6 +100,7 @@ class Participant {
         $result = $qry->fetch();
         if (!empty($result)) { // Maybe more checks in future
             $this->lastPage = $result['lastPage'];
+            $this->dbInfo = $result;
             return true;
         } else {
             return false;
