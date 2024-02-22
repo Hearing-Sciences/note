@@ -5,7 +5,7 @@ spl_autoload_register(function ($class) {
 });
 use NOTE\Survey;
 
-$debug = true;
+//$debug = true;
 
 $noteSurvey = new Survey($_SERVER);
 
