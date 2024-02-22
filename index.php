@@ -82,6 +82,7 @@ if (isset($_NOTE_MODULE) && array_key_exists('PAGES', $_NOTE_MODULE)) {
 	$page_name = false;
 	$last_page_id = false;	
 }
+$noteSurvey->participant->refresh();
 $noteSurvey->participant->closeDb();
 ?>
 
