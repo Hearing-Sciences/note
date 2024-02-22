@@ -35,6 +35,7 @@ class Participant {
         } else {
             $this->isNew = true;
             $this->createUid($module);
+            $this->save();
         }
     }
 
@@ -127,7 +128,11 @@ class Participant {
         $this->uid = uniqid($module.'_');
         $_SESSION['uniqueID_'.$module] = $this->uid;
     }
-    
+
+    public function refresh() {
+        return $this->uidInDb();
+    }
+
     public function closeDb()
     {
         $this->db = NULL;
