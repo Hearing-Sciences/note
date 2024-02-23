@@ -65,7 +65,7 @@ if ($noteSurvey->isPostRequest) {
             
             $noteSurvey->participant->setLastPageViewed($noteSurvey->getPage());
             if (function_exists('db_store_visitor_data')) {
-                db_store_visitor_data($noteSurvey->participant->getUid(), $db, $_NOTE_MODULE);
+                db_store_visitor_data($noteSurvey->participant->getUid(), $noteSurvey->participant->db, $_NOTE_MODULE);
             }
         }
     }
