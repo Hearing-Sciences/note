@@ -24,7 +24,7 @@ if (!$noteSurvey->isValid) {
 $debug = isset($_NOTE_MODULE['DEBUG']) ? $_NOTE_MODULE['DEBUG'] : false;
 
 try {
-    require $noteSurvey->fsModulePath.'db.php';
+    require_once $noteSurvey->fsModulePath.'db.php';
 } catch (error $e) {
     $error = new ErrorHandler($e);
     print $error->detailedMessage();
@@ -90,6 +90,7 @@ $noteSurvey->participant->closeDb();
     <form action="<?php echo $noteSurvey->requestUri; ?>" method="POST">
         <?php 
         // Load the appropriate page content
+        $_NOTE = $noteSurvey->toArray(); // For backwards compatibility
         try {
             require($noteSurvey->fsModulePath.sprintf('page_%s.php',$page_name));
         } catch (error $e) {
