@@ -9,6 +9,9 @@ use NOTE\ErrorHandler;
 session_start();
 $noteSurvey = new Survey($_SERVER);
 
+$_NOTE = $noteSurvey->toArray(); // For backwards compatibility
+require $noteSurvey->fsModulePath.'config.php';
+
 require_once('components/header.php');
 require_once('components/banner.php');
 
@@ -17,9 +20,6 @@ if (!$noteSurvey->isValid) {
 	require_once('components/footer.php');
 	exit;
 }
-
-$_NOTE = $noteSurvey->toArray(); // For backwards compatibility
-require $noteSurvey->fsModulePath.'config.php';
 
 $debug = isset($_NOTE_MODULE['DEBUG']) ? $_NOTE_MODULE['DEBUG'] : false;
 
