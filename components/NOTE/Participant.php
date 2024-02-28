@@ -76,6 +76,10 @@ class Participant {
             $this->db = new PDO('sqlite:'.$path.DIRECTORY_SEPARATOR.'database.sqlite3');
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            require_once($path.DIRECTORY_SEPARATOR.'db.php');
+            if (function_exists('db_create_tables')) {
+                db_create_tables($this->db);
+            }
         }
         catch(PDOException $e) {
           // Log error
