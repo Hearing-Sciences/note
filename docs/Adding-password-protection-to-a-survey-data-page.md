@@ -42,7 +42,7 @@ The source code is included in case you want to improve it. The code is extremel
 
 ## Nginx
 
-You will need to edit /etc/nginx/sites-available/surveys.hearing.nottingham.ac.uk.conf with information about your password file.
+You will need to edit */etc/nginx/sites-available/surveys.hearing.nottingham.ac.uk.conf* with information about your password file.
 Here is a template of the configuration you can edit:
 
 ```text
@@ -50,12 +50,30 @@ location /data/{{survey folder}} {
     try_files $uri $uri/ =404 /data.php?$query_string;
     auth_basic      "Only authorised users may continue";
     auth_basic_user_file    /etc/nginx/htpass/.{{name of the file you created earlier}};
+    allow 128.243.0.0/16;
+    allow 10.146.0.0/24;
+    allow 10.156.0.0/14;
+    allow 192.168.111.0/24;
+    deny all;
 }
 ```
 
 This configuration goes in the *server { ... }* section. There will be other location statements already so just add yours to the list.
 
 Replace {{survey folder}} with the real folder name of your survey and {{name of the file you created earlier}} with, er, the name of the file you created earlier.
+
+The *allow* lines give access to survey folders depending on location:
+
+| Address range                 | Location                   |
+| ----------------------------- | -------------------------- |
+| allow 128.243.0.0/16;         | UoN old address range      |
+| allow 10.146.0.0/24;          | UoN accessed via VPN       |
+| allow 10.156.0.0/14;          | UoN new address range      |
+| allow 192.168.111.0/24;       | HS Glasgow address range   |
+
+The final line must read *deny all;* which becomes the default action.
+
+Add these lines according to who should be allowed access. **Only omit these lines if there is a good reason that the survey data should be accessible to everyone in the world (even though it is password protected).**
 
 Then reload the configuration with `sudo service nginx reload`.
 
