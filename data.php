@@ -15,7 +15,7 @@ $_NOTE = $noteSurvey->toArray();
 // Load module-specific parameters
 require $noteSurvey->fsModulePath.'config.php';
 $db = $noteSurvey->participant->db;
-require $noteSurvey->fsModulePath.'db.php'; // for the 'display_module_data' function
+require_once $noteSurvey->fsModulePath.'db.php'; // for the 'display_module_data' function
 
 if (isset($_NOTE_MODULE['GOLIVE_DATE'])) {
 	$dt = DateTime::createFromFormat("Y-m-d", $_NOTE_MODULE['GOLIVE_DATE']);
