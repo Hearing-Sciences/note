@@ -274,11 +274,21 @@ class Survey {
 		return $return_vars;
 	}	
 
+	/**
+	 * getPage: getter function for $this->page
+	 * 
+	 * @return Int the current page as stored in $this->page
+	 */
 	public function getPage(): int
 	{
 		return $this->page;
 	}
 
+	/**
+	 * setPage: setter function for $this->page
+	 * 
+	 * @param Int $page the page number of the current page
+	 */
 	public function setPage(int $page)
 	{
 		$this->page = $page;

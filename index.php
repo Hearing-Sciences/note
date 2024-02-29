@@ -9,9 +9,9 @@ use NOTE\ErrorHandler;
 session_start();
 $noteSurvey = new Survey($_SERVER);
 
-$_NOTE = $noteSurvey->toArray(); // For backwards compatibility
-require $noteSurvey->fsModulePath.'config.php';
+$_NOTE = $noteSurvey->toArray(); // This is necessary while the code transitions from arrays to objects
 
+require $noteSurvey->fsModulePath.'config.php';
 require_once('components/header.php');
 require_once('components/banner.php');
 
@@ -89,8 +89,9 @@ $noteSurvey->participant->closeDb();
 <div class="container">
     <form action="<?php echo $noteSurvey->requestUri; ?>" method="POST">
         <?php 
+        // Reload $_NOTE as parts of the array may have been updated (e.g. $_NOTE['PAGE'])
+        $_NOTE = $noteSurvey->toArray(); // This is necessary while the code transitions from arrays to objects
         // Load the appropriate page content
-        $_NOTE = $noteSurvey->toArray(); // For backwards compatibility
         try {
             require($noteSurvey->fsModulePath.sprintf('page_%s.php',$page_name));
         } catch (error $e) {

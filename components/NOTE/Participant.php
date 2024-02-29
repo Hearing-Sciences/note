@@ -64,7 +64,11 @@ class Participant {
     }
 
     /**
-     * dbConnect: open a database connection
+     * dbConnect: open a database connection and create tables if necessary
+     * 
+     * As the table creation scripts are run every time the 'if 
+     * necessary' part is handled by the queries themselves. The SQL *must* contain 
+     * 'IF NOT EXISTS' to avoid errors or wiping out existing tables.
      * 
      * @param string $path the path of the folder containing the database
      * @return null 
@@ -88,6 +92,15 @@ class Participant {
         }
     }
 
+    /**
+     * readUidFromSession: Retrieve the user's UID from the session
+     * 
+     * The module name is appended to the UID
+     * 
+     * @param String $module The name of the module (also the folder name)
+     * 
+     * @return Bool 
+     */
     private function readUidFromSession($module)
     {
         if (isset($_SESSION['uniqueID_'.$module])) {
@@ -98,6 +111,13 @@ class Participant {
         }
     }
 
+    /**
+     * uidInDb: Check that the user's UID is in the visitors table
+     * 
+     * This function checks that the session UID can be found in the table of visitors
+     * 
+     * @return Bool 
+     */
     private function uidInDb()
     {
         $qry = $this->db->prepare('SELECT * FROM visitors WHERE uniqueID=:uid LIMIT 1');
@@ -112,6 +132,11 @@ class Participant {
         }
     }
 
+    /**
+     * save: Save the participant information into the visitors table
+     * 
+     * @return Bool
+     */
     private function save()
     {
         if ($this->isNew) {
@@ -127,16 +152,31 @@ class Participant {
         return $result;
     }
 
+    /**
+     * createUid: make a UID for the participant and write it to the session
+     * 
+     * @param String $module module name (also the survey folder name)
+     */
     private function createUid($module)
     {
         $this->uid = uniqid($module.'_');
         $_SESSION['uniqueID_'.$module] = $this->uid;
     }
 
+    /**
+     * refresh: Update the participant UID information 
+     * 
+     * @return Bool
+     */
     public function refresh() {
         return $this->uidInDb();
     }
 
+    /**
+     * closeDb: close and remove the database connection
+     * 
+     * For SQLite nullifying the connection variable is enough to close the connection.
+     */
     public function closeDb()
     {
         $this->db = NULL;
