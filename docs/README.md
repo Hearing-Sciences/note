@@ -1,5 +1,7 @@
 # NOTE Documentation
 
+[Migrating to NOTE v2](./Migrating-to-NOTE-v2.md)
+
 [Set up a basic environment](./Setting-up-a-basic-environment.md)
 
 [Create a simple first survey](./A-first-NOTE-survey.md)
