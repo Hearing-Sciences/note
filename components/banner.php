@@ -9,10 +9,10 @@
     <?php if ($noteSurvey->isInDevelopment && $noteSurvey->mode === 'preview'): ?>
     <div id="navbarSupportedContent" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-            <?php if ($noteSurvey->page > 0) { ?>
-            <li class="nav-item"><a class="nav-link" href="/dev/preview/<?php echo $noteSurvey->moduleId; ?>/<?php echo $noteSurvey->page-1; ?>"><i class="fas fa-angle-left"></i> Back</a></li>
+            <?php if ($noteSurvey->getPage() > 0) { ?>
+            <li class="nav-item"><a class="nav-link" href="/dev/preview/<?php echo $noteSurvey->moduleId; ?>/<?php echo $noteSurvey->getPage()-1; ?>"><i class="fas fa-angle-left"></i> Back</a></li>
             <?php } ?>
-            <li class="nav-item"><a class="nav-link" href="/dev/preview/<?php echo $noteSurvey->moduleId; ?>/<?php echo $noteSurvey->page+1; ?>">Next <i class="fas fa-angle-right"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="/dev/preview/<?php echo $noteSurvey->moduleId; ?>/<?php echo $noteSurvey->getPage()+1; ?>">Next <i class="fas fa-angle-right"></i></a></li>
         </ul>
     </div>
     <?php endif; ?>
