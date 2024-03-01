@@ -122,10 +122,10 @@ There are several things to be aware of at this early stage:
 - The content and formatting of the header and footer have been created automatically. The survey title has been used in the title bar and the copyright message appears in the footer. There is also a progress bar (although with only two pages it will only show 100% progress at the moment).
 - The start and end of an HTML `form` have been created automatically although you need to include a *submit* button so that a visitor can move to the next page.
 - If you look in the `test` folder a new `database.sqlite3` file will have been created.
-  - If a database file did not already exist (as in this case) PHP automatically creates an empty database.
-  - The code you entered into `db.php` (the command starting with `$db->exec`) runs an SQL query to create a *visitors* table that tracks visitors to the survey.
+  - If a database file does not already exist (as in this case) PHP automatically creates an empty database.
+  - The SQL queries you entered into the *db_create_tables* function in `db.php` (commands starting with `$db->exec`) run to create a *visitors* table that tracks visitors to the survey.
   - The SQL command contains `IF NOT EXISTS` to ensure that the visitors table is only created if it is not already present.
-  - This SQL command is executed every time a page is loaded so it is vital that the `IF NOT EXISTS` clause is included to prevent the table from being continually overwritten.
+  - The *db_create_tables* function is executed every time a page is loaded so **it is vital that the `IF NOT EXISTS` clause is included** to prevent the table from being continually overwritten.
 - If you examine the database in DB Browser for SQLite or another program you will see some data about your 'visit' to the survey has been recorded.
 
 ## Adding a page, asking for a response
