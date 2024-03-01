@@ -6,6 +6,17 @@ A lightweight framework for conducting research online. NOTE is intended to make
 
 ## Revision History
 
+## February 29 2024
+
+* Minor bug fixes to handle edge cases.
+* Database creation function now run as soon as the database connection is made. This allows the visitors table to be created and used immediately.
+* Config file is called earlier and must now be *include*d rather than *require*d.
+* Deprecated array ```$_NOTE``` is now re-created just before the survey page is called in case any of the keys have been changed.
+
+## February 27 2024
+
+* NOTE v2 code launched.
+
 ## February 1 2024
 
 * Improvements to the new *ErrorHandler* class. One reporting function returns the details ready to render using a template provided by another function.
