@@ -169,7 +169,7 @@ class Survey {
 			'FS_MODULE_PATH' => $this->fsModulePath,
 			'PART_ID' => $this->partId,
 			'PAGE' => $this->page,
-			'UID' => $this->participant->getUid(),
+			'UID' => (isset ($this->participant) ? $this->participant->getUid() : null),
 		];
 	}
 
