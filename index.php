@@ -11,7 +11,7 @@ $noteSurvey = new Survey($_SERVER);
 
 $_NOTE = $noteSurvey->toArray(); // This is necessary while the code transitions from arrays to objects
 
-require $noteSurvey->fsModulePath.'config.php';
+include $noteSurvey->fsModulePath.'config.php';
 require_once('components/header.php');
 require_once('components/banner.php');
 
