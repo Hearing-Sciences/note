@@ -19,7 +19,7 @@ In the past the file *db.php* contained statements for recreating the database a
 
 NOTE will attempt to run this function just after a database connection has been made.
 
-### db_store_page_data() now mandatory
+### db_store_page_data() now mandatory - take action now
 
 The function ```db_store_page_data``` must be present in ```db.php``` even if it is empty. In reality almost every survey contains this function anyway as they all need to save data.
 
@@ -72,3 +72,12 @@ sudo service php8.1-fpm reload
 sudo service php8.1-fpm restart
 sudo service php8.1-fpm status
 ```
+
+### Version changes
+
+- PHP: 8.1*
+- jQuery: 3.7.1
+- jQueryUI: 1.13.2
+- Bootstrap: 4.6.2 (although v5 is also available)
+
+*This is a major change.
