@@ -57,6 +57,16 @@ In the `location` section Nginx attempts to send PHP code to a PHP server runnin
 
 Download the latest PHP package from [https://windows.php.net/download](https://windows.php.net/download). Choose the VS16 x64 Thread Safe Version unless you have a good reason to do otherwise and get the zip. Unzip this archive into `C:\APPS\nginx\php` (you might have to create the `php` folder first).
 
+## Files
+
+Download a release of NOTE and uncompress the zip archive to ```C:\APPS\nginx\NOTE```. There should be files such as:
+
+- ```C:\APPS\nginx\NOTE\index.php```
+- ```C:\APPS\nginx\NOTE\data.php```
+- ```C:\APPS\nginx\NOTE\components\header.php```
+
+... and so on.
+
 ## Starting and stopping
 
 ### Start
