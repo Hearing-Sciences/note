@@ -96,7 +96,7 @@ function db_create_tables($db)
     );
 }
 
-function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE) 
+function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE) // <-- THIS FUNCTION MUST BE PRESENT
 {
 }
 
