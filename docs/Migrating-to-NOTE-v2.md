@@ -47,7 +47,7 @@ It is unlikely that you will have used much of the ```$_NOTE``` array apart from
 | $_NOTE['FS_MODULE_PATH'] | $noteSurvey->fsModulePath | |
 | $_NOTE['PART_ID'] | $noteSurvey->partId | |
 
-This is not indended to be an exhaustive list of $noteSurvey properties and just includes those converted for $_NOTE.
+This is not indended to be an exhaustive list of ```$noteSurvey``` properties and just includes those converted for ```$_NOTE```.
 
 ## Hearing Sciences specific changes
 
