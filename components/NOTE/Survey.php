@@ -138,7 +138,8 @@ class Survey {
 		$this->url = parse_url($server['REQUEST_URI']);
 		$this->rawUri = $server['REQUEST_URI'];
         $this->documentRoot = $server['DOCUMENT_ROOT'];
-		$this->baseUri = substr($server['SCRIPT_NAME'],0,-strlen("index.php"));
+		//$this->baseUri = substr($server['SCRIPT_NAME'],0,-strlen($_SERVER['SCRIPT_NAME']));
+		$this->baseUri = '';
 		$this->requestUri = $this->url['path'];
 		$this->processPath($this->splitPath($this->url['path']));
 		$this->partId = $this->otherId; 
@@ -234,8 +235,13 @@ class Survey {
 			}
 
             if (file_exists($modDir) && is_dir($modDir)) {
-				$this->moduleDir = 'modules/'.$this->moduleId;
-				$this->modulePath = $this->baseUri.'modules/'.$this->moduleId;
+				if ($this->isInDevelopment) {
+					$this->moduleDir = 'dev/modules/'.$this->moduleId;
+					$this->modulePath = $this->baseUri.'dev/modules/'.$this->moduleId;
+				} else {
+					$this->moduleDir = 'modules/'.$this->moduleId;
+					$this->modulePath = $this->baseUri.'modules/'.$this->moduleId;
+				}
 				$this->fsModulePath = $modDir.'/';
 			} else {
                 // Directory is invalid
