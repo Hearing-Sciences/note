@@ -6,13 +6,15 @@ There are a couple of things that become apparent. The first is that the NOTE co
 
 Here is a brief explanation of the steps involved:
 
-## Load included files
+## Set up the autoloader
 
-As well as *index.php* NOTE loads additional files containing helper functions for establising the environment, managing the database and general utilities. These files are called *env.php*, *db.php* and *utils.php* respectively. **The *db.php* file is part of a survey and isn't provided by NOTE.**
+As well as *index.php* NOTE sets up an *autoloader* for finding classes. There are three classes: *Survey*, *Participant* and *ErrorHandler*. There is no longer a dedicated variable containing a link to the database; $db has been replaced by a Participant db property ($noteSurvey -> Participant -> db). A $db is created for backwards compatibility but this is deprecated.
+
+**The *db.php* file is part of a survey and isn't provided by NOTE.**
 
 ## Has the survey data page been requested?
 
-By using the URL `https://surveys.nottingham.ac.uk/data/{survey}` people can visit the data page for a survey. (There's more to it than that, but that will be covered elsewhere.) This section of the code looks for the additional *data/*. If it is found, the code skips the later sections concerning participants as they aren't needed.
+(This question is no longer valid.) A dedicated *data.php* page handles data presentation. This question will be removed when later versions of NOTE are released.
 
 ## Getting things started
 
@@ -45,6 +47,8 @@ Otherwise, the information for the current participant is retrieved using its UI
 ## Has the preview module been selected?
 
 This option can be activated using */preview/* at the end of the URL. This causes the page to show *Next* and *Previous* buttons and can override the normal flow of the survey. This can be useful for debugging.
+
+## Is there data to save?
 
 ## Show the web page HEAD
 
