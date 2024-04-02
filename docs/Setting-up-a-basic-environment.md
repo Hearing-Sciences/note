@@ -12,6 +12,8 @@ Nginx can be downloaded from [http://nginx.org/en/download.html](http://nginx.or
 
 Here’s the configuration that I use. Put this or something similar into the `conf` subdirectory and call it `nginx.conf`.
 
+There is a section of the config file marked *Section for password protecting data pages* that can be excluded from test environments.
+
 ```conf
 server {
     listen 9090;
@@ -29,6 +31,7 @@ server {
         try_files $uri =404 /data.php?$query_string;
     }
 
+    # Section for password protecting data pages
     location ~ /data/([0-9a-z\-_]+)/ {
         try_files $uri $uri/ =404 /data.php?$query_string;
         auth_basic      "Please enter your password to continue";
