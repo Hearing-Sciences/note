@@ -29,6 +29,12 @@ server {
         try_files $uri =404 /data.php?$query_string;
     }
 
+    location ~ /data/([0-9a-z\-_]+)/ {
+        try_files $uri $uri/ =404 /data.php?$query_string;
+        auth_basic      "Please enter your password to continue";
+        auth_basic_user_file    c:/APPS/nginx/htpasswd/htpasswd_$1;
+    }
+
     location /dev/ {
         try_files $uri =404 /dev/index.php?$query_string;
     }
