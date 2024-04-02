@@ -51,7 +51,7 @@ location /data/{{survey folder}} {
     auth_basic      "Only authorised users may continue";
     auth_basic_user_file    /etc/nginx/htpass/.{{name of the file you created earlier}};
     allow 128.243.0.0/16;
-    allow 10.146.0.0/24;
+    allow 10.146.0.0/16;
     allow 10.156.0.0/14;
     allow 192.168.111.0/24;
     deny all;
