@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <title>
@@ -43,3 +45,6 @@
 <?php if (isset($page_name) && file_exists($noteSurvey->fsModulePath.sprintf('page_%s.js',$page_name))): ?>
     <script src="<?= $noteSurvey->module_path.'/'.sprintf('page_%s.js',$page_name) ?>"></script>
 <?php endif; ?>
+</head>
+
+<body>
