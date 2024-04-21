@@ -5,7 +5,7 @@ You will need the following:
 
 * Admin access to your computer 
 * At least 8GB RAM (every PC provided by the University in the last six years should have this)
-* About 1GB free space
+* About 1GB free hard disk space (if you don't have this, you probably need a new hard disk...)
 * Oracle VirtualBox
     * Available from [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
     * Get the *Windows hosts* version.
@@ -18,7 +18,9 @@ You will need the following:
 
 First, install VirtualBox. Accept all of the defaults and install everything offered. You might be asked to restart your PC. Don't do it yet; wait until Vagrant has also been installed.
 
-Next, install Vagrant. Again, accept all of the defaults and reboot if asked. Rebooting should add vagrant to the command line which will be vital later on, so don't skip the reboot.
+(There is an *extras* package available for VirtualBox. It has an unusual 'personal use' licence and you probably don't need it so don't install it on a work PC.)
+
+Next, install Vagrant. Again, accept all of the defaults and reboot when asked. Rebooting should add vagrant to the command line which will be vital later on, so don't skip the reboot.
 
 Once you are logged back into your PC, create a folder on C: called NOTE. This must be at the root of the C: drive i.e. not in any other folders. 
 
