@@ -16,15 +16,16 @@ You will need the following:
     * Available from [https://github.com/Hearing-Sciences/note/archive/refs/heads/master.zip](https://github.com/Hearing-Sciences/note/archive/refs/heads/master.zip)
     * If you don't have access to the GitHub site, ask someone to provide the zip archive.
 
-First, install VirtualBox. Accept all of the defaults and install everything offered. You might be asked to restart your PC.
+First, install VirtualBox. Accept all of the defaults and install everything offered. You might be asked to restart your PC. Don't do it yet; wait until Vagrant has also been installed.
 
-Next, install Vagrant. Again, accept all of the defaults and reboot if asked.
+Next, install Vagrant. Again, accept all of the defaults and reboot if asked. Rebooting should add vagrant to the command line which will be vital later on, so don't skip the reboot.
 
-Now, create a folder on C: called NOTE. This must be at the root of the C: drive i.e. not in any other folders. 
+Once you are logged back into your PC, create a folder on C: called NOTE. This must be at the root of the C: drive i.e. not in any other folders. 
 
 Unzip the contents of the NOTE zip archive to C:\NOTE. Don't copy the  *master* folder itself, just the contents. When you're done you should see the following files:
 * C:\NOTE\index.php
 * C:\NOTE\utils.php
+* c:\NOTE\server-config
 * etc.
 
 Open up the command prompt as an administrator. To do this, click the start button, type in *cmd* and look for an option *Run as administrator* on the right.
@@ -38,8 +39,8 @@ These two commands change the working directory to the *server-config* directory
 
 Vagrant does the following:
 * Initialises itself
-* Downloads a server image. This comes from the Vagrant website.
-* Starts the server
+* Downloads a Ubuntu Linux server image. This comes from the Vagrant website.
+* Starts the server using Virtualbox
 * Updates the server packages
 * Sets up the web server
 * Runs everything
