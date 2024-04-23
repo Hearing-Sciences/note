@@ -24,10 +24,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 <link rel="stylesheet" href="/css/main.css" />
 <?php if (file_exists($noteSurvey->fsModulePath.'experiment.css')): ?>
-    <link rel="stylesheet" href="<?= $noteSurvey->module_path.'/experiment.css' ?>">
+    <link rel="stylesheet" href="<?= $noteSurvey->modulePath.'/experiment.css' ?>">
 <?php endif; ?>
 <?php if (isset($page_name) && file_exists($noteSurvey->fsModulePath.sprintf('page_%s.css',$page_name))): ?>
-    <link rel="stylesheet" href="<?= $noteSurvey->module_path.'/'.sprintf('page_%s.css',$page_name) ?>">
+    <link rel="stylesheet" href="<?= $noteSurvey->modulePath.'/'.sprintf('page_%s.css',$page_name) ?>">
 <?php endif; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -40,10 +40,10 @@
 <?php endif; ?>
 <script src="<?php echo $noteSurvey->baseUri; ?>js/main.js"></script>
 <?php if (file_exists($noteSurvey->fsModulePath.'experiment.js')): ?>
-    <script src="<?= $noteSurvey->module_path.'/experiment.js' ?>"></script>
+    <script src="<?= $noteSurvey->modulePath.'/experiment.js' ?>"></script>
 <?php endif; ?>
 <?php if (isset($page_name) && file_exists($noteSurvey->fsModulePath.sprintf('page_%s.js',$page_name))): ?>
-    <script src="<?= $noteSurvey->module_path.'/'.sprintf('page_%s.js',$page_name) ?>"></script>
+    <script src="<?= $noteSurvey->modulePath.'/'.sprintf('page_%s.js',$page_name) ?>"></script>
 <?php endif; ?>
 </head>
 
