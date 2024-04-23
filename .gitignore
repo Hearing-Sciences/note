@@ -11,3 +11,4 @@ env copy.php
 env.php
 utils.php
 index.original.php
+maintenance/
