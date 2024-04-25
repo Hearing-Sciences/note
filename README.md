@@ -6,28 +6,33 @@ A lightweight framework for conducting research online. NOTE is intended to make
 
 ## Revision History
 
-## February 29 2024
+### April 25th 2024
+
+- Updates to the documentation for setting up PHP
+- Updates to the documentation for using Vagrant to generate an environment
+
+### February 29 2024
 
 * Minor bug fixes to handle edge cases.
 * Database creation function now run as soon as the database connection is made. This allows the visitors table to be created and used immediately.
 * Config file is called earlier and must now be *include*d rather than *require*d.
 * Deprecated array ```$_NOTE``` is now re-created just before the survey page is called in case any of the keys have been changed.
 
-## February 27 2024
+### February 27 2024
 
 * NOTE v2 code launched.
 
-## February 1 2024
+### February 1 2024
 
 * Improvements to the new *ErrorHandler* class. One reporting function returns the details ready to render using a template provided by another function.
 
-## January 22 2024
+### January 22 2024
 
 * NOTE has been re-written using a namespace and objects. This will become the v2 release. If you wish to continue developing on the old NOTE and old server grab the third pre-release from the [releases page](https://github.com/Hearing-Sciences/note/releases).
 * The index and data pages have been separated so that the data page now exists as a page in its own right. **Changes to nginx.conf are required for this to work.**
 * Documentation is currently being updated and will be available soon.
 
-## January 10 2024
+### January 10 2024
 
 index.php
 
@@ -38,13 +43,13 @@ blank.html
 
 * A new page has been created containing simple placeholder information to be displayed if a survey is not provided (i.e. someone browses to *surveys.hearing.nottingham.ac.uk* without adding */{survey}*).
 
-## July 18 2023
+### July 18 2023
 
 env.php and index.php
 
 * *Env.php* has been rewritten as a class *Env* managing the NOTE environment. *Index.php* has been updated to use an instance of Env called *$env* but still generates a *$_NOTE* for backwards compatibility.
 
-## March 21 2023
+### March 21 2023
 
 env.php and index.php
 
