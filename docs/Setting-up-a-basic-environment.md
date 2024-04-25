@@ -70,6 +70,24 @@ In the `location` section Nginx attempts to send PHP code to a PHP server runnin
 
 Download the latest PHP package from [https://windows.php.net/download](https://windows.php.net/download). Choose the VS16 x64 Thread Safe Version unless you have a good reason to do otherwise and get the zip. Unzip this archive into `C:\APPS\nginx\php` (you might have to create the `php` folder first).
 
+PHP might require a configuration change to work with SQLite. Open the PHP folder and look for a file called *php.ini*. Make sure the following settings are included and not commented out:
+
+```ini
+extension_dir = "c:\APPS\nginx\php\ext"
+
+upload_max_filesize = 2M
+
+extension=pdo
+extension=pdo_sqlite
+extension=sqlite3
+```
+
+Don't expect to find these lines grouped together; they might be anywhere in the file. The extensions enable database access to SQLite files and the *extension_dir* paramter sets where these extensions can be found.
+
+#### Sample PHP configuration file
+
+An example *php.ini* can be found in the *server-config/php* folder. You can use this if you like but it's at your own risk.
+
 ## Files
 
 Download a release of NOTE and uncompress the zip archive to ```C:\APPS\nginx\NOTE```. There should be files such as:
@@ -90,6 +108,9 @@ Start Nginx before PHP. This is because PHP runs a debug server in the window an
 start nginx
 php-cgi.exe -b 127.0.0.1:9123 -c php.ini
 ```
+
+- -b binds the server to the IP address 127.0.0.1 and port 9123. You can use other ports but be aware to change the port information in the Nginx configuration file *nginx.conf*. Look for the directive *fastcgi_pass*.
+- -c configuration file to use. This is likely to be *php.ini* but if you have created a different configuration file it will need to be specified here. **If you do not specify a file, *php.ini* will be used.**
 
 ### Stop
 
