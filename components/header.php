@@ -8,7 +8,7 @@
         if (isset($noteSurvey->moduleId) && isset($_NOTE_MODULE['TITLE'])) {
             echo $_NOTE_MODULE['TITLE']." - ";
         }
-        echo "Hearing Sciences @ the University of Nottingham";
+        echo "Nottingham Online Test Environment";
     ?>
 </title>
 <meta name="description" content="This website is used to conduct research into hearing and related conditions such as tinnitus, hyperacusis, and balance disorders. Here you can find research projects being run by Hearing Sciences, part of the School of Medicine at the University of Nottingham, and as part of the Hearing Theme of the NIHR Nottingham Biomedical Research Centre.">

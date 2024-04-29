@@ -2,7 +2,7 @@
     <div class="container">
         <h1>
         <a class="navbar-brand" href="#">
-        <?= isset($_NOTE_MODULE['TITLE']) ? $_NOTE_MODULE['TITLE'] : "Hearing Sciences - Online Research Portal" ?>
+        <?= isset($_NOTE_MODULE['TITLE']) ? $_NOTE_MODULE['TITLE'] : "Nottingham Online Test Environment (NOTE)" ?>
         </a>
         </h1>
     <!-- For debugging only, if 'preview' is added to the end of the module URL then show buttons to allow the developer to move between module pages quickly -->
