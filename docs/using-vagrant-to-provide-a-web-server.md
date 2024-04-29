@@ -140,3 +140,7 @@ vagrant reload
 ```
 
 This should reload the server and update the shared folders.
+
+## Advanced - talking to the server
+
+Although Vagrant runs in a 'black box' configuration it is possible to log into the server for tasks such as checking error logs. The command ```vagrant ssh``` connects to the server and presents a command line interface. Root-level operations are possible using *sudo* and no password is required. The ```exit``` command leaves the server environment and returns to the Windows command line.
