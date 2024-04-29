@@ -51,16 +51,45 @@ $_NOTE_MODULE is an array of module-specific options including:
 
 ***The three 'title' variables are confusing and likely to be reduced to just one value in the future.**
 
-## Creating arrays of pages - a handy tip
+## Creating an array of pages
 
-PHP arrays can be built an item at a time using the shortcut '[]' syntax as in the example above. This means that you can sneak extra in in during the creation process. For example, maybe you want to know the page number where a particular part of the survey begins. You could hard-code that information, but if you decide to re-order your pages this can cause bugs. A better way would be to do this:
+NOTE uses an indexed array to define the order of pages. If a page should be shown more than once (e.g. for multiple trials) then it would need to be added to the array multiple times. The *PAGES* array can be declared at once in its entirety or a page at a time using the shortcut '[]' syntax as in the example above.
+
+### Setting 'bookmarks'
+
+If pages are appended to the *PAGES* array individually there is an opportunity to add code between statements. For example, it may be important to know the page number where a particular part of the survey begins. That information could be hard-coded but if you decide to re-order your pages this can cause bugs. A better way would be to do this:
 
 ```php
 $_NOTE_MODULE['PAGES'][] = 'welcome';
 $_NOTE_MODULE['PAGES'][] = 'page';
 $_NOTE_MODULE['PAGES'][] = 'another_page';
-$_NOTE_MODULE['SURVEY_START_PAGE'] = count($_NOTE_MODULE['PAGES']);
+$_NOTE_MODULE['IMPORTANT_START_PAGE'] = count($_NOTE_MODULE['PAGES']) + 1;
 $_NOTE_MODULE['PAGES'][] = 'survey';
 ```
 
-You can see that an additional value 'SURVEY_START_PAGE' is created, and the value is set to the current count of pages (3). This exposes a key feature of arrays in many programming languages. The value returned is '3' but it might be expected that the survey page is actually page four. This all works because array indexes begin at zero, and from NOTE's point of view the survey page is page three. (And yes, the welcome page is page zero!).
+You can see that an additional value 'IMPORTANT_START_PAGE' is created, and the value is set to the current count of pages (3). Note that PHP arrays are indexed from zero so the count of pages (3) is different from the current index (2). The ```+ 1``` can be used to correct for this if necessary.
+
+You can make use of this feature when a survey contains many instances of the same page:
+
+```php
+$_NOTE_MODULE['PAGES'][] = 'welcome';
+$_NOTE_MODULE['PAGES'][] = 'page';
+$_NOTE_MODULE['PAGES'][] = 'another_page';
+$_NOTE_MODULE['IMPORTANT_START_PAGE'] = count($_NOTE_MODULE['PAGES']) + 1;
+foreach(range(1,10)) {
+    $_NOTE_MODULE['PAGES'][] = 'survey_trial';
+}
+$_NOTE_MODULE['PAGES'][] = 'goodbye';
+```
+
+On the *survey_trial* page you might want to show 'trial *x*' where *x* would be the trial number (from 1 to 10 in this example). You could achieve this by comparing the current trial page to the *IMPORTANT_START_PAGE*:
+
+```php
+<?php
+$trial_number = $noteSurvey->getPage() - $_NOTE_MODULE['IMPORTANT_START_PAGE'];
+?>
+
+<h3>Trial number <?php echo $trial_number; ?></h3>
+```
+
+```$noteSurvey->getPage()``` retrieves the current page number and ```$_NOTE_MODULE['IMPORTANT_START_PAGE']``` retrieves the start page defined earlier. For the first time that *survey_trial* is called ```$trial_number``` will equal 1. On the second call it will equal 2 and so on.
