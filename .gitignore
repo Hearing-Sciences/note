@@ -12,3 +12,5 @@ env.php
 utils.php
 index.original.php
 maintenance/
+dashboard/
+/dashboard
