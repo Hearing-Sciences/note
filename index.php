@@ -16,7 +16,7 @@ require_once('components/header.php');
 require_once('components/banner.php');
 
 if (!$noteSurvey->isValid) {
-	require_once('blank.html');
+	require_once('blank.php');
 	require_once('components/footer.php');
 	exit;
 }
