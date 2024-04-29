@@ -23,7 +23,7 @@ Here is a sample *db.php* file:
 // AL 2022-03-17
 
 // table creation scripts
-function db_create_tables()
+function db_create_tables($db)
 {
     $db->exec('CREATE TABLE IF NOT EXISTS visitors (
                     id INTEGER PRIMARY KEY,
@@ -71,8 +71,9 @@ There are three sections to the file.
 
 ## db_create_tables: Table Creation
 
-The function *db_create_tables()* contains one or more lines of database execution functions ('*$db->exec*') that create the tables you require for the survey. The single example above creates the *visitors* table that NOTE must have to manage participants. This function is optional but be aware of the following whether you include it or not:
+The function *db_create_tables* contains one or more lines of database execution functions ('*$db->exec*') that create the tables you require for the survey. The single example above creates the *visitors* table that NOTE must have to manage participants. This function is optional but be aware of the following whether you include it or not:
 
+- The parameter ```$db``` is an SQLite database object passed from ```$noteSurvey->particpant->db```. This is provided by NOTE and does not need to be declared elsewhere.
 - These commands are run to create and populate a database if an existing database can't be found. This means that if your database disappears for some reason the survey can re-create it and continue storing data. Although you may be more keen to find out why the database has disappeared!
 - These commands are run **every time a page is loaded**. Therefore, to prevent the scripts overwriting your database you **must** add *IF NOT EXISTS* to every SQL statement that creates a table. Such as in the example above; 'CREATE TABLE **IF NOT EXISTS** visitors'.
 
