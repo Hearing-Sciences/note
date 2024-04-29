@@ -4,7 +4,7 @@ The Nginx and PHP services required for local development aren't applications th
 
 Nginx can be downloaded from [http://nginx.org/en/download.html](http://nginx.org/en/download.html). Get the mainline zip version with 'Windows' in its name. I would recommend unzipping the Nginx archive to `C:\APPS\nginx`. Be careful not to create a 'double path' like `C:\APPS\nginx\nginx-1.25.6`.
 
-### Nginx Configuration
+## Nginx Configuration
 
 Here’s the configuration that I use. Put this or something similar into the `conf` subdirectory and call it `nginx.conf`.
 
@@ -58,7 +58,7 @@ This will start a server at `http://localhost:9090` and enable PHP connections t
 
 In the `location` section Nginx attempts to send PHP code to a PHP server running on port 9123. This will be set up in the next section.
 
-### PHP-FPM
+## PHP-FPM
 
 Download the latest PHP package from [https://windows.php.net/download](https://windows.php.net/download). Choose the VS16 x64 Thread Safe Version unless you have a good reason to do otherwise and get the zip. Unzip this archive into `C:\APPS\nginx\php` (you might have to create the `php` folder first).
 
@@ -76,7 +76,7 @@ extension=sqlite3
 
 Don't expect to find these lines grouped together; they might be anywhere in the file. The extensions enable database access to SQLite files and the *extension_dir* paramter sets where these extensions can be found.
 
-#### Sample PHP configuration file
+### Sample PHP configuration file
 
 An example *php.ini* can be found in the *server-config/php* folder. You can use this if you like but it's at your own risk.
 
