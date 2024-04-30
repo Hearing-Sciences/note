@@ -38,6 +38,9 @@
 <?php else: ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha256-GRJrh0oydT1CwS36bBeJK/2TggpaUQC6GzTaTQdZm0k=" crossorigin="anonymous"></script>
 <?php endif; ?>
+<?php if (isset($_NOTE_MODULE) && array_key_exists('JS_LIBRARIES', $_NOTE_MODULE) && in_array('p5', $_NOTE_MODULE['JS_LIBRARIES'])): ?>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/p5.min.js" integrity="sha256-L+4Tyqh4wjUK45I691vlFI2tf8BmzlPoN/0mol3LVTw=" crossorigin="anonymous"></script>
+<?php endif; ?>
 <script src="<?php echo $noteSurvey->baseUri; ?>js/main.js"></script>
 <?php if (file_exists($noteSurvey->fsModulePath.'experiment.js')): ?>
     <script src="<?= $noteSurvey->modulePath.'/experiment.js' ?>"></script>

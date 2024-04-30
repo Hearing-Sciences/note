@@ -45,7 +45,7 @@ $_NOTE_MODULE is an array of module-specific options including:
 | STUDY_TITLE*    | Yes      | The title of your survey | NULL |
 | GOLIVE_DATE     | No       | The date it will be released to participants in the format *yyyy-mm-dd* | 1900-01-01 |
 | CSS_LIBRARIES   | No       | An array of libraries. At present the only value available is *bootstrap5* which causes NOTE to load the Bootstrap 5 library. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
-| JS_LIBRARIES    | No       | An array of libraries. At present the only value available is *bootstrap5* which causes NOTE to load the Bootstrap 5 JS library. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
+| JS_LIBRARIES    | No       | An array of libraries to load from jsDelivr. Current options include *bootstrap5* and *p5*. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
 | FOOTER_COPYRIGHT | Yes      | The copyright message | "*The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust*" |
 | PAGES           | Yes      | An array of page names. In order for everything to work, the page name must relate to a file name. The file name will be *page_{page name}.php* where *{page_name}* is the page name in the array. For example: the value *welcome* would cause *page_welcome.php* to be loaded and *survey* would case *page_survey.php* to be loaded. Values must not include spaces. | If a file cannot be found, the NOTE code will crash and the participant will probably see a mostly-empty web page. |
 
