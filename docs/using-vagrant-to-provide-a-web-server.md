@@ -84,12 +84,12 @@ The command ```vagrant halt``` shuts down the server. ```vagrant destroy``` dele
 
 ## Things that could go wrong
 
-### Timeouts at the stage of 'default: SSH auth method: private key'
+### Timeouts waiting for SSH
 
 You might see the following when Vagrant starts:
 
 ```txt
- default: SSH address: 127.0.0.1:2222
+default: SSH address: 127.0.0.1:2222
     default: SSH username: vagrant
     default: SSH auth method: private key
 Timed out while waiting for the machine to boot. This means that

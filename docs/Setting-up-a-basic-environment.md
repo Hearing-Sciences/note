@@ -7,3 +7,7 @@ There are plenty of ways to set up a basic development environment and anything 
 ## Nginx and PHP
 
 It is also possible to [use local installations of Nginx and PHP](using-native-installs-of-nginx-and-php.md) to create a development environment.
+
+## On a public-facing server
+
+**You are responsible for the safety and security of any setup you create yourself.** No information or guarantees are offered for setting up your own public NOTE server.
