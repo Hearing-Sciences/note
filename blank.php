@@ -1,7 +1,5 @@
 <div class="jumbotron m-3">
     <h2>Welcome to the Nottingham Online Test Environment</h2>
-    <h2>Get involved in hearing research</h2>
-    <p>This website is used to conduct research into hearing and related conditions such as tinnitus, hyperacusis, and balance disorders. Here you can find research projects being run by <a href="http://www.nottingham.ac.uk/research/groups/hearingsciences">Hearing Sciences</a>, part of the School of Medicine at the University of Nottingham, and as part of the Hearing Theme of the <a href="https://nottinghambrc.nihr.ac.uk/hearing/">NIHR Nottingham Biomedical Research Centre</a>. For additional information regarding our hearing research, please email <a href="mailto:adele.horobin@nottingham.ac.uk">adele.horobin@nottingham.ac.uk</a> or follow us on Twitter: <a href="https://twitter.com/uonhearsci">@uonhearsci</a> and <a href="https://twitter.com/hearingnihr">@hearingnihr</a></p>
     <h3>Surveys</h3>
     <p>If you were expecting to complete a survey today, please double-check the link provided and try again. It should be in the form:</p>
     <p class="m-4 text-danger lead">https://<?= $_SERVER['SERVER_NAME'] ?>/<strong>{survey}</strong>
