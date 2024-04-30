@@ -5,7 +5,7 @@ Rather than setting up Apache or Nginx manually to create a server, you can depl
 You will need the following:
 
 * Admin privileges on your computer
-* At least 8GB RAM. Most Windows or Linux PCs and most Apply computers sold in the last ten years should have this.
+* At least 8GB RAM. Most Windows or Linux PCs and most Apple computers sold in the last ten years should have this.
 * About 1GB free hard disk space (if you don't have this, you probably need a new hard disk)
 * Oracle VirtualBox
   * Available from [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
@@ -83,6 +83,21 @@ vagrant up
 The command ```vagrant halt``` shuts down the server. ```vagrant destroy``` deletes the server completely (but not the shared folders).
 
 ## Things that could go wrong
+
+### Timeouts at the stage of 'default: SSH auth method: private key'
+
+You might see the following when Vagrant starts:
+
+```txt
+ default: SSH address: 127.0.0.1:2222
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+Timed out while waiting for the machine to boot. This means that
+Vagrant was unable to communicate with the guest machine within
+the configured ("config.vm.boot_timeout" value) time period.
+```
+
+This problem has a number of causes and possible solutions, and sometimes after the timeout the server functions normally. One possible fix is already present in the vagrantfile: updating the VirtualBox setting to make sure the virtual ethernet is set to 'cable connected.'
 
 ### Failure to start after an upgrade
 
