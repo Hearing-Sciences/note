@@ -42,3 +42,117 @@ If you save and refresh the page again the text should be right-aligned again:
 ![Screenshot showing right-aligned text in Bootstrap 5](img/right-aligned-b5-end.png)
 
 By seeing the code 'fail' and changing it you have been able to confirm that Bootstrap 5 is loading correctly.
+
+## Bookmarks
+
+Imagine that you wanted to include a three-page sequence of trials somewhere within your survey. It would be ideal to use the same page each time to keep the code DRY (Don't Repeat Yourself) but it would also be nice for the pages to be headed *Trial 1*, *Trial 2* and *Trial 3*. Most importantly, different questions should be displayed on each page.
+
+Create a new document *page_sequence.php* with the following contents:
+
+```php
+<h1>A sequence of questions, trial x</h1>
+
+<div class="h3 text-center">This is a question</div>
+
+<div class="row mb-5">
+    <div class="col text-center">
+        <input type="radio" name="response" id="response-never" value="never" />
+        <label for="response-never">Never</label>
+    </div>
+    <div class="col text-center">
+        <input type="radio" name="response" id="response-rarely" value="rarely" />
+        <label for="response-rarely">Rarely</label>
+    </div>
+    <div class="col text-center">
+        <input type="radio" name="response" id="response-sometimes" value="sometimes" />
+        <label for="response-sometimes">Sometimes</label>
+    </div>
+    <div class="col text-center">
+        <input type="radio" name="response" id="response-often" value="often" />
+        <label for="response-often">Often</label>
+    </div>
+    <div class="col text-center">
+        <input type="radio" name="response" id="response-always" value="always" />
+        <label for="response-always">Always</label>
+    </div>
+</div>
+
+<input type="submit" value="Next" />
+```
+
+You will also need to change the configuration file *config.php* so that the page is displayed. Replace the 'response' page with 'sequence:'
+
+```php
+$_NOTE_MODULE['PAGES'][] = 'welcome';
+$_NOTE_MODULE['PAGES'][] = 'sequence';
+$_NOTE_MODULE['PAGES'][] = 'goodbye';
+```
+
+Now when you load the survey and move past the welcome page you should see the new sequence page:
+
+![Screenshot of the sequence page](img/sequence_1.png)
+
+Now that the page exists let's start making improvements. 
+
+### Buttons using a *foreach* loop
+
+First of all, having code for each button means that the code isn't DRY. Replace all of the button code with the following:
+
+```php
+<?php foreach (['never', 'rarely', 'sometimes', 'often', 'always'] as $response): ?>
+<div class="col text-center">
+    <input type="radio" name="response" id="response-<?= $response ?>" value="<?= $response ?>" />
+    <label for="response-<?= $response ?>"><?= ucfirst($response) ?></label>
+</div>
+<?php endforeach; ?>
+```
+
+The title and question can also be generated using PHP, but in these cases the text will change *between* pages rather than *within* each page. This can be achieved using a *bookmark* and comparing it to the current page.
+
+In the *config.php* replace the ```$_NOTE_MODULE['PAGES'][] = 'sequence';``` code with the following:
+
+```php
+$_NOTE_MODULE['SEQUENCE_START_PAGE'] = count($_NOTE_MODULE['PAGES']) + 1;
+foreach(range(1,3) as $i) {
+    $_NOTE_MODULE['PAGES'][] = 'sequence';
+}
+```
+
+We have created a bookmark along with three *sequence* pages. The pages have been appended to the *PAGES* array using a ```foreach``` loop so that the code is DRY. It will be easy to change this later if 5, 10 or 20 sequence pages were needed.
+
+Now add the following at the top of *page_sequence.php*:
+```php
+<?php
+    $page_number = $_NOTE_MODULE['SEQUENCE_START_PAGE'] - $noteSurvey->getPage(); 
+?>
+```
+
+Change the title to this:
+
+```php
+<h1>A sequence of questions, trial <?= $page_number ?></h1>
+```
+
+Now when you save and refresh the page you should see this:
+
+![Screenshot showing a correct page number](img/sequence_2.png)
+
+In theory when you move to the next page, *trial 1* will change to read *trial 2*. But don't do that yet! First let's change the code that displays a question. Add the following to the PHP block at the start of *page_sequence.php*:
+
+```php
+$questions = [
+    1 => 'How often are you happy?',
+    2 => 'How often are you grumpy?',
+    3 => 'How often are you sad?',
+];
+```
+
+And change the question to the following:
+
+```php
+<div class="h3 text-center"><?= $questions[$page_number] ?></div>
+```
+
+When you save and refresh the page you should see the first question:
+
+![Screenshot showing the correct first question](img/sequence_3.png)
