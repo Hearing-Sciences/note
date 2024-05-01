@@ -45,6 +45,8 @@ By seeing the code 'fail' and changing it you have been able to confirm that Boo
 
 ## Working with multiple buttons and pages
 
+(This information is unlikely to be of use to seasoned programmers as it covers ways to keep code DRY. You may have your own techniques which is fine; NOTE is lightweight so people are free to go their own way.)
+
 Imagine that you wanted to include a three-page sequence of trials somewhere within your survey. Each page will contain a question followed by a series of radio buttons so the participant can select an answer. It would be ideal to use the same page each time to keep the code DRY (Don't Repeat Yourself) but it would also be nice for the pages to be headed *Trial 1*, *Trial 2* and *Trial 3*. Most importantly, different questions should be displayed on each page.
 
 ### Buttons using a *foreach* loop
@@ -159,3 +161,7 @@ And change the question to the following:
 When you save and refresh the page you should see the first question:
 
 ![Screenshot showing the correct first question](img/sequence_3.png)
+
+Now when you select an answer and move to the next page, you should see *trial 2* and a new question.
+
+![Page two of the survey](img/test-survey-response-page-2.png)
