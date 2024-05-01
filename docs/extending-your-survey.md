@@ -165,3 +165,87 @@ When you save and refresh the page you should see the first question:
 Now when you select an answer and move to the next page, you should see *trial 2* and a new question.
 
 ![Page two of the survey](img/test-survey-response-page-2.png)
+
+## Saving the data
+
+At the moment there's no code for saving these responses. But there's also no code to record the trial number. Let's add that now. In *page_sequence.php* add the following line before the ```foreach``` loop:
+
+```php
+<input type="hidden" id="question_id" name="question_id" value="<?= $page_number ?>">
+
+<?php foreach (['never', 'rarely', 'sometimes', 'often', 'always'] as $response): ?>
+
+...
+```
+
+This will add a hidden form field on the page that has a value of the current page number. Then when the form is submitted the code in *db.php* can add this to the data being saved.
+
+In *db.php* add the following to the function ```db_create_tables```:
+
+```php
+function db_create_tables($db)
+{
+    // ... other 'create' statements
+
+    $db->exec('CREATE TABLE IF NOT EXISTS sequence_responses (
+        id INTEGER PRIMARY KEY,
+        uniqueID TEXT,
+        question_id INTEGER,
+        response TEXT,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)');
+}
+```
+
+Then add the following to ```db_store_page_data```:
+
+```php
+function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE) 
+{
+    switch($_NOTE_MODULE['PAGES'][$page]) {
+
+        case 'sequence': // <-- add this
+            $qry    = $db->prepare('INSERT INTO sequence_responses (uniqueID, question_id, response, timestamp) VALUES (:uid, :question_id, :response, :timestamp)');
+            $result = $qry->execute([
+                ':uid' => $uid,
+                ':question_id' => $post['question_id'],
+                ':response' => $post['response'],
+                ':timestamp' => date('Y-m-d H:i:s')
+            ]);
+        break;
+
+        // ... other cases
+
+    }
+}
+```
+
+To see the data, add the following to *data.php*:
+
+```php
+<?php
+    $query = 'SELECT * FROM sequence_responses order by uniqueID, question_id';
+    $result = $db->query($query);
+?>
+<h2>Responses to the sequence of questions</h2>
+
+<table class="table table-bordered">
+<tr>
+    <th>Unique ID</th>
+    <th>Question number</th>
+    <th>Response</th>
+    <th>Timestamp</th>
+</tr>
+<?php foreach($result as $row): ?>
+    <tr>
+        <td><?= $row['uniqueID'] ?></td>
+        <td><?= $row['question_id'] ?></td>
+        <td><?= $row['response'] ?></td>
+        <td><?= $row['timestamp'] ?></td>
+    </tr>
+<?php endforeach; ?>
+</table>
+```
+
+Now you can complete the survey and see your answers on the data page:
+
+![Data page showing sequence responses](img/data-page-showing-sequence.png)
