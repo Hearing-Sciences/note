@@ -1,8 +1,8 @@
-# Extending your study
+# Extending your survey
 
-Now that you have a working study, there are various ways to extend its capabilities.
+Now that you have a working survey, there are various ways to extend its capabilities.
 
-(If you *don't* have a working study please see [how to create a first note survey](A-first-NOTE-survey.md).)
+(If you *don't* have a working survey please see [how to create a first note survey](A-first-NOTE-survey.md).)
 
 ## Libraries
 
@@ -18,7 +18,7 @@ When you view this page you should see that the text is right-aligned as expecte
 
 ![Screenshot showing some right-aligned text](img/right-aligned-b4.png)
 
-This is because we are using the Bootstrap 4 class *text-right* for right-aligning text. But Bootstrap version 5 has been available for a long time and it is probably better to develop new surveys using the more recent library. In your config file *config.php* add the following after the study title:
+This is because we are using the Bootstrap 4 class *text-right* for right-aligning text. But Bootstrap version 5 has been available for a long time and it is probably better to develop new surveys using the more recent library. In your config file *config.php* add the following after the survey title:
 
 ```php
 $_NOTE_MODULE['CSS_LIBRARIES'] = ['bootstrap5'];
@@ -92,7 +92,7 @@ Now when you load the survey and move past the welcome page you should see the n
 
 ![Screenshot of the sequence page](img/sequence_1.png)
 
-Now that the page exists let's start making improvements. 
+Now that the page exists let's start making improvements.
 
 ### Buttons using a *foreach* loop
 
@@ -112,7 +112,7 @@ The title and question can also be generated using PHP, but in these cases the t
 In the *config.php* replace the ```$_NOTE_MODULE['PAGES'][] = 'sequence';``` code with the following:
 
 ```php
-$_NOTE_MODULE['SEQUENCE_START_PAGE'] = count($_NOTE_MODULE['PAGES']) + 1;
+$_NOTE_MODULE['SEQUENCE_START_PAGE'] = count($_NOTE_MODULE['PAGES']) - 1;
 foreach(range(1,3) as $i) {
     $_NOTE_MODULE['PAGES'][] = 'sequence';
 }
@@ -121,9 +121,10 @@ foreach(range(1,3) as $i) {
 We have created a bookmark along with three *sequence* pages. The pages have been appended to the *PAGES* array using a ```foreach``` loop so that the code is DRY. It will be easy to change this later if 5, 10 or 20 sequence pages were needed.
 
 Now add the following at the top of *page_sequence.php*:
+
 ```php
 <?php
-    $page_number = $_NOTE_MODULE['SEQUENCE_START_PAGE'] - $noteSurvey->getPage(); 
+    $page_number = $noteSurvey->getPage() - $_NOTE_MODULE['SEQUENCE_START_PAGE'];
 ?>
 ```
 

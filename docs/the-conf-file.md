@@ -63,11 +63,11 @@ If pages are appended to the *PAGES* array individually there is an opportunity 
 $_NOTE_MODULE['PAGES'][] = 'welcome';
 $_NOTE_MODULE['PAGES'][] = 'page';
 $_NOTE_MODULE['PAGES'][] = 'another_page';
-$_NOTE_MODULE['IMPORTANT_START_PAGE'] = count($_NOTE_MODULE['PAGES']) + 1;
+$_NOTE_MODULE['IMPORTANT_START_PAGE'] = count($_NOTE_MODULE['PAGES']) - 1;
 $_NOTE_MODULE['PAGES'][] = 'survey';
 ```
 
-You can see that an additional value 'IMPORTANT_START_PAGE' is created, and the value is set to the current count of pages (3). Note that PHP arrays are indexed from zero so the count of pages (3) is different from the current index (2). The ```+ 1``` can be used to correct for this if necessary.
+You can see that an additional value 'IMPORTANT_START_PAGE' is created, and the value is set to the current count of pages (3). Note that PHP arrays are indexed from zero so the count of pages (3) is different from the current index (2). The ```- 1``` can be used to correct for this if necessary.
 
 You can make use of this feature when a survey contains many instances of the same page:
 
@@ -75,7 +75,7 @@ You can make use of this feature when a survey contains many instances of the sa
 $_NOTE_MODULE['PAGES'][] = 'welcome';
 $_NOTE_MODULE['PAGES'][] = 'page';
 $_NOTE_MODULE['PAGES'][] = 'another_page';
-$_NOTE_MODULE['IMPORTANT_START_PAGE'] = count($_NOTE_MODULE['PAGES']) + 1;
+$_NOTE_MODULE['IMPORTANT_START_PAGE'] = count($_NOTE_MODULE['PAGES']) - 1;
 foreach(range(1,10)) {
     $_NOTE_MODULE['PAGES'][] = 'survey_trial';
 }

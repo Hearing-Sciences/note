@@ -250,4 +250,4 @@ If you entered any responses containing punctuation you should see that these ch
 
 If this code was being used on a live server then extra precautions would by needed to prevent the data from being shown to anyone visiting the site.
 
-Now that you have completed your first study, continue on for ways to [extend your study](extending-your-study.md).
+Now that you have completed your first survey, continue on for ways to [extend your survey](extending-your-survey.md).

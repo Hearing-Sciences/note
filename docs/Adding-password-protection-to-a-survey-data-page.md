@@ -15,8 +15,8 @@ To break this command down:
 * sudo - to perform the task as the root user (you will need to enter your password to confirm this)
 * htpasswd - the command for managing web server password files
 * -c - for creating a file
-* /etc/nginx/htpass/.{name of file} - replace {name of file} with something appropriate. You can use *htpasswd_data_* and the name of your study (without spaces). Not that the file is preceded by a dot - this is intentional. It hides the file from general view.
-* {name of admin user} - this is the admin username you will use with your study later. It can be almost anything you like but don't include any spaces. I have tended to use the initials of the study followed by *_admin* such as *ssq12_admin*
+* /etc/nginx/htpass/.{name of file} - replace {name of file} with something appropriate. You can use *htpasswd_data_* and the name of your survey (without spaces). Not that the file is preceded by a dot - this is intentional. It hides the file from general view.
+* {name of admin user} - this is the admin username you will use with your survey later. It can be almost anything you like but don't include any spaces. I have tended to use the initials of the survey followed by *_admin* such as *ssq12_admin*
 
 You will be asked for your password to perform the admin task, then asked to set a password for this admin user.
 

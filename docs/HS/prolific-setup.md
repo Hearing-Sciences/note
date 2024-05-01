@@ -12,7 +12,7 @@ The scientist needs to receive a URL to feed into Prolific. This is always in th
 
 Include the name of the survey folder (without brackets). This is non-standard from Prolific’s point of view so it’s always necessary to tread carefully. 
 
-The Scientist will add the URL to their study setup page using the option *I'll use URL parameters* (see image below).
+The Scientist will add the URL to their survey setup page using the option *I'll use URL parameters* (see image below).
 
 ![Prolific Setup](./prolific_setup.png "Prolific Setup Screenshot")
 
