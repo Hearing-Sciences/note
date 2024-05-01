@@ -64,7 +64,7 @@ $db_size = filesize(($noteSurvey->fsModulePath.'/database.sqlite3'))/1024/1024;
 <head>
 <?php require('components/header.php'); ?>
 
-<script src="/js/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <script language="javascript">
 	$(document).ready(function() {
 		$('.clipboardable').click(function() {
