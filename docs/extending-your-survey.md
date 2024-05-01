@@ -43,9 +43,11 @@ If you save and refresh the page again the text should be right-aligned again:
 
 By seeing the code 'fail' and changing it you have been able to confirm that Bootstrap 5 is loading correctly.
 
-## Bookmarks
+## Working with multiple buttons and pages
 
-Imagine that you wanted to include a three-page sequence of trials somewhere within your survey. It would be ideal to use the same page each time to keep the code DRY (Don't Repeat Yourself) but it would also be nice for the pages to be headed *Trial 1*, *Trial 2* and *Trial 3*. Most importantly, different questions should be displayed on each page.
+Imagine that you wanted to include a three-page sequence of trials somewhere within your survey. Each page will contain a question followed by a series of radio buttons so the participant can select an answer. It would be ideal to use the same page each time to keep the code DRY (Don't Repeat Yourself) but it would also be nice for the pages to be headed *Trial 1*, *Trial 2* and *Trial 3*. Most importantly, different questions should be displayed on each page.
+
+### Buttons using a *foreach* loop
 
 Create a new document *page_sequence.php* with the following contents:
 
@@ -94,8 +96,6 @@ Now when you load the survey and move past the welcome page you should see the n
 
 Now that the page exists let's start making improvements.
 
-### Buttons using a *foreach* loop
-
 First of all, having code for each button means that the code isn't DRY. Replace all of the button code with the following:
 
 ```php
@@ -106,6 +106,8 @@ First of all, having code for each button means that the code isn't DRY. Replace
 </div>
 <?php endforeach; ?>
 ```
+
+### Bookmarks
 
 The title and question can also be generated using PHP, but in these cases the text will change *between* pages rather than *within* each page. This can be achieved using a *bookmark* and comparing it to the current page.
 
