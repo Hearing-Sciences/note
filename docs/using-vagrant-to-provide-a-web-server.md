@@ -9,7 +9,7 @@ You will need the following:
 * About 1GB free hard disk space (if you don't have this, you probably need a new hard disk)
 * Oracle VirtualBox
   * Available from [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
-  * There are versions for Windows, Linux and macOS hosts. The macOS version is for Intel CPUs but may work with the newer M-series CPUs. There is a developer preview for ARM-based Macs available on the [https://www.virtualbox.org/wiki/Testbuilds/](Test builds page) which may work but may also have issues.
+  * There are versions for Windows, Linux and macOS hosts. The macOS version is for Intel CPUs but may work with the newer M-series CPUs. There is a developer preview for ARM-based Macs available on the [Test builds page](https://www.virtualbox.org/wiki/Testbuilds/) which may work but may also have issues.
 * The latest version of Vagrant
   * Available from [https://www.vagrantup.com/downloads](https://www.vagrantup.com/downloads)
   * Get the *Amd64* version for Windows or the ARM64 version for macOS.
