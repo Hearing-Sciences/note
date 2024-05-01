@@ -49,12 +49,15 @@ vagrant up
 
 These two commands change the working directory to the *server-config* directory and then start Vagrant.
 
-Vagrant does the following:
+Once Vagrant has started you should be able to access the website using a browser and browsing to [http://localhost:5000](http://localhost:5000).
+
+It will take significantly longer to start Vagrant the first time because everything must be set up. Vagrant does the following:
 
 * Initialises itself
 * Downloads a Ubuntu Linux server image from the Vagrant website. This may take several minutes depending on your internet connection.
 * Starts the server using Virtualbox
 * Updates the server packages
+* Removes any redundant packages
 * Installs extra packages:
   * git
   * apache2
@@ -65,7 +68,10 @@ Vagrant does the following:
 * Enables the Apache rewrite module
 * (Re)starts the Apache web server
 
-At this point you should be able to access the website using a browser and the link [http://localhost:5000](http://localhost:5000).
+Later when you start Vagrant it only needs to complete the following:
+
+* Initialises itself
+* Starts the server using Virtualbox
 
 ## Shared folders
 
@@ -149,7 +155,7 @@ So the updated section should now look something like this:
 
 With your changes saved, go back to the command prompt and type in:
 
-```ruby
+```cmd
 cd c:\NOTE\server-config
 vagrant reload
 ```
