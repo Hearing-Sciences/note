@@ -30,7 +30,11 @@
     <link rel="stylesheet" href="<?= $noteSurvey->modulePath.'/'.sprintf('page_%s.css',$page_name) ?>">
 <?php endif; ?>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<?php if (isset($_NOTE_MODULE) && array_key_exists('JS_LIBRARIES', $_NOTE_MODULE) && in_array('jquery4', $_NOTE_MODULE['JS_LIBRARIES'])): ?>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@4.0.0-beta/dist/jquery.min.js" integrity="sha256-qcGEWHXz2gu3QlFVrFYIqB1N6Z0xsQixd1cnhZFXO6U=" crossorigin="anonymous"></script>
+<?php else: ?>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<?php endif; ?>
 <script src="https://cdn.jsdelivr.net/npm/jquery-ui@1.13.2/dist/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js" integrity="sha512-g0etrk7svX8WYBp+ZDIqeenmkxQSXjRDTr08ie37rVFc99iXFGxmD0/SCt3kZ6sDNmr8sR0ISHkSAc/M8rQBqg==" crossorigin="anonymous"></script>
 <?php if (isset($_NOTE_MODULE) && array_key_exists('JS_LIBRARIES', $_NOTE_MODULE) && in_array('bootstrap5', $_NOTE_MODULE['JS_LIBRARIES'])): ?>
@@ -41,7 +45,9 @@
 <?php if (isset($_NOTE_MODULE) && array_key_exists('JS_LIBRARIES', $_NOTE_MODULE) && in_array('p5', $_NOTE_MODULE['JS_LIBRARIES'])): ?>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/p5.min.js" integrity="sha256-L+4Tyqh4wjUK45I691vlFI2tf8BmzlPoN/0mol3LVTw=" crossorigin="anonymous"></script>
 <?php endif; ?>
-<script src="<?php echo $noteSurvey->baseUri; ?>js/main.js"></script>
+<?php if (file_exists($noteSurvey->baseUri.'/js/main.js')) : ?>
+    <script src="<?php echo $noteSurvey->baseUri; ?>js/main.js"></script>
+<?php endif; ?>
 <?php if (file_exists($noteSurvey->fsModulePath.'experiment.js')): ?>
     <script src="<?= $noteSurvey->modulePath.'/experiment.js' ?>"></script>
 <?php endif; ?>
