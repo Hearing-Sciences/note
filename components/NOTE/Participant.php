@@ -80,10 +80,26 @@ class Participant {
             $this->db = new PDO('sqlite:'.$path.DIRECTORY_SEPARATOR.'database.sqlite3');
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $this->db->query('pragma journal_mode = WAL');
+            $this->db->query('pragma synchronous = normal');
+            $this->db->query('pragma temp_store = memory');
+            $this->db->query('pragma mmap_size = 30000000000');
+            $this->db->query('pragma page_size = 32768');
             require_once($path.DIRECTORY_SEPARATOR.'db.php');
             if (function_exists('db_create_tables')) {
                 db_create_tables($this->db);
             }
+            $this->db->query('CREATE TABLE IF NOT EXISTS "visitors" (
+                "id"	INTEGER AUTO_INCREMENT PRIMARY KEY,
+                "uniqueID"	TEXT,
+                "participant_id"	TEXT,
+                "study_id"	TEXT,
+                "session_id"	TEXT,
+                "ipaddr"	TEXT,
+                "lastPage"	INTEGER,
+                "timestamp"	DATETIME DEFAULT CURRENT_TIMESTAMP
+
+            )');
         }
         catch(PDOException $e) {
           // Log error
