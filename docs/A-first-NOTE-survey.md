@@ -100,9 +100,6 @@ function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE) // <-- TH
 {
 }
 
-function display_module_data(&$db, $_NOTE, $_NOTE_MODULE) {
-    include $_NOTE['MODULE_DIR'].DIRECTORY_SEPARATOR.'data.php';
-}
 
 ?>
 ```
