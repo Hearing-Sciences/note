@@ -69,12 +69,13 @@ extension_dir = "c:\APPS\nginx\php\ext"
 
 upload_max_filesize = 2M
 
-extension=pdo
 extension=pdo_sqlite
 extension=sqlite3
 ```
 
 Don't expect to find these lines grouped together; they might be anywhere in the file. The extensions enable database access to SQLite files and the *extension_dir* paramter sets where these extensions can be found.
+
+You might also want to consider changing the lines *memory_limit*, *post_max_size* and/or *upload_max_filesize* if you are running particularly demanding code.
 
 ### Sample PHP configuration file
 
