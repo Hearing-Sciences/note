@@ -1,4 +1,4 @@
-# Using native installs of nginx and php to set up an environment
+# Using native installs of nginx and php to set up a development environment
 
 The Nginx and PHP services required for local development aren't applications that are installed but zip archives that are downloaded and decompressed. For this reason it's best to use a folder structure away from `C:\Program Files`. I have used `C:\APPS\nginx` and `C:\APPS\nginx\php` although you could use anything you like.
 
@@ -6,50 +6,69 @@ Nginx can be downloaded from [http://nginx.org/en/download.html](http://nginx.or
 
 ## Nginx Configuration
 
-Here’s the configuration that I use. Put this or something similar into the `conf` subdirectory and call it `nginx.conf`.
+The Nginx configuration is contained within *nginx.conf* and divided into blocks surrounded by {} brackets. There may be some initial configuration lines followed by an *events* block. The main block is the *http* block and within can be found one or more *server* blocks.
+
+Here’s the server configuration that I use in a **local dev environment**. Put this or something similar into the `conf` subdirectory and call it `nginx.conf`.
+
+**Do not use this configuration to set up a server in a live environment - you will need a more secure setup. You proceed at your own risk.**
 
 There is a section of the config file marked *Section for password protecting data pages* that can be excluded from test environments.
 
 ```conf
-server {
-    listen 9090;
-    server_name localhost;
-    index index.php;
-    error_log c:/APPS/nginx/logs/localhost.error.log;
-    access_log c:/APPS/nginx/logs/localhost.access.log;
-    root c:/APPS/nginx/NOTE;
+worker_processes  1;
 
-    location / {
-        try_files $uri =404 /index.php?$query_string;
-    }
+events {
+    worker_connections  1024;
+}
 
-    location /data/ {
-        try_files $uri =404 /data.php?$query_string;
-    }
 
-    # Section for password protecting data pages
-    location ~ /data/([0-9a-z\-_]+)/ {
-        try_files $uri $uri/ =404 /data.php?$query_string;
-        auth_basic      "Please enter your password to continue";
-        auth_basic_user_file    c:/APPS/nginx/htpasswd/htpasswd_$1;
-    }
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
 
-    location /dev/ {
-        try_files $uri =404 /dev/index.php?$query_string;
-    }
+    sendfile        on;
+    keepalive_timeout  65;
 
-    location /dev/data/ {
-        try_files $uri =404 /dev/data.php?$query_string;
-    }
+    server {
+        listen 9090;
+        server_name localhost;
+        index index.php;
+        error_log c:/APPS/nginx/logs/localhost.error.log;
+        access_log c:/APPS/nginx/logs/localhost.access.log;
+        root c:/APPS/nginx/NOTE;
 
-    location ~ \.php {
-        try_files $uri =404;
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param SCRIPT_NAME $fastcgi_script_name;
-        fastcgi_index index.php;
-        fastcgi_pass 127.0.0.1:9123;
+        location / {
+            try_files $uri =404 /index.php?$query_string;
+        }
+
+        location /data/ {
+            try_files $uri =404 /data.php?$query_string;
+        }
+
+        # Section for password protecting data pages
+        location ~ /data/([0-9a-z\-_]+)/ {
+            try_files $uri $uri/ =404 /data.php?$query_string;
+            auth_basic      "Please enter your password to continue";
+            auth_basic_user_file    c:/APPS/nginx/htpasswd/htpasswd_$1;
+        }
+
+        location /dev/ {
+            try_files $uri =404 /dev/index.php?$query_string;
+        }
+
+        location /dev/data/ {
+            try_files $uri =404 /dev/data.php?$query_string;
+        }
+
+        location ~ \.php {
+            try_files $uri =404;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+            fastcgi_index index.php;
+            fastcgi_pass 127.0.0.1:9123;
+        }
     }
 }
 ```
