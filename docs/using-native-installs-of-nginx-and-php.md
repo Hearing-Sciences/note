@@ -8,7 +8,7 @@ Nginx can be downloaded from [http://nginx.org/en/download.html](http://nginx.or
 
 The Nginx configuration is contained within *nginx.conf* and divided into blocks surrounded by {} brackets. There may be some initial configuration lines followed by an *events* block. The main block is the *http* block and within can be found one or more *server* blocks.
 
-Here’s the server configuration that I use in a **local dev environment**. Put this or something similar into the `conf` subdirectory and call it `nginx.conf`.
+Here’s the server configuration that I use in a **local dev environment**. Put this or something similar into the `conf` subdirectory and call it `nginx.conf`. Beware of Windows file extension conventions; Windows usually hides the file extension (*.conf*) and it's possible to create a file called *nginx.conf.txt* or even *nginx.conf.conf*. You might need to use the Windows command line to check and rename your file.
 
 **Do not use this configuration to set up a server in a live environment - you will need a more secure setup. You proceed at your own risk.**
 
