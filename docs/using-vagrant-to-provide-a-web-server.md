@@ -35,8 +35,26 @@ Unzip the contents of the NOTE zip archive to C:\NOTE. Don't copy the  *master* 
 
 * C:\NOTE\index.php
 * C:\NOTE\utils.php
-* c:\NOTE\server-config
+* C:\NOTE\server-config
+* C:\NOTE\server-config\vagrantfile
 * etc.
+
+### Vagrantfile
+
+The file *vagrantfile* contains all of the configuration Vagrant needs to set up the server. This includes virtual server 'hardware' configuration, how the server is networked to your PC and beyond, the initial 'box' to run and any software configuration required once the virtual machine has started.
+
+The current *vagrantfile* configures the following:
+
+* A Ubuntu 22.04 virtual server
+* 768MB RAM
+* 2 CPUs
+* The virtual network port 80 (www) is mapped to localhost port 5000 (see below)
+
+The version of Ubuntu should be supported until 2027. From that date an alternative box would need to be found if NOTE was still needed (and if Ubuntu and Vagrant still exist).
+
+If you require more performance or just want to experiment, you can change the values for *v.memory* and *v.server*. Make sure you have enough real hardware to support the configuration.
+
+### Running - *Vagrant up*
 
 Open up the command prompt as an administrator. To do this, click the start button, type in *cmd* and look for an option *Run as administrator* on the right.
 
@@ -48,8 +66,6 @@ vagrant up
 ```
 
 These two commands change the working directory to the *server-config* directory and then start Vagrant.
-
-Once Vagrant has started you should be able to access the website using a browser and browsing to [http://localhost:5000](http://localhost:5000).
 
 It will take significantly longer to start Vagrant the first time because everything must be set up. Vagrant does the following:
 
@@ -73,9 +89,23 @@ Later when you start Vagrant it only needs to complete the following:
 * Initialises itself
 * Starts the server using Virtualbox
 
+### Accessing the server
+
+The configuration file maps the virtual network port 80 to the localhost port 5000. Once Vagrant has started you should be able to access the virtual server's website by using a web browser to visit [http://localhost:5000](http://localhost:5000).
+
 ## Shared folders
 
 The server itself is difficult to access. This is intentional: we want it to be disposable and just get on with things. NOTE uses ```C:\NOTE\modules``` as the place to look for surveys so create them there. The modules folder is 'outside' the server and shared, so it's protected from the server being shut down or deleted.
+
+If you want to share a different folder, look for the following line in the *vagrantfile*:
+
+```ruby
+config.vm.synced_folder "C:/NOTE", "/var/www/html/note/",
+```
+
+Change the first value ```"C:/NOTE"``` to something else. Make sure all of your NOTE and server configuration files are in the folder you specify. A subdirectory called *modules* must contain the survey folders.
+
+If you do decide to use a different folder bear in mind that this will affect the instructions on this page (e.g. the *cd* command just below).
 
 ## Starting up, shutting down, deleting
 
