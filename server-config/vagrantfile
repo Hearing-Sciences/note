@@ -8,16 +8,17 @@ Vagrant.configure("2") do |config|
     v.customize ["modifyvm", :id, "--cableconnected1", "on"]
   end
 
-  config.vm.synced_folder "C:/NOTE", "/var/www/html/note/",
+  config.vm.synced_folder "E:/NOTE", "/var/www/html/note/",
     owner: "www-data", group: "www-data", mount_options: ["dmode=775,fmode=664"]
 
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
+    apt purge apache2
     apt-get upgrade -y
     apt-get autoremove -y
-    apt-get install -y git apache2 php sqlite php-sqlite3
-    cp /var/www/html/note/server-config/apache/note.conf /etc/apache2/sites-available/000-default.conf
-    a2enmod rewrite
-    apache2ctl restart
+    apt-get install -y git nginx php php-fpm sqlite php-sqlite3 mariadb-server php-mysql
+    cp /var/www/html/note/server-config/nginx/nginx.conf /etc/nginx/sites-available/default
+    mysql -uroot -password='' < /var/www/html/note/server-config/mariadb/setup.sql
+    systemctl restart nginx
   SHELL
 end
