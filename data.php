@@ -13,7 +13,17 @@ $noteSurvey = new Survey($_SERVER);
 $_NOTE = $noteSurvey->toArray();
 
 // Load module-specific parameters
-require $noteSurvey->fsModulePath.'config.php';
+try {
+	require $noteSurvey->fsModulePath.'config.php';
+} catch (Throwable $e) {
+
+	require_once('components/header.php');
+	require_once('components/banner.php');
+	include 'data_blank.php';
+
+	exit;
+}
+
 $db = $noteSurvey->participant->db;
 require_once $noteSurvey->fsModulePath.'db.php'; 
 
