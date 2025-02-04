@@ -85,7 +85,9 @@ In the `location` section Nginx attempts to send PHP code to a PHP server runnin
 
 Download the latest PHP package from [https://windows.php.net/download](https://windows.php.net/download). Choose the VS17 x64 Thread Safe Version unless you have a good reason to do otherwise and get the zip. Unzip this archive into `C:\APPS\nginx\php` (you might have to create the `php` folder first).
 
-PHP might require a configuration change to work with SQLite. Open the PHP folder and look for a file called *php.ini*. Make sure the following settings are included and not commented out:
+PHP might require a configuration change to work with SQLite. Open the PHP folder and look for a file called *php.ini*. If there is no *php.ini* file, an example *php.ini* can be found in this repo in the *server-config/php* folder. You can copy this into *c:\APPS\nginx\php\* if you like **but it's at your own risk**.
+
+Make sure the following settings are included and not commented out:
 
 ```ini
 extension_dir = "c:\APPS\nginx\php\ext"
@@ -99,10 +101,6 @@ extension=sqlite3
 Don't expect to find these lines grouped together; they might be anywhere in the file. The extensions enable database access to SQLite files and the *extension_dir* paramter sets where these extensions can be found.
 
 You might also want to consider changing the lines *memory_limit*, *post_max_size* and/or *upload_max_filesize* if you are running particularly demanding code.
-
-### Sample PHP configuration file
-
-An example *php.ini* can be found in the *server-config/php* folder. You can use this if you like but it's at your own risk.
 
 ## Files
 
