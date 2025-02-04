@@ -83,7 +83,7 @@ In the `location` section Nginx attempts to send PHP code to a PHP server runnin
 
 ## PHP-FPM
 
-Download the latest PHP package from [https://windows.php.net/download](https://windows.php.net/download). Choose the VS16 x64 Thread Safe Version unless you have a good reason to do otherwise and get the zip. Unzip this archive into `C:\APPS\nginx\php` (you might have to create the `php` folder first).
+Download the latest PHP package from [https://windows.php.net/download](https://windows.php.net/download). Choose the VS17 x64 Thread Safe Version unless you have a good reason to do otherwise and get the zip. Unzip this archive into `C:\APPS\nginx\php` (you might have to create the `php` folder first).
 
 PHP might require a configuration change to work with SQLite. Open the PHP folder and look for a file called *php.ini*. Make sure the following settings are included and not commented out:
 
