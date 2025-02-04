@@ -83,6 +83,10 @@ In the `location` section Nginx attempts to send PHP code to a PHP server runnin
 
 ## PHP-FPM
 
+### Windows C++ redi
+
+PHP requires the latest Microsoft Visual C++ Redistributable Version (including version 2019). You can probably obtain the file from this link: [https://aka.ms/vs/17/release/vc_redist.x64.exe](https://aka.ms/vs/17/release/vc_redist.x64.exe). This may require administrative privileges to install (and an inevitable reboot).
+
 Download the latest PHP package from [https://windows.php.net/download](https://windows.php.net/download). Choose the VS17 x64 Thread Safe Version unless you have a good reason to do otherwise and get the zip. Unzip this archive into `C:\APPS\nginx\php` (you might have to create the `php` folder first).
 
 PHP might require a configuration change to work with SQLite. Open the PHP folder and look for a file called *php.ini*. If there is no *php.ini* file, an example *php.ini* can be found in this repo in the *server-config/php* folder. You can copy this into *c:\APPS\nginx\php\* if you like **but it's at your own risk**.
@@ -115,16 +119,19 @@ Download a release of NOTE and uncompress the zip archive to ```C:\APPS\nginx\NO
 ## Starting and stopping
 
 ### Start
+If you started nginx earlier, stop it with the command `nginx -s stop` before restarting it. It's not nececssary but it never hurts to be sure that everything is starting afresh.
 
 Start Nginx before PHP. This is because PHP runs a debug server in the window and the command prompt won't be returned.
 
 ```cmd
 start nginx
-php-cgi.exe -b 127.0.0.1:9123 -c php.ini
+php\php-cgi.exe -b 127.0.0.1:9123 -c php\php.ini
 ```
 
 - -b binds the server to the IP address 127.0.0.1 and port 9123. You can use other ports but be aware to change the port information in the Nginx configuration file *nginx.conf*. Look for the directive *fastcgi_pass*.
 - -c configuration file to use. This is likely to be *php.ini* but if you have created a different configuration file it will need to be specified here. **If you do not specify a file, *php.ini* will be used.**
+
+If you try to run PHP and see the error `PHP Warning:  'C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll' 14.38 is not compatible with this PHP build` then you need to update your installation of the C++ redistributable (see above).
 
 ### Stop
 
