@@ -6,6 +6,15 @@ A lightweight framework for conducting research online. NOTE is intended to make
 
 ## Revision History
 
+### May 1st 2025
+
+Apologies - it seems to have been a year since the last update! I've just uploaded some changes that will need to be checked before I create a new release (and more documentation). This should be completed in the next week.
+
+- Better path calculations. In some circumstances the module folder path would start with a forward slash (correct) and sometimes not (incorrect). This should have been corrected.
+- New code that changes the `$_NOTE_MODULE['PAGES']` array. An entry can be a page name as before but could also be an array containing the page name and other information to pass to the page.
+- A call to a new function `db_fetch_page_data` that will allow data to be gathered before the page is rendered.
+- A new banner that contains the corporate logo and colour scheme.
+
 ### April 25th 2024
 
 - Updates to the documentation for setting up PHP
