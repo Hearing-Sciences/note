@@ -76,13 +76,26 @@ if ($noteSurvey->mode === 'preview' && is_int($noteSurvey->otherId)) {
 }
 
 if (isset($_NOTE_MODULE) && array_key_exists('PAGES', $_NOTE_MODULE)) {
-	$page_name = $_NOTE_MODULE['PAGES'][$noteSurvey->getPage()];
+    if ( is_array($_NOTE_MODULE['PAGES'][$noteSurvey->getPage()]) ) {
+        $page_name = $_NOTE_MODULE['PAGES'][$noteSurvey->getPage()]['page'];
+        $_NOTE_MODULE['PAGE_INFO'] = $_NOTE_MODULE['PAGES'][$noteSurvey->getPage()];
+    } else {
+        $page_name = $_NOTE_MODULE['PAGES'][$noteSurvey->getPage()] ;
+    }
 	$last_page_id = count($_NOTE_MODULE['PAGES'])-1;	
 } else {
 	$page_name = false;
 	$last_page_id = false;	
 }
 $noteSurvey->participant->refresh();
+
+// Get data required for the current page (stimuli etc.)
+if (function_exists('db_fetch_page_data')) {
+    $_NOTE_MODULE['PRESENTATION_DATA'] = db_fetch_page_data($noteSurvey->participant->db, $noteSurvey->getPage(), $_NOTE_MODULE);
+} else {
+    $_NOTE_MODULE['PRESENTATION_DATA'] = false;
+}
+
 $noteSurvey->participant->closeDb();
 ?>
 
