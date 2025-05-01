@@ -80,7 +80,7 @@ class Participant {
             $this->db = new PDO('sqlite:'.$path.DIRECTORY_SEPARATOR.'database.sqlite3');
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-            $this->db->query('pragma journal_mode = WAL');
+            //$this->db->query('pragma journal_mode = WAL');
             $this->db->query('pragma synchronous = normal');
             $this->db->query('pragma temp_store = memory');
             $this->db->query('pragma mmap_size = 30000000000');
