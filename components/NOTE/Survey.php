@@ -135,11 +135,23 @@ class Survey {
 	 */
 	public function __construct($server)
 	{
+		/*
+		print '<pre>';
+		print_r($server);
+		print_r(pathinfo($_SERVER['SCRIPT_FILENAME']));
+		print_r(parse_url($server['REQUEST_URI']));
+		print '</pre>';
+		*/
 		$this->url = parse_url($server['REQUEST_URI']);
 		$this->rawUri = $server['REQUEST_URI'];
         $this->documentRoot = $server['DOCUMENT_ROOT'];
+		//print_r(pathinfo($_SERVER['SCRIPT_NAME'])); 
 		//$this->baseUri = substr($server['SCRIPT_NAME'],0,-strlen($_SERVER['SCRIPT_NAME']));
-		$this->baseUri = '';
+		$this->baseUri = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+		if ($this->baseUri[-1] != '/') {
+			$this->baseUri = $this->baseUri.'/';
+		}
+		//$this->baseUri = '/';
 		$this->requestUri = $this->url['path'];
 		$this->processPath($this->splitPath($this->url['path']));
 		$this->partId = $this->otherId; 
@@ -234,14 +246,11 @@ class Survey {
 				$modDir = $this->documentRoot.DIRECTORY_SEPARATOR.'modules'.DIRECTORY_SEPARATOR.$this->moduleId;
 			}
 
+			$modDir = str_replace('\\', '/', $modDir);
+
             if (file_exists($modDir) && is_dir($modDir)) {
-				if ($this->isInDevelopment) {
-					$this->moduleDir = 'dev/modules/'.$this->moduleId;
-					$this->modulePath = $this->baseUri.'dev/modules/'.$this->moduleId;
-				} else {
-					$this->moduleDir = 'modules/'.$this->moduleId;
-					$this->modulePath = $this->baseUri.'modules/'.$this->moduleId;
-				}
+				$this->moduleDir = substr($this->baseUri, 1).'modules/'.$this->moduleId;
+				$this->modulePath = $this->baseUri.'modules/'.$this->moduleId;
 				$this->fsModulePath = $modDir.'/';
 			} else {
                 // Directory is invalid
