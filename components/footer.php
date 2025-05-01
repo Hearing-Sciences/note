@@ -17,6 +17,7 @@
         <?php else: ?>
             <p>The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust</p>
         <?php endif; ?>
+        <p class="text-start">The Nottingham Online Test Environment is maintained by <a class="text-warning" href="https://www.nottingham.ac.uk/research/groups/hearingsciences/index.aspx">Hearing Sciences</a></p>
         <?php
         if ($noteSurvey->isInDevelopment) {
             echo "<p> (dev system / page_".$_NOTE_MODULE['PAGES'][$noteSurvey->getPage()].".php / page #".$noteSurvey->getPage().")</p>";
