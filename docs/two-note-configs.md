@@ -1,4 +1,4 @@
-* Running two NOTE configurations
+# Running two NOTE configurations
 
 You can test another version of NOTE without harming your development environment. To achieve this, put the versions of NOTE in separate folders and modify your Nginx configuration.
 
