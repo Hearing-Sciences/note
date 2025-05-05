@@ -91,7 +91,7 @@ $noteSurvey->participant->refresh();
 
 // Get data required for the current page (stimuli etc.)
 if (function_exists('db_fetch_page_data')) {
-    $_NOTE_MODULE['PRESENTATION_DATA'] = db_fetch_page_data($noteSurvey->participant->db, $noteSurvey->getPage(), $_NOTE_MODULE);
+    $_NOTE_MODULE['PRESENTATION_DATA'] = db_fetch_page_data($noteSurvey->participant->db, $noteSurvey->getPage(), $_NOTE_MODULE, $noteSurvey->participant->getUid());
 } else {
     $_NOTE_MODULE['PRESENTATION_DATA'] = false;
 }
