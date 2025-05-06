@@ -77,7 +77,7 @@ if ($noteSurvey->mode === 'preview' && is_int($noteSurvey->otherId)) {
 
 if (isset($_NOTE_MODULE) && array_key_exists('PAGES', $_NOTE_MODULE)) {
     if ( is_array($_NOTE_MODULE['PAGES'][$noteSurvey->getPage()]) ) {
-        $page_name = $_NOTE_MODULE['PAGES'][$noteSurvey->getPage()]['page'];
+        $page_name = $_NOTE_MODULE['PAGES'][$noteSurvey->getPage()]['PAGE'];
         $_NOTE_MODULE['PAGE_INFO'] = $_NOTE_MODULE['PAGES'][$noteSurvey->getPage()];
     } else {
         $page_name = $_NOTE_MODULE['PAGES'][$noteSurvey->getPage()] ;
