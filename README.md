@@ -4,6 +4,15 @@ Nottingham Online Testing and Experiment (NOTE) framework
 
 A lightweight framework for conducting research online. NOTE is intended to make setting up online tests and experiments more efficient by handling the work of hosting multiple projects at once, parsing URLs, keeping track of participant progress, handling database setup, and simplifying database interactions. Its primary purpose is to allow researchers to focus on the design and implementation of their experiment rather than the core infrastructure needed to do online testing.
 
+## Supporting libraries
+
+- [https://jquery.com/](jQuery) (MIT licence)
+- [https://jqueryui.com/](jQueryUI) (MIT licence)
+- [https://github.com/FortAwesome/Font-Awesome](Fontawesome Free) (Icons — CC BY 4.0 License, Fonts — SIL OFL 1.1 License, Code — MIT License )
+- [https://getbootstrap.com/](Bootstrap) (MIT licence)
+- [https://p5js.org/](p5.js and audio plugin) (GNU LGPL licence)
+- [https://github.com/jplayer/jPlayer](jPlayer) (MIT licence)
+
 ## Revision History
 
 ### May 1st 2025
@@ -14,6 +23,7 @@ Apologies - it seems to have been a year since the last update! I've just upload
 - New code that changes the `$_NOTE_MODULE['PAGES']` array. An entry can be a page name as before but could also be an array containing the page name and other information to pass to the page.
 - A call to a new function `db_fetch_page_data` that will allow data to be gathered before the page is rendered.
 - A new banner that contains the corporate logo and colour scheme.
+- CSS and JS libraries are have been downloaded and stored locally, replacing links to CDN sites.
 
 ### April 25th 2024
 
