@@ -6,12 +6,12 @@ A lightweight framework for conducting research online. NOTE is intended to make
 
 ## Supporting libraries
 
-- [https://jquery.com/](jQuery) (MIT licence)
-- [https://jqueryui.com/](jQueryUI) (MIT licence)
-- [https://github.com/FortAwesome/Font-Awesome](Fontawesome Free) (Icons — CC BY 4.0 License, Fonts — SIL OFL 1.1 License, Code — MIT License )
-- [https://getbootstrap.com/](Bootstrap) (MIT licence)
-- [https://p5js.org/](p5.js and audio plugin) (GNU LGPL licence)
-- [https://github.com/jplayer/jPlayer](jPlayer) (MIT licence)
+- [jQuery](https://jquery.com/) (MIT licence)
+- [jQueryUI](https://jqueryui.com/) (MIT licence)
+- [Fontawesome Free](https://github.com/FortAwesome/Font-Awesome) (Icons — CC BY 4.0 License, Fonts — SIL OFL 1.1 License, Code — MIT License )
+- [Bootstrap](https://getbootstrap.com/) (MIT licence)
+- [p5.js and audio plugin](https://p5js.org/) (GNU LGPL licence)
+- [jPlayer](https://github.com/jplayer/jPlayer) (MIT licence)
 
 ## Revision History
 
