@@ -15,7 +15,7 @@ A lightweight framework for conducting research online. NOTE is intended to make
 
 ## Revision History
 
-### May 1st 2025
+### May 1 2025
 
 Apologies - it seems to have been a year since the last update! I've just uploaded some changes that will need to be checked before I create a new release (and more documentation). This should be completed in the next week.
 
@@ -25,7 +25,7 @@ Apologies - it seems to have been a year since the last update! I've just upload
 - A new banner that contains the corporate logo and colour scheme.
 - CSS and JS libraries are have been downloaded and stored locally, replacing links to CDN sites.
 
-### April 25th 2024
+### April 25 2024
 
 - Updates to the documentation for setting up PHP
 - Updates to the documentation for using Vagrant to generate an environment
