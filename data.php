@@ -206,7 +206,7 @@ UID&#9;Last seen&#9;Last page
 			$lastPage = NULL;
 			$dup_page_count = 0;
 			for ($i=0; $i<count($_NOTE_MODULE["PAGES"]); $i++) {
-				$page_name = $_NOTE_MODULE["PAGES"][$i];
+				$page_name = is_array($_NOTE_MODULE["PAGES"][$i]) ? $_NOTE_MODULE["PAGES"][$i]['PAGE'] : $_NOTE_MODULE["PAGES"][$i];
 				if ($page_name === $lastPage) {
 					$dup_page_count += 1;
 					echo "<th>".$page_name." (".$dup_page_count.")</th>";
