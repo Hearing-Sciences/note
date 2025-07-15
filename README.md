@@ -6,16 +6,16 @@ A lightweight framework for conducting research online. NOTE is intended to make
 
 ## Supporting libraries
 
-- [https://jquery.com/](jQuery) (MIT licence)
-- [https://jqueryui.com/](jQueryUI) (MIT licence)
-- [https://github.com/FortAwesome/Font-Awesome](Fontawesome Free) (Icons — CC BY 4.0 License, Fonts — SIL OFL 1.1 License, Code — MIT License )
-- [https://getbootstrap.com/](Bootstrap) (MIT licence)
-- [https://p5js.org/](p5.js and audio plugin) (GNU LGPL licence)
-- [https://github.com/jplayer/jPlayer](jPlayer) (MIT licence)
+- [jQuery](https://jquery.com/) (MIT licence)
+- [jQueryUI](https://jqueryui.com/) (MIT licence)
+- [Fontawesome Free](https://github.com/FortAwesome/Font-Awesome) (Icons — CC BY 4.0 License, Fonts — SIL OFL 1.1 License, Code — MIT License )
+- [Bootstrap](https://getbootstrap.com/) (MIT licence)
+- [p5.js and audio plugin](https://p5js.org/) (GNU LGPL licence)
+- [jPlayer](https://github.com/jplayer/jPlayer) (MIT licence)
 
 ## Revision History
 
-### May 1st 2025
+### May 1 2025
 
 Apologies - it seems to have been a year since the last update! I've just uploaded some changes that will need to be checked before I create a new release (and more documentation). This should be completed in the next week.
 
@@ -25,7 +25,7 @@ Apologies - it seems to have been a year since the last update! I've just upload
 - A new banner that contains the corporate logo and colour scheme.
 - CSS and JS libraries are have been downloaded and stored locally, replacing links to CDN sites.
 
-### April 25th 2024
+### April 25 2024
 
 - Updates to the documentation for setting up PHP
 - Updates to the documentation for using Vagrant to generate an environment

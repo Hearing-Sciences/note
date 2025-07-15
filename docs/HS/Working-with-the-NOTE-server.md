@@ -3,7 +3,7 @@
 WinSCP is the best program to transfer files to and from the NOTE server. The settings are:
 
 - File Protocol: SFTP
-- Server: mslapmedbrc01.nottingham.ac.uk
+- Server: mslwwsurv01.nottingham.ac.uk
 - Port number: 22
 - User name: your University account probably starting with *ms*
 - Password: leave this blank and supply it each time you want to connect
