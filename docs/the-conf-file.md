@@ -47,7 +47,7 @@ $_NOTE_MODULE is an array of module-specific options including:
 | CSS_LIBRARIES   | No       | An array of libraries. At present the only value available is *bootstrap5* which causes NOTE to load the Bootstrap 5 library. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
 | JS_LIBRARIES    | No       | An array of libraries to load from jsDelivr. Current options include *bootstrap5* and *p5*. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
 | FOOTER_COPYRIGHT | Yes      | The copyright message | "*The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust*" |
-| PAGES           | Yes      | An array of page names. In order for everything to work, the page name must relate to a file name. The file name will be *page_{page name}.php* where *{page_name}* is the page name in the array. For example: the value *welcome* would cause *page_welcome.php* to be loaded and *survey* would case *page_survey.php* to be loaded. Values must not include spaces. | If a file cannot be found, the NOTE code will crash and the participant will probably see a mostly-empty web page. |
+| PAGES           | Yes      | An array of page names or sub-arrays of page information (see below). In order for everything to work, the page name must relate to a file name. The file name will be *page_{page name}.php* where *{page_name}* is the page name in the array. For example: the value *welcome* would cause *page_welcome.php* to be loaded and *survey* would case *page_survey.php* to be loaded. Values must not include spaces. | If a file cannot be found, the NOTE code will crash and the participant will probably see a mostly-empty web page. |
 
 ***The three 'title' variables are confusing and likely to be reduced to just one value in the future.**
 
@@ -55,7 +55,39 @@ $_NOTE_MODULE is an array of module-specific options including:
 
 NOTE uses an indexed array to define the order of pages. If a page should be shown more than once (e.g. for multiple trials) then it would need to be added to the array multiple times. The *PAGES* array can be declared at once in its entirety or a page at a time using the shortcut '[]' syntax as in the example above.
 
+From NOTE version 2.1, entries in the *PAGES* array can themselves be arrays. In this case, one of the subarray keys must be *PAGE* referring to the name of the page in the same way as before. However, other keys can be defined which are passed into the survey as *$_NOTE_MODULE['PAGE_INFO']*. For example:
+
+```php
+$_NOTE_MODULE['PAGES'][] = [
+    'PAGE' => 'task',
+    'TRIAL_ID' => 1
+];
+```
+
+This would add a page to the survey. The *PAGE* key determines that the survey page would be called *page_task.php* and the page would receive the following array:
+
+```php
+$_NOTE_MODULE['PAGE_INFO'] = [
+    'TRIAL_ID' => 1
+]
+```
+
+You can add as many keys as you like. It will be useful if you need to add a large number of repeating task pages. The trial ID could be generated as part of a loop:
+
+```php
+for ( $page=1; $page<101; $page++) {
+    $_NOTE_MODULE['PAGES'][] = [
+        'PAGE' => 'task',
+        'TRIAL_ID' => $page
+    ];
+}
+```
+
+On the task page you could use the value of ```$_NOTE_MODULE['PAGE_INFO']['TRIAL_ID']``` to record progess ('Trial n of 100'), determine which stimulus to present etc.
+
 ### Setting 'bookmarks'
+
+#### (This is the old method for maintaining trial IDs etc. It still works but check out the newer method above.)
 
 If pages are appended to the *PAGES* array individually there is an opportunity to add code between statements. For example, it may be important to know the page number where a particular part of the survey begins. That information could be hard-coded but if you decide to re-order your pages this can cause bugs. A better way would be to do this:
 
