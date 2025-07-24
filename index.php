@@ -21,7 +21,7 @@ if (!$noteSurvey->isValid) {
 	exit;
 }
 
-$debug = isset($_NOTE_MODULE['DEBUG']) ? $_NOTE_MODULE['DEBUG'] : false;
+$noteSurvey->debug = isset($_NOTE_MODULE['DEBUG']) ? $_NOTE_MODULE['DEBUG'] : false;
 
 try {
     require_once $noteSurvey->fsModulePath.'db.php';
@@ -35,7 +35,7 @@ if (function_exists('db_create_tables')) {
 }
 ?>
 
-<?php if ($debug): ?>
+<?php if ($noteSurvey->debug): ?>
     <div class="container">
         <h3>Session data</h3>
         <pre>

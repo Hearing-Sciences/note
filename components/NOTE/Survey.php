@@ -126,6 +126,10 @@ class Survey {
      */
     public $isPostRequest;
 
+	/**
+	 * Enable debug mode to show messages, reports etc.
+	 */
+	public $debug = false;
 
 	/**
 	 * Initialise the object and variables
@@ -183,6 +187,7 @@ class Survey {
 			'PART_ID' => $this->partId,
 			'PAGE' => $this->page,
 			'UID' => (isset ($this->participant) ? $this->participant->getUid() : null),
+			'DEBUG' => $this->debug
 		];
 	}
 
