@@ -48,6 +48,9 @@ $_NOTE_MODULE is an array of module-specific options including:
 | JS_LIBRARIES    | No       | An array of libraries to load from jsDelivr. Current options include *bootstrap5* and *p5*. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
 | FOOTER_COPYRIGHT | Yes      | The copyright message | "*The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust*" |
 | PAGES           | Yes      | An array of page names or sub-arrays of page information (see below). In order for everything to work, the page name must relate to a file name. The file name will be *page_{page name}.php* where *{page_name}* is the page name in the array. For example: the value *welcome* would cause *page_welcome.php* to be loaded and *survey* would case *page_survey.php* to be loaded. Values must not include spaces. | If a file cannot be found, the NOTE code will crash and the participant will probably see a mostly-empty web page. |
+| FIELDS | No | This should contain two indexed arrays (see below) | NULL |
+| FIELDS['COMMON'] | No | An indexed array of field / column names that are present on every page. The array is populated using ```'name' => 'SQLite type'``` e.g. ```'uid' => 'TEXT'```. | NULL |
+| FIELDS['IGNORE'] | No | An indexed array of field / column names that should **not** be checked. This will be useful for form fields such as 'nextpage' that are functional but never contain data. The array is populated using ```'name' => 'SQLite type'``` e.g. ```'uid' => 'TEXT'```. | NULL |
 
 ***The three 'title' variables are confusing and likely to be reduced to just one value in the future.**
 
@@ -84,6 +87,18 @@ for ( $page=1; $page<101; $page++) {
 ```
 
 On the task page you could use the value of ```$_NOTE_MODULE['PAGE_INFO']['TRIAL_ID']``` to record progess ('Trial n of 100'), determine which stimulus to present etc.
+
+### Pages 'PAGE' subarray
+
+If a page entry is itself an array, there are some required and optional keys:
+
+|Key|Required?|Description|
+|---|---|---|
+|PAGE|Yes|The name of the page|
+|TABLE|No|The table that the data on the page will save into|
+|FIELDS|No|An indexed array of field names and SQLite types|
+
+The FIELDS array should be set as ```'field' => 'type'```, e.g. ```'name' => 'TEXT'```. The types are from SQLite: INTEGER, TEXT and DATETIME are the ones you are most likely to need. The types aren't used in NOTE yet but may be in a later version.
 
 ### Setting 'bookmarks'
 
