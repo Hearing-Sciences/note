@@ -15,6 +15,11 @@ A lightweight framework for conducting research online. NOTE is intended to make
 
 ## Revision History
 
+### July 25 2025
+
+- Created a 'debug mode.' Activated by setting ```$_NOTE_MODULE['DEBUG'] = true;``` the code makes the survey object visible before and after the page has been rendered. The code will also check the data (see next point).
+- Added a new optional function to test the data fields. If the target table and fields are specified in the config file, the specification, database table and $_POST data are compared and an alert message shown if the three do not match.
+
 ### May 1 2025
 
 Apologies - it seems to have been a year since the last update! I've just uploaded some changes that will need to be checked before I create a new release (and more documentation). This should be completed in the next week.
