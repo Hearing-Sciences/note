@@ -36,15 +36,31 @@ if (function_exists('db_create_tables')) {
 ?>
 
 <?php if ($noteSurvey->debug): ?>
+    <script>
+        $(document).ready(function() {
+            $('#showHideDebugData').click(function() {
+                $('.debugData').toggle();
+            })
+        })
+    </script>
     <div class="container">
-        <h3>Session data</h3>
-        <pre>
-            <?php print_r($_SESSION); ?>
-        </pre>
-        <h3>Before...</h3>
-        <pre>
-            <?php print_r($noteSurvey); ?>
-        </pre>
+	    <h3 class="text-info"><i class="fa-solid fa-microchip"></i> Debug mode is ON <button class="btn btn-primary m-2" type="button" id="showHideDebugData">Show / Hide variable info</button></h3>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#showHideSessionData').click(function() {
+                $('#sessionData').toggle();
+            })
+        })
+    </script>
+    <div class="container">
+        <div id="sessionData" class="debugData border border-4 border-info m-3 p-3" style="display: none;">
+            <h4 class="text-info">Session data</h4>
+            <pre><?php print_r($_SESSION); ?></pre>
+            <h4 class="text-info">Survey object so far..</h4>
+            <pre><?php print_r($noteSurvey); ?></pre>
+        </div>
     </div>
 <?php endif; ?>
 <?php
@@ -54,6 +70,8 @@ if (function_exists('db_retrieve_visitor_data')) {
 
 if ($noteSurvey->isPostRequest) {
     if (isset($_POST['page']) && $_POST['page'] == $noteSurvey->participant->getLastPageViewed()) {
+        $noteSurvey->db_check_against_fields($_POST, $_NOTE_MODULE);
+
         if (function_exists('db_store_page_data')) {
             db_store_page_data($noteSurvey->getPage(), $_POST, $noteSurvey->participant->getUid(), $noteSurvey->participant->db, $_NOTE_MODULE);
 
@@ -117,12 +135,12 @@ $noteSurvey->participant->closeDb();
     </form>
 </div>
 
-<?php if ($debug): ?>
+<?php if ($noteSurvey->debug): ?>
     <div class="container">
-        <h3>After...</h3>
-        <pre>
-            <?php print_r($noteSurvey); ?>
-        </pre>
+        <div id="footerData" class="debugData border border-4 border-info m-3 p-3" style="display: none;">
+            <h4 class="text-info">Survey object after page load</h4>
+            <pre><?php print_r($noteSurvey); ?></pre>
+        </div>
     </div>
 <?php endif; ?>
 
