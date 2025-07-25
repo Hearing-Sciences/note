@@ -313,4 +313,116 @@ class Survey {
 	{
 		$this->page = $page;
 	}
+
+	/**
+	 * db_check_against_fields: check a combination of data config, table and page to check all fields match
+	 * 
+	 * @param Array $post the $_POST array
+	 * @param Array $_NOTE_MODULE module definition
+	 */
+	public function db_check_against_fields(&$post, &$_NOTE_MODULE) 
+	{
+		$page_id = $this->getPage();
+		$db = $this->participant->db;
+
+		if ($_NOTE_MODULE['DEBUG'] === false) {
+			return;
+		}
+
+		if (!isset($_NOTE_MODULE['PAGES'][$page_id]['FIELDS'])) {
+				print '<div class="container p-3 border border-3 border-warning">';
+				print '<h3>Debug Warning</h3><p>Data fields are not defined in <em>config.php</em>. Basic testing cannot be completed.</p>';
+				print '</div>';
+			return;
+		}
+
+		if (!isset($_NOTE_MODULE['PAGES'][$page_id]['TABLE'])) {
+				print '<div class="container p-3 border border-3 border-warning">';
+				print '<h3>Debug Warning</h3><p>The target table is not defined in <em>config.php</em>. Basic testing cannot be completed.</p>';
+				print '</div>';
+			return;
+		}
+
+		$query = 'PRAGMA table_info('.$_NOTE_MODULE['PAGES'][$page_id]['TABLE'].');';
+		$result = $db->query($query)->fetchAll();
+		$report = [];
+
+		$db_fields = [];
+		foreach($result as $record) {
+			$db_fields[] = $record['name'];
+		}
+
+		if (count($db_fields) == 0) {
+				print '<div class="container p-3 border border-3 border-warning">';
+				print '<h3>Debug Warning</h3><p>The target table does not exist or contains no columns. Basic testing cannot be completed.</p>';
+				print '</div>';
+			return;
+		}
+
+		$php_fields = array_merge(array_keys($_NOTE_MODULE['PAGES'][$page_id]['FIELDS']), array_keys($_NOTE_MODULE['FIELDS']['COMMON'])) ;
+
+		$post_fields = array_keys($post);
+
+		//print_r($db_fields);
+		//print_r($php_fields);
+		//print_r($post_fields);
+
+		$fields = array_unique(array_merge($db_fields, $php_fields, $post_fields));
+		$fields = array_diff($fields, array_keys($_NOTE_MODULE['FIELDS']['IGNORE']));
+
+		foreach($fields as $field) {
+			if (in_array($field, $db_fields) && !in_array($field, $php_fields)) {
+				$report[] = [
+					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the database but not in the configuration definition.',
+					'class' => 'text-danger'
+				];
+			}
+			if (!in_array($field, $db_fields) && in_array($field, $php_fields)) {
+				$report[] = [
+					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the configuration definition but no database column can be found.',
+					'class' => 'text-danger'
+				];
+			}
+			if (in_array($field, $db_fields) && !in_array($field, $post_fields)) {
+				$report[] = [
+					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the database but not in the submitted data.',
+					'class' => 'text-danger'
+				];
+			}
+			if (in_array($field, $post_fields) && !in_array($field, $db_fields)) {
+				$report[] = [
+					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the submitted data but no database column can be found.',
+					'class' => 'text-danger'
+				];
+			}
+			if (in_array($field, $post_fields) && !in_array($field, $php_fields)) {
+				$report[] = [
+					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the submitted data but not in the configuration definition.',
+					'class' => 'text-danger'
+				];
+			}
+			if (in_array($field, $php_fields) && !in_array($field, $post_fields)) {
+				$report[] = [
+					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the configuration definition but not the submitted data.',
+					'class' => 'text-danger'
+				];
+			}
+		}
+
+		if (count($report) > 0) {
+			print '<div class="container p-3 border border-3 border-danger">';
+			print '<h3>Debug Warnings</h3><p>Some problems have been detected and might require further investigation:</p>';
+			print '<ul>';
+			foreach ($report as $line) {
+				print '<li class="'.$line['class'].'">'.$line['text'].'</li>';
+			}
+			print '</ul>';
+			
+			print '<p>The page will not continue to load until any problems have been resolved or marked as ignored.</p>';
+			
+			print '</div>';
+		}
+
+	}
+
 }
