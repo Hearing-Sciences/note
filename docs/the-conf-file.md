@@ -94,9 +94,9 @@ If a page entry is itself an array, there are some required and optional keys:
 
 |Key|Required?|Description|
 |---|---|---|
-|PAGE|Yes|The name of the page|
-|TABLE|No|The table that the data on the page will save into|
-|FIELDS|No|An indexed array of field names and SQLite types|
+|PAGE|Yes|The name of the page *n* in *page_n.php*|
+|TABLE|No|The table that will receive data from the page|
+|FIELDS|No|An indexed array of field names and SQLite types: data that will be sent from the page for saving or processing.|
 
 The FIELDS array should be set as ```'field' => 'type'```, e.g. ```'name' => 'TEXT'```. The types are from SQLite: INTEGER, TEXT and DATETIME are the ones you are most likely to need. The types aren't used in NOTE yet but may be in a later version.
 
