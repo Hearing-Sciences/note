@@ -58,7 +58,7 @@ if (function_exists('db_create_tables')) {
         <div id="sessionData" class="debugData border border-4 border-info m-3 p-3" style="display: none;">
             <h4 class="text-info">Session data</h4>
             <pre><?php print_r($_SESSION); ?></pre>
-            <h4 class="text-info">Survey object so far..</h4>
+            <h4 class="text-info">Survey object before data updates</h4>
             <pre><?php print_r($noteSurvey); ?></pre>
         </div>
     </div>
@@ -138,7 +138,7 @@ $noteSurvey->participant->closeDb();
 <?php if ($noteSurvey->debug): ?>
     <div class="container">
         <div id="footerData" class="debugData border border-4 border-info m-3 p-3" style="display: none;">
-            <h4 class="text-info">Survey object after page load</h4>
+            <h4 class="text-info">Survey object after data updates</h4>
             <pre><?php print_r($noteSurvey); ?></pre>
         </div>
     </div>
