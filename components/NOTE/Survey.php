@@ -329,16 +329,20 @@ class Survey {
 			return;
 		}
 
+		if (!is_array($_NOTE_MODULE['PAGES'][$page_id])) {
+			return;
+		}
+
 		if (!isset($_NOTE_MODULE['PAGES'][$page_id]['FIELDS'])) {
 				print '<div class="container p-3 border border-3 border-warning">';
-				print '<h3>Debug Warning</h3><p>Data fields are not defined in <em>config.php</em>. Basic testing cannot be completed.</p>';
+				print '<h3>Debug Warning</h3><p>Data fields are not defined for the page <strong>page_'.$_NOTE_MODULE['PAGES'][$page_id]['PAGE'].'.php</strong> in <em>config.php</em>. Basic testing could not be completed.</p>';
 				print '</div>';
 			return;
 		}
 
 		if (!isset($_NOTE_MODULE['PAGES'][$page_id]['TABLE'])) {
 				print '<div class="container p-3 border border-3 border-warning">';
-				print '<h3>Debug Warning</h3><p>The target table is not defined in <em>config.php</em>. Basic testing cannot be completed.</p>';
+				print '<h3>Debug Warning</h3><p>The target table is not defined for the page <strong>page_'.$_NOTE_MODULE['PAGES'][$page_id]['PAGE'].'.php</strong> in <em>config.php</em>. Basic testing could not be completed.</p>';
 				print '</div>';
 			return;
 		}
@@ -415,14 +419,15 @@ class Survey {
 
 		if (count($report) > 0) {
 			print '<div class="container p-3 border border-3 border-danger">';
-			print '<h3>Debug Warnings</h3><p>Some problems have been detected and might require further investigation:</p>';
+			print '<h3>Debug Warnings</h3><p>Some problems have been detected with the submitted data and might require further investigation.</p>';
+			print '<p>Page: <strong>page_'.$_NOTE_MODULE['PAGES'][$page_id]['PAGE'].'.php</strong></p>';
 			print '<ul>';
 			foreach ($report as $line) {
 				print '<li class="'.$line['class'].'">'.$line['text'].'</li>';
 			}
 			print '</ul>';
 			
-			print '<p>The page will not continue to load until any problems have been resolved or marked as ignored.</p>';
+			print '<p>The survey will continue but these issues should be investigated.</p>';
 			
 			print '</div>';
 		}
