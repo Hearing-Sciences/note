@@ -379,57 +379,36 @@ class Survey {
 		}
 
 		foreach($fields as $field) {
+			$message = [];
 			if (in_array($field, $db_fields) && !in_array($field, $php_fields)) {
-				$report[] = [
-					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the database but not in the configuration definition.',
-					'class' => 'text-danger'
-				];
+				$message[] = 'Field <strong>'.$field.'</strong> is in the database but not in the configuration definition.';
 			}
 			if (!in_array($field, $db_fields) && in_array($field, $php_fields)) {
-				$report[] = [
-					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the configuration definition but no database column can be found.',
-					'class' => 'text-danger'
-				];
+				$message[] = 'Field <strong>'.$field.'</strong> is in the configuration definition but no database column can be found.';
 			}
 			if (in_array($field, $db_fields) && !in_array($field, $post_fields)) {
-				$report[] = [
-					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the database but not in the submitted data.',
-					'class' => 'text-danger'
-				];
+				$message[] = 'Field <strong>'.$field.'</strong> is in the database but not in the submitted data.';
 			}
 			if (in_array($field, $post_fields) && !in_array($field, $db_fields)) {
-				$report[] = [
-					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the submitted data but no database column can be found.',
-					'class' => 'text-danger'
-				];
+				$message[] = 'Field <strong>'.$field.'</strong> is in the submitted data but no database column can be found.';
 			}
 			if (in_array($field, $post_fields) && !in_array($field, $php_fields)) {
-				$report[] = [
-					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the submitted data but not in the configuration definition.',
-					'class' => 'text-danger'
-				];
+				$message[] = 'Field <strong>'.$field.'</strong> is in the submitted data but not in the configuration definition.';
 			}
 			if (in_array($field, $php_fields) && !in_array($field, $post_fields)) {
-				$report[] = [
-					'text' => 'ALERT: field <strong>'.$field.'</strong> is in the configuration definition but not the submitted data.',
-					'class' => 'text-danger'
-				];
+				$message[] = 'Field <strong>'.$field.'</strong> is in the configuration definition but not the submitted data.';
 			}
-		}
-
-		if (count($report) > 0) {
-			print '<div class="container p-3 border border-3 border-danger">';
-			print '<h3>Debug Warnings</h3><p>Some problems have been detected with the submitted data and might require further investigation.</p>';
-			print '<p>Page: <strong>page_'.$_NOTE_MODULE['PAGES'][$page_id]['PAGE'].'.php</strong></p>';
-			print '<ul>';
-			foreach ($report as $line) {
-				print '<li class="'.$line['class'].'">'.$line['text'].'</li>';
+			if (count($message) > 0) {
+				foreach($message as $text) {
+					Callout::display(
+					'danger',
+					[
+						'heading' => 'ALERT: possible missing data',
+						'content' => $text
+					]
+					);
+				}
 			}
-			print '</ul>';
-			
-			print '<p>The survey will continue but these issues should be investigated.</p>';
-			
-			print '</div>';
 		}
 
 	}
