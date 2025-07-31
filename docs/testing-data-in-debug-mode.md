@@ -28,6 +28,8 @@ An example warning message is shown below. The field *items* is present on the p
 
 ![Example of an error message](img/example-debug-save-error.png "Example of an error message")
 
+Yes, the messages are intrusive and annoying. That's the point! Don't forget that they won't be displayed when you switch off debug mode.
+
 ## Fields common to all pages
 
 If all pages contain a particular field, it could be tiresome to add the information to every page definition in *config.php*. So there is another way to define a 'common' field: the 'FIELDS' key.
