@@ -363,8 +363,8 @@ class Survey {
 			return;
 		}
 
-		if (isset($_NOTE_MODULE['FIELDS']['COMMON']) && is_array($_NOTE_MODULE['FIELDS']['COMMON'])) {
-			$php_fields = array_merge(array_keys($_NOTE_MODULE['PAGES'][$page_id]['FIELDS']), array_keys($_NOTE_MODULE['FIELDS']['COMMON'])) ;
+		if (isset($_NOTE_MODULE['SPECIAL_FIELDS']['COMMON']) && is_array($_NOTE_MODULE['SPECIAL_FIELDS']['COMMON'])) {
+			$php_fields = array_merge(array_keys($_NOTE_MODULE['PAGES'][$page_id]['FIELDS']), array_keys($_NOTE_MODULE['SPECIAL_FIELDS']['COMMON'])) ;
 		}
 
 		$post_fields = array_keys($post);
@@ -374,8 +374,8 @@ class Survey {
 		//print_r($post_fields);
 
 		$fields = array_unique(array_merge($db_fields, $php_fields, $post_fields));
-		if (isset($_NOTE_MODULE['FIELDS']['IGNORE']) && is_array($_NOTE_MODULE['FIELDS']['IGNORE'])) {
-			$fields = array_diff($fields, array_keys($_NOTE_MODULE['FIELDS']['IGNORE']));
+		if (isset($_NOTE_MODULE['SPECIAL_FIELDS']['IGNORE']) && is_array($_NOTE_MODULE['SPECIAL_FIELDS']['IGNORE'])) {
+			$fields = array_diff($fields, array_keys($_NOTE_MODULE['SPECIAL_FIELDS']['IGNORE']));
 		}
 
 		foreach($fields as $field) {
