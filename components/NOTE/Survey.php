@@ -132,6 +132,11 @@ class Survey {
 	public $debug = false;
 
 	/**
+	 * Log - a log object for debug logging
+	 */
+	public $Log;
+
+	/**
 	 * Initialise the object and variables
 	 * 
 	 * @param array $server Array of server parameters, usually the $_SERVER superglobal
@@ -139,29 +144,23 @@ class Survey {
 	 */
 	public function __construct($server)
 	{
-		/*
-		print '<pre>';
-		print_r($server);
-		print_r(pathinfo($_SERVER['SCRIPT_FILENAME']));
-		print_r(parse_url($server['REQUEST_URI']));
-		print '</pre>';
-		*/
+		$this->Log = new Log();
 		$this->url = parse_url($server['REQUEST_URI']);
 		$this->rawUri = $server['REQUEST_URI'];
         $this->documentRoot = $server['DOCUMENT_ROOT'];
-		//print_r(pathinfo($_SERVER['SCRIPT_NAME'])); 
-		//$this->baseUri = substr($server['SCRIPT_NAME'],0,-strlen($_SERVER['SCRIPT_NAME']));
 		$this->baseUri = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
 		if ($this->baseUri[-1] != '/') {
 			$this->baseUri = $this->baseUri.'/';
 		}
-		//$this->baseUri = '/';
 		$this->requestUri = $this->url['path'];
 		$this->processPath($this->splitPath($this->url['path']));
 		$this->partId = $this->otherId; 
         if ($this->isValid) {
+			$this->Log->append('Survey path <strong>'.$this->modulePath.'</strong> is valid.', 'good');
             $this->participant= new Participant($this->moduleId, $this->fsModulePath, ['mode' => $this->mode]);
+			$this->Log->append('Participant object created.', 'good');
             $this->page = $this->participant->getLastPageViewed();
+			$this->Log->append('Last page viewed by participant: '.$this->participant->getLastPageViewed(), 'notice');
         }
         $this->isPostRequest = ($server['REQUEST_METHOD'] === 'POST');
 	}

@@ -31,7 +31,7 @@ class Callout {
                     case 'list':
                         $output[] = '<ul>';
                         foreach($text as $line) {
-                            $output[] = '<li>'.$line.'</li>';
+                            $output[] = $line;
                         }
                         $output[] = '</ul>';
                     break;
