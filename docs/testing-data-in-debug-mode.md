@@ -10,7 +10,7 @@ The ```$_NOTE_MODULE['PAGES']``` array can contain arrays describing each page a
 
 ### NB
 
-For testing to work, form fields must have the same names as database columns (maybe something  more flexible will appear in NOTE v3?). This is standard practice when using MVC frameworks such as [CakePHP](http://cakephp.org/) so is probably a good habit to aquire.
+For testing to work, form fields must have the same names as database columns (maybe something  more flexible will appear in NOTE v3?). This is standard practice when using MVC frameworks such as [CakePHP](http://cakephp.org/) so is probably a good habit to acquire.
 
 At present NOTE only tests for the *presence* of fields / columns, not that data complies with any restrictions (e.g. 'text only,' 'an integer between 20 and 60' etc.). This might be introduced in the future. In the meantime, it is suggested that HTML5 elements and attributes are used to enforce restrictions. Examples of INPUT types introduced with HTML5 can be found at [Mozilla HTML5 input types](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/HTML5_input_types) and [Client side form validation](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation).
 

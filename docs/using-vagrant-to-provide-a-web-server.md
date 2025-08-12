@@ -19,11 +19,13 @@ You will need the following:
 
 ## Installation on Windows
 
+**Oracle have changed the licensing restrictions for the VirtualBox Extension Pack. DO NOT USE the extension pack in *any* organisation (commercial, educational, governmental etc.).**
+
 **I only have access to a Windows PC so cannot provide instructions for Linux or macOS installations.** If the situation changes I will update this page.
 
 First, install VirtualBox. Accept all of the defaults and install everything offered. You might be asked to restart your PC. Don't do it yet; wait until Vagrant has also been installed.
 
-(There is an *extras* package available for VirtualBox. It os offered through a personal use and evaluation licence (PUEL) but is **not** required.)
+(There is an *extras* package available for VirtualBox. It os offered through a personal use and evaluation licence (PUEL) but is **not** required. DO NOT install it.)
 
 Next, install Vagrant. Again, accept all of the defaults and reboot when asked. Rebooting should add vagrant to the command line which will be vital later on, so don't skip the reboot.
 

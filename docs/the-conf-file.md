@@ -49,8 +49,8 @@ $_NOTE_MODULE is an array of module-specific options including:
 | FOOTER_COPYRIGHT | Yes      | The copyright message | "*The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust*" |
 | PAGES           | Yes      | An array of page names or sub-arrays of page information (see below). In order for everything to work, the page name must relate to a file name. The file name will be *page_{page name}.php* where *{page_name}* is the page name in the array. For example: the value *welcome* would cause *page_welcome.php* to be loaded and *survey* would case *page_survey.php* to be loaded. Values must not include spaces. | If a file cannot be found, the NOTE code will crash and the participant will probably see a mostly-empty web page. |
 | FIELDS | No | This should contain two indexed arrays (see below) | NULL |
-| FIELDS['COMMON'] | No | An indexed array of field / column names that are present on every page and should *always* be included in automated testing. The array is populated using ```'name' => 'SQLite type'``` e.g. ```'uid' => 'TEXT'```. | NULL |
-| FIELDS['IGNORE'] | No | An indexed array of field / column names that should **not** be checked as part of any automated testing. This will be useful for form fields such as 'nextpage' that are functional but never contain data. The array is populated using ```'name' => 'SQLite type'``` e.g. ```'uid' => 'TEXT'```. | NULL |
+| FIELDS['COMMON'] | No | An indexed array of FORM field / column names that are present on every page and should *always* be included in automated testing. The array is populated using ```'name' => 'SQLite type'``` e.g. ```'uid' => 'TEXT'```. | NULL |
+| FIELDS['IGNORE'] | No | An indexed array of FORM field / column names that should **not** be checked as part of any automated testing. This will be useful for form fields such as 'nextpage' that are functional but never contain data. The array is populated using ```'name' => 'SQLite type'``` e.g. ```'uid' => 'TEXT'```. | NULL |
 
 ***The three 'title' variables are confusing and likely to be reduced to just one value in the future.**
 
@@ -78,15 +78,19 @@ $_NOTE_MODULE['PAGE_INFO'] = [
 You can add as many keys as you like. It will be useful if you need to add a large number of repeating task pages. The trial ID could be generated as part of a loop:
 
 ```php
-for ( $page=1; $page<101; $page++) {
+for ( $trial = 1; $trial < 101; $trial++) {
     $_NOTE_MODULE['PAGES'][] = [
         'PAGE' => 'task',
-        'TRIAL_ID' => $page
+        'TRIAL_ID' => $trial
     ];
 }
 ```
 
-On the task page you could use the value of ```$_NOTE_MODULE['PAGE_INFO']['TRIAL_ID']``` to record progess ('Trial n of 100'), determine which stimulus to present etc.
+On the task page you could use the value of ```$_NOTE_MODULE['PAGE_INFO']['TRIAL_ID']``` to record progess ('Trial n of 100'), determine which stimulus to present etc. It could also be added to a hidden FORM field to send back to the server when the form is submitted:
+
+```php
+<input type="hidden" name="trial_id" value="<?= _NOTE_MODULE['PAGE_INFO']['TRIAL_ID'] ?>">
+```
 
 ### Pages 'PAGE' subarray
 
@@ -100,9 +104,9 @@ If a page entry is itself an array, there are some required and optional keys:
 
 The FIELDS array should be set as ```'field' => 'type'```, e.g. ```'name' => 'TEXT'```. The types are from SQLite: INTEGER, TEXT and DATETIME are the ones you are most likely to need. The types aren't used in NOTE yet but may be in a later version.
 
-### Setting 'bookmarks'
+### Setting 'bookmarks' (DEPRECATED)
 
-#### (This is the old method for maintaining trial IDs etc. It still works but check out the newer method above.)
+#### (This is the old method for maintaining trial IDs etc. It still works but check out the newer method above that uses the PAGES subarray.)
 
 If pages are appended to the *PAGES* array individually there is an opportunity to add code between statements. For example, it may be important to know the page number where a particular part of the survey begins. That information could be hard-coded but if you decide to re-order your pages this can cause bugs. A better way would be to do this:
 

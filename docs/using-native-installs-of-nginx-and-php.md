@@ -1,5 +1,7 @@
 # Using native installs of nginx and php to set up a development environment
 
+**Following changes to the licensing scheme for VirrualBox Extensions Pack, the method shown below is the recommended way to create a development environment in Windows.**
+
 The Nginx and PHP services required for local development aren't applications that are installed but zip archives that are downloaded and decompressed. For this reason it's best to use a folder structure away from `C:\Program Files`. I have used `C:\APPS\nginx` and `C:\APPS\nginx\php` although you could use anything you like.
 
 Nginx can be downloaded from [http://nginx.org/en/download.html](http://nginx.org/en/download.html). Get the mainline zip version with 'Windows' in its name. I would recommend unzipping the Nginx archive to `C:\APPS\nginx`. Be careful not to create a 'double path' like `C:\APPS\nginx\nginx-1.25.6`.
