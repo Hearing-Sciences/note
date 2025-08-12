@@ -15,3 +15,7 @@ index.original.php
 maintenance/
 dashboard/
 /dashboard
+dashboard/index.php
+dashboard/report.php
+libs/js/sound/pink.js
+libs/js/sound/plugin.js
