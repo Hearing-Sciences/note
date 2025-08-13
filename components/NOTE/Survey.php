@@ -324,7 +324,7 @@ class Survey {
 		$page_id = $this->getPage();
 		$db = $this->participant->db;
 
-		if ($_NOTE_MODULE['DEBUG'] === false) {
+		if ($this->debug === false) {
 			return;
 		}
 
