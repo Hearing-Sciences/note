@@ -47,7 +47,7 @@ $_NOTE_MODULE is an array of module-specific options including:
 | CSS_LIBRARIES   | No       | An array of libraries. At present the only value available is *bootstrap5* which causes NOTE to load the Bootstrap 5 library. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
 | JS_LIBRARIES    | No       | An array of libraries to load from jsDelivr. Current options include *bootstrap5* and *p5*. | If *bootstrap5* is missing, Bootstrap 4 is used instead for backwards compatibility. |
 | FOOTER_COPYRIGHT | Yes      | The copyright message | "*The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust*" |
-| PAGES           | Yes      | An array of page names or sub-arrays of page information (see below). In order for everything to work, the page name must relate to a file name. The file name will be *page_{page name}.php* where *{page_name}* is the page name in the array. For example: the value *welcome* would cause *page_welcome.php* to be loaded and *survey* would case *page_survey.php* to be loaded. Values must not include spaces. | If a file cannot be found, the NOTE code will crash and the participant will probably see a mostly-empty web page. |
+| PAGES           | Yes      | An array of either page names or arrays of page information (see below). In order for everything to work, the page name must relate to a file name. The file name will be *page_{page name}.php* where *{page_name}* is the page name in the array. For example: the value *welcome* would cause *page_welcome.php* to be loaded and *survey* would case *page_survey.php* to be loaded. Values must not include spaces. | If a file cannot be found, the NOTE code will crash and the participant will probably see a mostly-empty web page. |
 | FIELDS | No | This should contain two indexed arrays (see below) | NULL |
 | FIELDS['COMMON'] | No | An indexed array of FORM field / column names that are present on every page and should *always* be included in automated testing. The array is populated using ```'name' => 'SQLite type'``` e.g. ```'uid' => 'TEXT'```. | NULL |
 | FIELDS['IGNORE'] | No | An indexed array of FORM field / column names that should **not** be checked as part of any automated testing. This will be useful for form fields such as 'nextpage' that are functional but never contain data. The array is populated using ```'name' => 'SQLite type'``` e.g. ```'uid' => 'TEXT'```. | NULL |
@@ -58,7 +58,9 @@ $_NOTE_MODULE is an array of module-specific options including:
 
 NOTE uses an indexed array to define the order of pages. If a page should be shown more than once (e.g. for multiple trials) then it would need to be added to the array multiple times. The *PAGES* array can be declared at once in its entirety or a page at a time using the shortcut '[]' syntax as in the example above.
 
-From NOTE version 2.1, entries in the *PAGES* array can themselves be arrays. In this case, one of the subarray keys must be *PAGE* referring to the name of the page in the same way as before. However, other keys can be defined which are passed into the survey as *$_NOTE_MODULE['PAGE_INFO']*. For example:
+### Page information as arrays - the next dimension
+
+From NOTE version 2.1, entries in the *PAGES* array can themselves be arrays. In this case, one of the keys must be *PAGE* referring to the name of the page in the same way as before. However, other keys can be defined which are passed into the survey as *$_NOTE_MODULE['PAGE_INFO']*. For example:
 
 ```php
 $_NOTE_MODULE['PAGES'][] = [
@@ -92,7 +94,7 @@ On the task page you could use the value of ```$_NOTE_MODULE['PAGE_INFO']['TRIAL
 <input type="hidden" name="trial_id" value="<?= _NOTE_MODULE['PAGE_INFO']['TRIAL_ID'] ?>">
 ```
 
-### Pages 'PAGE' subarray
+### 'PAGE' array
 
 If a page entry is itself an array, there are some required and optional keys:
 
@@ -106,7 +108,7 @@ The FIELDS array should be set as ```'field' => 'type'```, e.g. ```'name' => 'TE
 
 ### Setting 'bookmarks' (DEPRECATED)
 
-#### (This is the old method for maintaining trial IDs etc. It still works but check out the newer method above that uses the PAGES subarray.)
+#### (This is the old method for maintaining trial IDs etc. It still works but check out the newer method above that uses the PAGES entries as arrays.)
 
 If pages are appended to the *PAGES* array individually there is an opportunity to add code between statements. For example, it may be important to know the page number where a particular part of the survey begins. That information could be hard-coded but if you decide to re-order your pages this can cause bugs. A better way would be to do this:
 
