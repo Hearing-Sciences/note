@@ -91,7 +91,7 @@ for ( $trial = 1; $trial < 101; $trial++) {
 On the task page you could use the value of ```$_NOTE_MODULE['PAGE_INFO']['TRIAL_ID']``` to record progess ('Trial n of 100'), determine which stimulus to present etc. It could also be added to a hidden FORM field to send back to the server when the form is submitted:
 
 ```php
-<input type="hidden" name="trial_id" value="<?= _NOTE_MODULE['PAGE_INFO']['TRIAL_ID'] ?>">
+<input type="hidden" name="trial_id" value="<?= $_NOTE_MODULE['PAGE_INFO']['TRIAL_ID'] ?>">
 ```
 
 ### 'PAGE' array
