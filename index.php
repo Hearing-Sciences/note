@@ -127,7 +127,7 @@ $noteSurvey->participant->refresh();
 // Get data required for the current page (stimuli etc.)
 if (function_exists('db_fetch_page_data')) {
     $noteSurvey->Log->append('Calling the function <strong>db_fetch_page_data</strong> to populate $_NOTE_MODULE[\'PRESENTATION_DATA\'].', 'notice');
-    $_NOTE_MODULE['PRESENTATION_DATA'] = db_fetch_page_data($noteSurvey->participant->db, $noteSurvey->getPage(), $_NOTE_MODULE, $noteSurvey->participant->getUid());
+    $_NOTE_MODULE['PRESENTATION_DATA'] = db_fetch_page_data($noteSurvey->getPage(), $noteSurvey->participant->getUid(), $noteSurvey->participant->db, $_NOTE_MODULE);
 } else {
     $_NOTE_MODULE['PRESENTATION_DATA'] = false;
 }
