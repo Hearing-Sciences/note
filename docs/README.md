@@ -1,14 +1,20 @@
 # NOTE Documentation
 
+[History](./history.md)
+
+[Hardware / software requirements](./requirements.md)
+
+[Set up an environment (server or local)](./Setting-up-a-basic-environment.md)
+
 [Migrating to NOTE v2](./Migrating-to-NOTE-v2.md)
 
-[Set up a basic environment](./Setting-up-a-basic-environment.md)
+## Guides
 
 [Create a simple first survey](./A-first-NOTE-survey.md)
 
-## Reference
+[Create a more complicated second survey](./A-second-NOTE-survey.md)
 
-[Variables](./Variables.md)
+## Reference
 
 [Survey file structure](./File-Structure.md)
 
@@ -25,6 +31,8 @@
 [Copying data to the clipboard](./copying-from-the-data-page.md)
 
 [Password protection for data pages](Adding-password-protection-to-a-survey-data-page.md)
+
+[Core code variables](./Variables.md)
 
 ## Additional Reference for Hearing Sciences Staff
 

@@ -103,12 +103,13 @@ If a page entry is itself an array, there are some required and optional keys:
 |PAGE|Yes|The name of the page *n* in *page_n.php*|
 |TABLE|No|The table that will receive data from the page|
 |FIELDS|No|An indexed array of field names and SQLite types: data that will be sent from the page for saving or processing.|
+|{Others}|No|Other keys can be created and accessed from ```$_NOTE_MODULE['PAGE_INFO']``` later.
 
 The FIELDS array should be set as ```'field' => 'type'```, e.g. ```'name' => 'TEXT'```. The types are from SQLite: INTEGER, TEXT and DATETIME are the ones you are most likely to need. The types aren't used in NOTE yet but may be in a later version.
 
 ### Setting 'bookmarks' (DEPRECATED)
 
-#### (This is the old method for maintaining trial IDs etc. It still works but check out the newer method above that uses the PAGES entries as arrays.)
+*(This is the old method for maintaining trial IDs etc. It still works but check out the newer method above that uses the PAGES entries as arrays.)*
 
 If pages are appended to the *PAGES* array individually there is an opportunity to add code between statements. For example, it may be important to know the page number where a particular part of the survey begins. That information could be hard-coded but if you decide to re-order your pages this can cause bugs. A better way would be to do this:
 

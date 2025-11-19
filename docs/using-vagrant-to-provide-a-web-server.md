@@ -23,11 +23,17 @@ You will need the following:
 
 **I only have access to a Windows PC so cannot provide instructions for Linux or macOS installations.** If the situation changes I will update this page.
 
-First, install VirtualBox. Accept all of the defaults and install everything offered. You might be asked to restart your PC. Don't do it yet; wait until Vagrant has also been installed.
+### Install VirtualBox
 
-(There is an *extras* package available for VirtualBox. It os offered through a personal use and evaluation licence (PUEL) but is **not** required. DO NOT install it.)
+Accept all of the defaults and install everything offered. You might be asked to restart your PC. Don't do it yet; wait until Vagrant has also been installed.
 
-Next, install Vagrant. Again, accept all of the defaults and reboot when asked. Rebooting should add vagrant to the command line which will be vital later on, so don't skip the reboot.
+(There is an *extras* package available for VirtualBox. It os offered through a personal use and evaluation licence (PUEL) but is **not** required. **DO NOT** install it.)
+
+### Install Vagrant
+
+Again, accept all of the defaults and reboot when asked. Rebooting should add vagrant to the command line which will be vital later on, so don't skip the reboot.
+
+### Create folders and files
 
 Once you are logged back into your PC, create a folder on C: called NOTE. This must be at the root of the C: drive i.e. not in any other folders.
 
@@ -74,17 +80,15 @@ It will take significantly longer to start Vagrant the first time because everyt
 * Initialises itself
 * Downloads a Ubuntu Linux server image from the Vagrant website. This may take several minutes depending on your internet connection.
 * Starts the server using Virtualbox
+* Removes Apache (if it is installed)
 * Updates the server packages
 * Removes any redundant packages
 * Installs extra packages:
-  * git
-  * apache2
-  * php
-  * sqlite
+  * nginx
+  * php (using FPM)
   * php-sqlite3
-* Copies the Apache configuration file to the server
-* Enables the Apache rewrite module
-* (Re)starts the Apache web server
+* Copies the Nginx configuration file to the server
+* (Re)starts the Nginx web server
 
 Later when you start Vagrant it only needs to complete the following:
 
