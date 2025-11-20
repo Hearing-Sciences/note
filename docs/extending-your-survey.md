@@ -6,9 +6,14 @@ Now that you have a working survey, there are various ways to extend its capabil
 
 ## Libraries
 
-Libraries are provided through jsDelivr, a public archive of open source projects. This minimises the number of libraries you must download and manage yourself. For the most common libraries it is only necessary to create an array of names.
+A selection of libraries is available for use:
 
-NOTE should load the Bootstrap 4 libraries by default, so let's test this. Before you add a library, add the following to *page_welcome.php* after the title:
+- Bootstrap 4 (included) or 5 (optional)
+- Font Awesome (included)
+- jQuery (included)
+- P5 (optional)
+
+NOTE should load the Bootstrap 4 libraries automatically so let's test this. Before you add a library, add the following to *page_welcome.php* after the title:
 
 ```php
 <div class="text-right">Some right-aligned text</div>
@@ -108,6 +113,128 @@ First of all, having code for each button means that the code isn't DRY. Replace
 </div>
 <?php endforeach; ?>
 ```
+
+### Extending the PAGES configuration
+
+The title and question can also be generated using PHP, but in these cases the text will change *between* pages rather than *within* each page. This can be achieved by adding to the PAGES array in *config.php*. Full details are available in the section *Page information as arrays - the next dimension*.
+
+To add configuration information to send to the *sequence* page, change the following line in *config.php*:
+
+```php
+$_NOTE_MODULE['PAGES'][] = 'sequence';
+```
+
+To this:
+
+```php
+$_NOTE_MODULE['PAGES'][] = [
+    'PAGE' => 'sequence',
+    'QUESTION_ID' => 1,
+    'QUESTION' => 'How often do you go out for lunch?'
+];
+
+$_NOTE_MODULE['PAGES'][] = [
+    'PAGE' => 'sequence',
+    'QUESTION_ID' => 2,
+    'QUESTION' => 'How often do you go out at the weekend?'
+];
+
+$_NOTE_MODULE['PAGES'][] = [
+    'PAGE' => 'sequence',
+    'QUESTION_ID' => 3,
+    'QUESTION' => 'How often do you work from home?'
+];
+```
+
+We have now described three calls to *page_sequence.php* containing configuration information about the question ID and text.
+
+The QUESTION_ID and QUESTION values are passed to the page in the array $_NOTE_MODULE['PAGE_INFO']. Update *page_sequence.php* and change the following:
+
+```php
+<h1>A sequence of questions, trial x</h1>
+```
+
+To this:
+
+```php
+<h1>A sequence of questions, question <?= $_NOTE_MODULE['PAGE_INFO']['QUESTION_ID'] ?></h1>
+
+<input type="hidden" name="question_id" id="question_id" value="<?= $_NOTE_MODULE['PAGE_INFO']['QUESTION_ID'] ?>">
+<input type="hidden" name="question" id="question" value="<?= $_NOTE_MODULE['PAGE_INFO']['QUESTION'] ?>">
+```
+
+This will update the title to use the QUESTION_ID. To update the question itself, change this:
+
+```php
+<div class="h3 text-center">This is a question</div>
+```
+
+To this:
+
+```php
+<div class="h3 text-center"><?= $_NOTE_MODULE['PAGE_INFO']['QUESTION'] ?></div>
+```
+
+The page now shows the correct, configuration-specific question number and title. There are also two hidden form fields containing the question ID and question that can be saved in the database alongside the answer.
+
+Now let's update the file *db.php* to save this additional data:
+
+```php
+function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE) 
+{
+    switch($_NOTE_MODULE['PAGES'][$page]) {
+        case 'response':
+            // Sanitise the data
+            $question_id = intval($post['question_id']);            
+            $question = preg_replace("/[^0-9A-Za-z \?]/","", $post['question']);
+            $response = preg_replace("/[^0-9A-Za-z ]/","", $post['response']); 
+
+            $qry = $db->prepare('INSERT INTO responses (uniqueID, question_id, question, response, timestamp) VALUES (:uid, :response, :timestamp)'); // Prepare a statement
+            $result = $qry->execute([
+                ':uid' => $uid,
+                ':question_id' => $question_id,
+                ':question' => $question,
+                ':response' => $response,
+                ':timestamp' => date('Y-m-d H:i:s')
+            ]);
+        break;
+    }
+}
+```
+
+New columns must be added to the database. SQLite doesn't support adding columns with an 'if not exist' clause so just delete the file *database.sqlite3* and update *db.php* as follows:
+
+```php
+    $db->exec('CREATE TABLE IF NOT EXISTS responses (
+        id INTEGER PRIMARY KEY,
+        uniqueID TEXT,
+        question_id INTEGER, 
+        question TEXT,
+        response TEXT,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)');
+```
+
+When you next run the survey the database will be recreated and the *responses* table will contain the new columns.
+
+Finally the data page will need to display the new columns.
+
+```php
+<?php
+    $query = 'SELECT * FROM responses';
+    $result = $db->query($query);
+?>
+<h1>Responses</h1>
+
+<?php foreach($result as $row): ?>
+    <h2>From <?= $row['uniqueID'] ?></h2>
+    <p>Question <?= $row['question_id'] ?>: <?= $row['question'] ?></p>
+    <p><?= $row['response'] ?></p>
+<?php endforeach; ?>
+```
+
+Now you can run through the survey and answer the three questions. The data page should show the three answers:
+
+![The data page showing answers](img/data-page-showing-questions.png)
 
 ### Bookmarks
 

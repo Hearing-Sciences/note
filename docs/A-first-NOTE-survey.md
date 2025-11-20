@@ -48,7 +48,7 @@ Populate these files with the following simple content:
 $_NOTE_MODULE['TITLE'] = 'A first test survey';
 $_NOTE_MODULE['PAGETITLE'] = 'A first test survey'; // this is the used at the top of most pages
 $_NOTE_MODULE['PAGES'] = [];
-$_NOTE_MODULE['FOOTER_COPYRIGHT'] = 'The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust';
+$_NOTE_MODULE['FOOTER_COPYRIGHT'] = 'The information and materials on this website are protected by copyright.';
 $_NOTE_MODULE['STUDY_TITLE'] = 'A first test survey';
 
 //==============================================================================
@@ -58,8 +58,7 @@ $_NOTE_MODULE['STUDY_TITLE'] = 'A first test survey';
 $_NOTE_MODULE['PAGES'][] = 'welcome';
 $_NOTE_MODULE['PAGES'][] = 'goodbye';
 
-$_NOTE_MODULE['FOOTER_COPYRIGHT'] = 'This survey is provided by the Hearing Sciences Scottish Section in Glasgow';
-
+$_NOTE_MODULE['FOOTER_COPYRIGHT'] = 'This survey is provided by me.';
 
 ?>
 ```
@@ -87,22 +86,18 @@ $_NOTE_MODULE['FOOTER_COPYRIGHT'] = 'This survey is provided by the Hearing Scie
 
 function db_create_tables($db)
 {
-    $db->exec('CREATE TABLE IF NOT EXISTS visitors (
-        id INTEGER PRIMARY KEY,
-        uniqueID TEXT,
-        ipaddr TEXT,
-        lastPage INTEGER,
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)'
-    );
+    // Nothing here
 }
 
-function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE) // <-- THIS FUNCTION MUST BE PRESENT
+function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE) // <-- THIS FUNCTION MUST BE PRESENT...
 {
+    //... but can be empty
 }
-
 
 ?>
 ```
+
+(The two functions must contain the parameters specified above although you can change the names of the variables if you really want. More information about the functions is provided in the reference document for db.php.)
 
 Those files should be enough to make the NOTE survey 'work.' If you browse to `http://localhost:5000/test` you should see the following:
 
@@ -116,14 +111,13 @@ Once you are at the 'goodbye' page you can refresh the browser window to go back
 
 There are several things to be aware of at this early stage:
 
-- The content and formatting of the header and footer have been created automatically. The survey title has been used in the title bar and the copyright message appears in the footer. There is also a progress bar (although with only two pages it will only show 100% progress at the moment).
+- The content and formatting of the header and footer have been created automatically. The survey title has been used in the title bar and the copyright message appears in the footer.
+- A progress bar is displayed on the second page onwards (although with only two pages it will only show 100% progress at the moment).
 - The start and end of an HTML `form` have been created automatically although you need to include a *submit* button so that a visitor can move to the next page.
 - If you look in the `test` folder a new `database.sqlite3` file will have been created.
   - If a database file does not already exist (as in this case) PHP automatically creates an empty database.
-  - The SQL queries you entered into the *db_create_tables* function in `db.php` (commands starting with `$db->exec`) run to create a *visitors* table that tracks visitors to the survey.
-  - The SQL command contains `IF NOT EXISTS` to ensure that the visitors table is only created if it is not already present.
-  - The *db_create_tables* function is executed every time a page is loaded so **it is vital that the `IF NOT EXISTS` clause is included** to prevent the table from being continually overwritten.
-- If you examine the database in DB Browser for SQLite or another program you will see some data about your 'visit' to the survey has been recorded.
+  - If the database doesn't contain a table called *visitors*, one is created containing the fields required to track participants' progress through the survey.
+  - If you examine the database in DB Browser for SQLite or another program you will see some data about your 'visit' to the survey has been recorded.
 
 ## Adding a page, asking for a response
 
@@ -179,22 +173,30 @@ function db_create_tables($db)
 
 This will create a table and add a field to store the response. It will also include a column for the unique ID (so you know which visitor issued which response) and a timestamp (so you know when the response was made). The extra columns are optional but useful.
 
-To handle saving the data, the function *db_store_page_data* needs to be changed. This function handles data for all of the survey pages, so it needs to check that this is data for the *response* page. It also needs to make sure that the data is sanitised. It can achieve this in two ways: running specific data-santitising functions and by using prepared SQL statements. Here is the updated function:
+> The *db_create_tables* function is executed every time a page is loaded so **it is vital that the `IF NOT EXISTS` clause is included** to prevent the table from being continually overwritten or an error being displayed.
+
+To handle saving the data, the function *db_store_page_data* needs to be changed. As this is the only page containing data to be submitted, it would be possible to just add code to save the data. But it will make sense to assume that the survey could contain many pages and check that data is being sent from the appropriate page.
+
+To check that this is data for the *response* page we can use a ```switch ... case``` section. This will read the name of the page that has submitted the data and use ```case``` to find a match. The function parameter ```$page``` contains the page number so the name of the page can be retrieved using ```$_NOTE_MODULE['PAGES'][$page]```.
+
+If more pages are added to the survey, more ```case``` conditions can be added.
+
+We also need to make sure that the data is sanitised. We can achieve this in two ways: by running data-santitising functions and by using prepared SQL statements. Here is the updated function:
 
 ```php
 function db_store_page_data($page, &$post, $uid, &$db, &$_NOTE_MODULE) 
 {
     switch($_NOTE_MODULE['PAGES'][$page]) {
         case 'response':
-            $response = preg_replace("/[^0-9A-Za-z ]/","", $post['response']);
+            $response = preg_replace("/[^0-9A-Za-z ]/","", $post['response']); // Sanitise the data
 
-            $qry    = $db->prepare('INSERT INTO responses (uniqueID, response, timestamp) VALUES (:uid, :response, :timestamp)');
+            $qry = $db->prepare('INSERT INTO responses (uniqueID, response, timestamp) VALUES (:uid, :response, :timestamp)'); // Prepare a statement
             $result = $qry->execute([
                 ':uid' => $uid,
                 ':response' => $response,
                 ':timestamp' => date('Y-m-d H:i:s')
             ]);
-            break;
+        break;
     }
 }
 ```
@@ -203,7 +205,9 @@ With this extra code in place you can enter a response and it will be saved in t
 
 The data sanitisation process above removes any characters that aren't alphanumeric or spaces. This might be too severe depending on your survey; care must always be taken to ensure that a participant response cannot break or hack the survey but you still get the data you need.
 
-The prepared SQL statement protects against [SQL injection attacks](https://en.wikipedia.org/wiki/SQL_injection).
+The prepared SQL statement protects against [SQL injection attacks](https://en.wikipedia.org/wiki/SQL_injection). 
+
+> Always use prepared statements when saving data.
 
 ## data.php
 
