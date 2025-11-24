@@ -1,20 +1,18 @@
 # Using native installs of nginx and php to set up a development environment
 
-**Following changes to the licensing scheme for VirrualBox Extensions Pack, the method shown below is the recommended way to create a development environment in Windows.**
+The Nginx and PHP services required for local development aren't applications that are installed but zip archives that are downloaded and decompressed. For this reason it is recommended that a folder structure is created independently of `C:\Program Files`. This example uses `C:\APPS\nginx` and `C:\APPS\nginx\php` although any folder(s) could be chosen.
 
-The Nginx and PHP services required for local development aren't applications that are installed but zip archives that are downloaded and decompressed. For this reason it's best to use a folder structure away from `C:\Program Files`. I have used `C:\APPS\nginx` and `C:\APPS\nginx\php` although you could use anything you like.
+Nginx can be downloaded from [http://nginx.org/en/download.html](http://nginx.org/en/download.html). The 'mainline' version with *Windows* in its name should be chosen. 
 
-Nginx can be downloaded from [http://nginx.org/en/download.html](http://nginx.org/en/download.html). Get the mainline zip version with 'Windows' in its name. I would recommend unzipping the Nginx archive to `C:\APPS\nginx`. Be careful not to create a 'double path' like `C:\APPS\nginx\nginx-1.25.6`.
+Unzip the Nginx archive to `C:\APPS\nginx`. Be careful not to create an unnecessary extra subfolder like `C:\APPS\nginx\nginx-1.25.6`.
 
 ## Nginx Configuration
 
-The Nginx configuration is contained within *nginx.conf* and divided into blocks surrounded by {} brackets. There may be some initial configuration lines followed by an *events* block. The main block is the *http* block and within can be found one or more *server* blocks.
+The Nginx configuration is contained within *nginx.conf* and divided into blocks surrounded by {} brackets. There may be some initial configuration lines followed by an *events* block. The main block is the *http* block which can contain one or more *server* blocks.
 
-Here’s the server configuration that I use in a **local dev environment**. Put this or something similar into the `conf` subdirectory and call it `nginx.conf`. Beware of Windows file extension conventions; Windows usually hides the file extension (*.conf*) and it's possible to create a file called *nginx.conf.txt* or even *nginx.conf.conf*. You might need to use the Windows command line to check and rename your file.
+The configuration example below could be used in a **local development environment**. Create a file in the `C:\APPS\nginx\conf` subdirectory called `nginx.conf` and copy and paste the configuration text into it. (If a file called `nginx.conf` already exists, rename the file to `nginx.conf.dist`.) Beware of Windows file extension conventions; Windows usually hides the file extension (*.conf*) and it's possible to create a file called *nginx.conf.txt* or even *nginx.conf.conf*. It may be necessary to use the Windows command line to check and rename your file.
 
-**Do not use this configuration to set up a server in a live environment - you will need a more secure setup. You proceed at your own risk.**
-
-There is a section of the config file marked *Section for password protecting data pages* that can be excluded from test environments.
+**Do not use this configuration to set up a server in a live environment - a more secure setup will be needed. You proceed at your own risk.**
 
 ```conf
 worker_processes  1;
@@ -47,21 +45,6 @@ http {
             try_files $uri =404 /data.php?$query_string;
         }
 
-        # Section for password protecting data pages
-        location ~ /data/([0-9a-z\-_]+)/ {
-            try_files $uri $uri/ =404 /data.php?$query_string;
-            auth_basic      "Please enter your password to continue";
-            auth_basic_user_file    c:/APPS/nginx/htpasswd/htpasswd_$1;
-        }
-
-        location /dev/ {
-            try_files $uri =404 /dev/index.php?$query_string;
-        }
-
-        location /dev/data/ {
-            try_files $uri =404 /dev/data.php?$query_string;
-        }
-
         location ~ \.php {
             try_files $uri =404;
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
@@ -75,11 +58,11 @@ http {
 }
 ```
 
-This configuration will start a server at `http://localhost:9090` and enable PHP connections to a service running on port 9123. 9090 is an unusual port to use but will be useful if you choose to develop using something like React later.
+This configuration will start a server at `http://localhost:9090` and enable PHP connections to a service running on port 9123. 9090 is an unusual port to use but will be useful if you choose to develop using other web-based languages that might require well-known ports.
 
 To run nginx, open a command prompt (`cmd.exe`), `cd` to the folder c:\APPS\nginx and type `start nginx`. This runs the nginx program and returns a command prompt.
 
-If you open a web browser and browse to `http://localhost:9090` you should see a 'file not found' page generated by nginx. This shows that the program is running (and working!).
+If you open a web browser and browse to `http://localhost:9090` you should see a 'file not found' page generated by nginx. This shows that the program is running (and working).
 
 ![File not found](img/nginx-not-found.png)
 
@@ -89,13 +72,80 @@ In the `location` section Nginx attempts to send PHP code to a PHP server runnin
 
 ### Windows C++ redistributable
 
-PHP requires the latest Microsoft Visual C++ Redistributable Version (including version 2019). You can probably obtain the file from this link: [https://aka.ms/vs/17/release/vc_redist.x64.exe](https://aka.ms/vs/17/release/vc_redist.x64.exe). This may require administrative privileges to install (and an inevitable reboot).
+PHP requires the latest Microsoft Visual C++ Redistributable Version (including version 2019). The file can probably be obtained from this link: [https://aka.ms/vs/17/release/vc_redist.x64.exe](https://aka.ms/vs/17/release/vc_redist.x64.exe). Install the application; it may require administrative privileges to install.
 
-Download the latest PHP package from [https://windows.php.net/download](https://windows.php.net/download). Choose the VS17 x64 Thread Safe Version unless you have a good reason to do otherwise and get the zip. Unzip this archive into `C:\APPS\nginx\php` (you might have to create the `php` folder first).
+Download the latest PHP package from [https://windows.php.net/download](https://windows.php.net/download). Choose the VS17 x64 Thread Safe Version and download the zip. Unzip this archive into `C:\APPS\nginx\php` (you might have to create the `php` folder first).
 
-PHP might require a configuration change to work with SQLite. Open the PHP folder and look for a file called *php.ini*. If there is no *php.ini* file, an example *php.ini* can be found in this repo in the *server-config/php* folder. You can copy this into *c:\APPS\nginx\php\* if you like **but it's at your own risk**.
+Open the `C:\APPS\nginx\php` folder and create a file called `php.ini`. If a `php.ini` is already present rename it to `php.ini.dist`. The text for an example *php.ini* can be found below. This can be copied and pasted into *c:\APPS\nginx\php\php.ini*  **at your own risk**.
 
-Make sure the following settings are included and not commented out:
+```ini
+; This is just an example file. Use this file, your own or modify settings *at your own risk*
+;
+[PHP]
+engine = On
+short_open_tag = Off
+implicit_flush = Off
+zend.enable_gc = On
+expose_php = Off
+max_execution_time = 30
+max_input_time = 60
+memory_limit = 512M
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+display_errors = On
+display_startup_errors = On
+log_errors = On
+variables_order = "GPCS"
+request_order = "GP"
+register_argc_argv = Off
+auto_globals_jit = On
+post_max_size = 8M
+default_mimetype = "text/html"
+default_charset = "UTF-8"
+include_path = "."
+extension_dir = "c:\APPS\nginx\php\ext"
+enable_dl = Off
+file_uploads = On
+upload_max_filesize = 2M
+max_file_uploads = 20
+allow_url_fopen = On
+allow_url_include = Off
+default_socket_timeout = 60
+
+extension=curl
+extension=fileinfo
+extension=gettext
+extension=intl
+extension=mbstring
+extension=mysqli
+extension=openssl
+extension=pdo_mysql
+extension=pdo_sqlite
+extension=sqlite3
+
+[Session]
+session.save_handler = files
+session.save_path = "c:\APPS\nginx\temp"
+session.use_strict_mode = 0
+session.use_cookies = 1
+session.use_only_cookies = 1
+session.name = PHPSESSID
+session.auto_start = 0
+session.cookie_lifetime = 0
+session.cookie_path = /
+session.cookie_domain =
+session.cookie_httponly =
+session.cookie_samesite =
+session.serialize_handler = php
+session.gc_probability = 1
+session.gc_divisor = 1000
+session.gc_maxlifetime = 1440
+session.cache_limiter = nocache
+session.cache_expire = 180
+session.use_trans_sid = 0
+session.sid_bits_per_character = 5
+```
+
+If a different PHP configuration is used, the following settings must be included and not commented out:
 
 ```ini
 extension_dir = "c:\APPS\nginx\php\ext"
@@ -106,27 +156,17 @@ extension=pdo_sqlite
 extension=sqlite3
 ```
 
-Don't expect to find these lines grouped together; they might be anywhere in the file. The extensions enable database access to SQLite files and the *extension_dir* paramter sets where these extensions can be found.
+The extensions enable database access to SQLite files and the *extension_dir* paramter sets where these extensions can be found.
 
-You might also want to consider changing the lines *memory_limit*, *post_max_size* and/or *upload_max_filesize* if you are running particularly demanding code.
+It may also be necessary to change the lines *memory_limit*, *post_max_size* and/or *upload_max_filesize* if particularly demanding code will be run.
 
-## Files
+## Starting and stopping the environment
 
-Download a release of NOTE and uncompress the zip archive to ```C:\APPS\nginx\NOTE```. There should be files such as:
+### Starting Nginx and PHP
 
-- ```C:\APPS\nginx\NOTE\index.php```
-- ```C:\APPS\nginx\NOTE\data.php```
-- ```C:\APPS\nginx\NOTE\components\header.php```
+Nginx can be stopped with the command `nginx -s stop`. 
 
-... and so on.
-
-## Starting and stopping
-
-### Start
-
-If you started nginx earlier, stop it with the command `nginx -s stop` before restarting it. It's not nececssary but it never hurts to be sure that everything is starting afresh.
-
-Start Nginx before PHP. This is because PHP runs a debug server in the window and the command prompt won't be returned.
+Nginx should be started before PHP. This is because PHP runs a debug server in the window and control of the command prompt won't be returned.
 
 ```cmd
 start nginx
@@ -136,58 +176,58 @@ php\php-cgi.exe -b 127.0.0.1:9123 -c php\php.ini
 - -b binds the server to the IP address 127.0.0.1 and port 9123. You can use other ports but be aware to change the port information in the Nginx configuration file *nginx.conf*. Look for the directive *fastcgi_pass*.
 - -c configuration file to use. This is likely to be *php.ini* but if you have created a different configuration file it will need to be specified here. **If you do not specify a file, *php.ini* will be used.**
 
-If you try to run PHP and see the error `PHP Warning:  'C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll' 14.38 is not compatible with this PHP build` then you need to update your installation of the C++ redistributable (see above).
+If the error `PHP Warning:  'C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll' 14.38 is not compatible with this PHP build` is displayed then the installation of the C++ redistributable must be updated (see above).
 
-### Stop
+### Stopping PHP and Nginx
 
 If the PHP window is still open - it should be - then CTRL-C should be enough to stop the PHP server. Then stop Nginx using `nginx -s stop`.
 
 ## Add the NOTE files
 
-The Nginx configuration file above uses `C:\APPS\nginx\NOTE` as the location for the NOTE files. Again, you can put the files somewhere else and change the folder in the configuration file.
+The Nginx configuration file above uses `C:\APPS\nginx\NOTE` as the location for the NOTE files. The files can be placed somewhere else but the configuration file must be changed accordingly.
 
-Download the NOTE archive from GitHub ([https://github.com/Hearing-Sciences/note](https://github.com/Hearing-Sciences/note)) and unzip it to `C:\APPS\nginx\NOTE`. You should see files and folders like:
+Extract the NOTE archive to `C:\APPS\nginx\NOTE`. You should see files and folders including:
 
 - `C:\APPS\nginx\NOTE\index.php`
 - `C:\APPS\nginx\NOTE\data.php`
 - `C:\APPS\nginx\NOTE\modules\`
 - `C:\APPS\nginx\NOTE\css\`
 
-(There will be many more.)
-
 ## Testing
 
-Everything is in place so try visiting:
+To test the installation, visit the following URL:
 
 `http://localhost:9090/`
 
-This will work but display a lot of warning messages.
+You should see a title page containing several warnings about unidentified variables and arrays.
 
 ![First run](img/first_run.png)
 
-These messages have been generated by PHP running `index.php`. So you know that (a) Nginx and PHP are running and (b) you have successfully opened the `index.php` file.
+These messages have been generated by PHP running `index.php`. This demonstrates that (a) Nginx and PHP are running and (b) the `index.php` file has been read successfully.
 
-Warning messages wouldn't be displayed on the live site but it's a good idea to see them here as they are usually an indicator of a problem (or something that *will* be a problem).
+Warning messages wouldn't be displayed on the live site but it is recommended to display them on the local development environment because they are usually an indicator of a problem (or something that *will* be a problem).
 
-Once you have NOTE installed locally, you're going to want to write some surveys! Any competent text editor can be used, but Visual Studio Code is recommended.
+## Editing scripts
+
+Any competent text editor can be used, but Visual Studio Code, VS Codium or Zed are recommended.
 
 ## DB Browser for SQLite
 
-## Visual Studio Code
+## Visual Studio Code or VS Codium
 
 This can be downloaded and installed from here: [Get Visual Studio Code](https://code.visualstudio.com/)
 
-If you are concerned about Microsoft rummaging through your stuff you could install VS Codium instead from here: [Get VS Codium](https://vscodium.com/). Or you could use one of a variety of other text editors such as Notepad++.
+VS Codium can be downloaded from here: [Get VS Codium](https://vscodium.com/). 
 
-VS Code installs into your user profile so no admin privileges should be required. Once installed, it's a good idea to set it up to work with PHP. I recommend the following steps:
+VS Code installs into a user profile so no admin privileges should be required. Once installed, it can be set up to work with PHP. 
 
-- In Visual Studio Code, go to the plugins section and install *PHP Intelephense* (Yes, it really is called that; PHP's symbol/mascot is an elephant)
+- In Visual Studio Code, go to the plugins section and install *PHP Intelephense*
 - You will need to provide the path to the PHP executable. Open the file:
-  - %APPDATA%\Code\User\settings.json
+  - `%APPDATA%\Code\User\settings.json`
 - (Create the file if necessary)
 - and add the following:
   - `"php.validate.executablePath": "C:\\APPS\\nginx\\php\\php.exe",`
-- Include the double quotes and the comma. If you needed to create the file, enclose the line with {} braces. If you unzipped PHP into a different folder use that in the configuration above.
+- Include the double quotes and the comma. If you needed to create the `settings.json` file, enclose the line with {} braces. If you unzipped PHP into a different folder use that in the configuration above.
 
 The whole *settings.json* file might look like this:
 
