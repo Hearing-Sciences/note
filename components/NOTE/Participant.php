@@ -44,13 +44,18 @@ class Participant {
      * 
      * This is a getter function so that the property can be protected from outside changes.
      * 
-     * @return string the UID of the participant
+     * @return String the UID of the participant
      */
     public function getUid(): string|null
     {
         return $this->uid;
     }
 
+    /**
+     * setLastPageViewed: set the index of the last page viewed by the participant
+     * 
+     * @return Boolean the UID of the participant
+     */
     public function setLastPageViewed($page)
     {
         $this->lastPage = $page;
@@ -58,15 +63,20 @@ class Participant {
         return true;
     }
 
+    /**
+     * getLastPageViewed: retrieve the index of the last page viewed by the participant
+     * 
+     * @return Integer the index of the last page viewed by the participant
+     */
     public function getLastPageViewed(): int
     {
         return $this->lastPage;
     }
 
     /**
-     * dbConnect: open a database connection and create tables if necessary
+     * dbConnect: open a database connection and create tables if necessary*
      * 
-     * As the table creation scripts are run every time the 'if 
+     * The table creation scripts are run every time a page is loaded. *The 'if 
      * necessary' part is handled by the queries themselves. The SQL *must* contain 
      * 'IF NOT EXISTS' to avoid errors or wiping out existing tables.
      * 
@@ -98,7 +108,6 @@ class Participant {
                 "ipaddr"	TEXT,
                 "lastPage"	INTEGER,
                 "timestamp"	DATETIME DEFAULT CURRENT_TIMESTAMP
-
             )');
         }
         catch(PDOException $e) {
