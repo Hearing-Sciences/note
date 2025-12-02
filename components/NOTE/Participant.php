@@ -29,13 +29,16 @@ class Participant {
     public function __construct($module, $path, $options) 
     {
         $this->dbConnect($path);
-        if (isset($options['mode']) && $options['mode'] !== 'data')
-        if ($this->readUidFromSession($module) && $this->uidInDb()) {
-            $this->isNew = false;
-        } else {
-            $this->isNew = true;
-            $this->createUid($module);
-            $this->save();
+        $this->createCoreTables();
+        $this->createUserTables();
+        if (isset($options['mode']) && $options['mode'] !== 'data') {
+            if ($this->getUidFromSession($module) && $this->load()) {
+                $this->isNew = false;
+            } else {
+                $this->isNew = true;
+                $this->createUid($module);
+                $this->save();
+            }
         }
     }
 
@@ -59,7 +62,6 @@ class Participant {
     public function setLastPageViewed($page)
     {
         $this->lastPage = $page;
-        $this->save();
         return true;
     }
 
@@ -95,20 +97,6 @@ class Participant {
             $this->db->query('pragma temp_store = memory');
             $this->db->query('pragma mmap_size = 30000000000');
             $this->db->query('pragma page_size = 32768');
-            require_once($path.DIRECTORY_SEPARATOR.'db.php');
-            if (function_exists('db_create_tables')) {
-                db_create_tables($this->db);
-            }
-            $this->db->query('CREATE TABLE IF NOT EXISTS "visitors" (
-                "id"	INTEGER AUTO_INCREMENT PRIMARY KEY,
-                "uniqueID"	TEXT,
-                "participant_id"	TEXT,
-                "study_id"	TEXT,
-                "session_id"	TEXT,
-                "ipaddr"	TEXT,
-                "lastPage"	INTEGER,
-                "timestamp"	DATETIME DEFAULT CURRENT_TIMESTAMP
-            )');
         }
         catch(PDOException $e) {
           // Log error
@@ -118,7 +106,47 @@ class Participant {
     }
 
     /**
-     * readUidFromSession: Retrieve the user's UID from the session
+     * createUserTables: create user-defined tables
+     * 
+     * The table creation scripts are run every time a page is loaded. 
+     * The SQL *must* contain 'IF NOT EXISTS' to avoid errors 
+     * or wiping out existing tables.
+     * 
+     * @return null 
+     */
+    private function createUserTables() {
+        require_once($path.DIRECTORY_SEPARATOR.'db.php');
+        if (function_exists('db_create_tables')) {
+            db_create_tables($this->db);
+        }
+    }
+
+    /**
+     * createCoreTables: create NOTE tables
+     * 
+     * This function creates the visitors table.
+     * 
+     * The table creation scripts are run every time a page is loaded. 
+     * The SQL *must* contain 'IF NOT EXISTS' to avoid errors 
+     * or wiping out existing tables.
+     * 
+     * @return null 
+     */
+    private function createCoreTables() {
+        $this->db->query('CREATE TABLE IF NOT EXISTS "visitors" (
+            "id"	INTEGER AUTO_INCREMENT PRIMARY KEY,
+            "uniqueID"	TEXT,
+            "participant_id"	TEXT,
+            "study_id"	TEXT,
+            "session_id"	TEXT,
+            "ipaddr"	TEXT,
+            "lastPage"	INTEGER,
+            "timestamp"	DATETIME DEFAULT CURRENT_TIMESTAMP
+        )');
+    }
+
+    /**
+     * getUidFromSession: Retrieve the user's UID from the session
      * 
      * The module name is appended to the UID
      * 
@@ -126,7 +154,7 @@ class Participant {
      * 
      * @return Bool 
      */
-    private function readUidFromSession($module)
+    private function getUidFromSession($module)
     {
         if (isset($_SESSION['uniqueID_'.$module])) {
             $this->uid = $_SESSION['uniqueID_'.$module];
@@ -137,14 +165,15 @@ class Participant {
     }
 
     /**
-     * uidInDb: Check that the user's UID is in the visitors table
-     * 
-     * This function checks that the session UID can be found in the table of visitors
+     * load: Populate object data from the database
      * 
      * @return Bool 
      */
-    private function uidInDb()
+    private function load()
     {
+        if (!$this->uid) {
+            return false;
+        }
         $qry = $this->db->prepare('SELECT * FROM visitors WHERE uniqueID=:uid LIMIT 1');
         $qry->execute([':uid' => $this->uid]);
         $result = $qry->fetch();
@@ -162,7 +191,7 @@ class Participant {
      * 
      * @return Bool
      */
-    private function save()
+    public function save()
     {
         if ($this->isNew) {
             $qry = $this->db->prepare('INSERT INTO visitors (uniqueID, lastPage, timestamp) VALUES (:uid, :lastPage, :timestamp);');
@@ -189,12 +218,12 @@ class Participant {
     }
 
     /**
-     * refresh: Update the participant UID information 
+     * refresh: Update the participant information 
      * 
      * @return Bool
      */
     public function refresh() {
-        return $this->uidInDb();
+        return $this->load();
     }
 
     /**
