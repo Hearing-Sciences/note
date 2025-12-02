@@ -92,6 +92,7 @@ if ($noteSurvey->isPostRequest) {
             }
             
             $noteSurvey->participant->setLastPageViewed($noteSurvey->getPage());
+            $noteSurvey->participant->save();
             if (function_exists('db_store_visitor_data')) {
                 $noteSurvey->Log->append('Calling the function <strong>db_store_visitor_data</strong>...', 'notice');
                 db_store_visitor_data($noteSurvey->participant->getUid(), $noteSurvey->participant->db, $_NOTE_MODULE);
