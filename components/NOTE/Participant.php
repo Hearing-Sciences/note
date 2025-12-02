@@ -26,11 +26,20 @@ class Participant {
 
     public $dbInfo;
 
+    /**
+     * __construct: create the object
+     * 
+     * @param String $module The name of the module (also the folder name)
+     * @param String $path The file system path of the module
+     * @param Array $options An array of options to build the participant
+     * 
+     * @return Void
+     */
     public function __construct($module, $path, $options) 
     {
         $this->dbConnect($path);
         $this->createCoreTables();
-        $this->createUserTables();
+        $this->createUserTables($path);
         if (isset($options['mode']) && $options['mode'] !== 'data') {
             if ($this->getUidFromSession($module) && $this->load()) {
                 $this->isNew = false;
@@ -114,7 +123,7 @@ class Participant {
      * 
      * @return null 
      */
-    private function createUserTables() {
+    private function createUserTables($path) {
         require_once($path.DIRECTORY_SEPARATOR.'db.php');
         if (function_exists('db_create_tables')) {
             db_create_tables($this->db);
