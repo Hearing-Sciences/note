@@ -328,7 +328,17 @@ class Survey {
 			return;
 		}
 
+		if (count($post) == 0) {
+			$this->Log->append('There are no POST fields to check', 'notice');
+			return;
+		} 
+
 		if (!is_array($_NOTE_MODULE['PAGES'][$page_id])) {
+			return;
+		}
+
+		if ($_NOTE_MODULE['PAGES'][$page_id]['FIELDS'] === NULL) {
+			$this->Log->append('The page FIELDS array is set as NULL. Skipping checks...', 'notice');
 			return;
 		}
 
