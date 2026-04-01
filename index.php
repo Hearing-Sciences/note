@@ -119,7 +119,7 @@ if (isset($_NOTE_MODULE) && array_key_exists('PAGES', $_NOTE_MODULE)) {
 } else {
 	$page_name = false;
 	$last_page_id = false;
-    $noteSurvey->Log->append('Page name has NOTE been set. This will probably break NOTE.', 'error');
+    $noteSurvey->Log->append('Page name has NOT been set. This will probably break NOTE.', 'error');
 }
 
 $noteSurvey->Log->append('Refreshing participant informaiton...', 'notice');
