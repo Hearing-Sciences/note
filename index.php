@@ -15,6 +15,46 @@ include $noteSurvey->fsModulePath.'config.php';
 require_once('components/header.php');
 require_once('components/banner.php');
 
+if (isset($_NOTE_MODULE['IS_ACTIVE']) && !$_NOTE_MODULE['IS_ACTIVE']) {
+	require_once('inactive.php');
+	require_once('components/footer.php');
+	exit;
+}
+
+if (isset($_NOTE_MODULE['ACTIVE_FROM'])) {
+    if (is_string($_NOTE_MODULE['ACTIVE_FROM'])) {
+        try {
+            $ACTIVE_FROM = new DateTimeImmutable($_NOTE_MODULE['ACTIVE_FROM']);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            exit(1);
+        }
+    }
+    $now = new DateTimeImmutable();
+    if ($now < $ACTIVE_FROM) {
+        require_once('inactive.php');
+        require_once('components/footer.php');
+        exit;
+    }
+}
+
+if (isset($_NOTE_MODULE['ACTIVE_TO'])) {
+    if (is_string($_NOTE_MODULE['ACTIVE_TO'])) {
+        try {
+            $ACTIVE_TO = new DateTimeImmutable($_NOTE_MODULE['ACTIVE_TO']);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            exit(1);
+        }
+    }
+    $now = new DateTimeImmutable();
+    if ($now > $ACTIVE_TO) {
+        require_once('inactive.php');
+        require_once('components/footer.php');
+        exit;
+    }
+}
+
 if (!$noteSurvey->isValid) {
 	require_once('blank.php');
 	require_once('components/footer.php');
@@ -128,7 +168,8 @@ $noteSurvey->participant->refresh();
 // Get data required for the current page (stimuli etc.)
 if (function_exists('db_fetch_page_data')) {
     $noteSurvey->Log->append('Calling the function <strong>db_fetch_page_data</strong> to populate $_NOTE_MODULE[\'PRESENTATION_DATA\'].', 'notice');
-    $_NOTE_MODULE['PRESENTATION_DATA'] = db_fetch_page_data($noteSurvey->getPage(), $noteSurvey->participant->getUid(), $noteSurvey->participant->db, $_NOTE_MODULE);
+    //$_NOTE_MODULE['PRESENTATION_DATA'] = db_fetch_page_data($noteSurvey->getPage(), $noteSurvey->participant->getUid(), $noteSurvey->participant->db, $_NOTE_MODULE);
+	$_NOTE_MODULE['PRESENTATION_DATA'] = db_fetch_page_data($noteSurvey->participant->db, $noteSurvey->getPage(), $_NOTE_MODULE, $noteSurvey->participant->getUid());
 } else {
     $_NOTE_MODULE['PRESENTATION_DATA'] = false;
 }
