@@ -15,6 +15,10 @@ A lightweight framework for conducting research online. NOTE is intended to make
 
 ## Revision History
 
+### August 6 2026
+
+- Added [Bootstrap Icons](https://icons.getbootstrap.com/).
+
 ### July 25 2025
 
 - Created a 'debug mode.' Activated by setting ```$_NOTE_MODULE['DEBUG'] = true;``` the code makes the survey object visible before and after the page has been rendered. The code will also check the data (see next point).
