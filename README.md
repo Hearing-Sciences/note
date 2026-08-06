@@ -10,6 +10,7 @@ A lightweight framework for conducting research online. NOTE is intended to make
 - [jQueryUI](https://jqueryui.com/) (MIT licence)
 - [Fontawesome Free](https://github.com/FortAwesome/Font-Awesome) (Icons — CC BY 4.0 License, Fonts — SIL OFL 1.1 License, Code — MIT License )
 - [Bootstrap](https://getbootstrap.com/) (MIT licence)
+- [Bootstrap Icons](https://icons.getbootstrap.com/) (MIT licence)
 - [p5.js and audio plugin](https://p5js.org/) (GNU LGPL licence)
 - [jPlayer](https://github.com/jplayer/jPlayer) (MIT licence)
 
