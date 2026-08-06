@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="/css/jquery-ui-1141.min.css">
 <link rel="stylesheet" href="/css/jplayer.blue.monday.css" />
 <link rel="stylesheet" href="/css/fontawesome-672-all.min.css"  />
+<link rel="stylesheet" href="/css/bootstrap-icons.min.css"  />
 <link rel="stylesheet" href="/css/main.css" />
 <?php if (file_exists($noteSurvey->fsModulePath.'experiment.css')): ?>
     <link rel="stylesheet" href="<?= $noteSurvey->modulePath.'/experiment.css' ?>">
