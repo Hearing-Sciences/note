@@ -13,6 +13,10 @@ $_NOTE = $noteSurvey->toArray(); // This is necessary while the code transitions
 
 include $noteSurvey->fsModulePath.'config.php';
 require_once('components/header.php');
+?>
+<body>
+<header>
+<?php 
 require_once('components/banner.php');
 
 if (isset($_NOTE_MODULE['IS_ACTIVE']) && !$_NOTE_MODULE['IS_ACTIVE']) {
@@ -177,7 +181,8 @@ if (function_exists('db_fetch_page_data')) {
 $noteSurvey->Log->append('Closing database...', 'notice');
 $noteSurvey->participant->closeDb();
 ?>
-
+</header>
+<main>
 <div class="container">
     <form action="<?php echo $noteSurvey->requestUri; ?>" method="POST">
         <?php 
@@ -208,7 +213,7 @@ $noteSurvey->participant->closeDb();
         </div>
     </div>
 <?php endif; ?>
-
+</main>
 <?php require('components/footer.php'); ?>
 
 <?php 

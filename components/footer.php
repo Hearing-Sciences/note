@@ -10,7 +10,7 @@
                 $progress = round((100/($total_pages-1)) * $noteSurvey->getPage());
             }
             ?>
-            <div class="progress-bar" role="progressbar" aria-valuenow="<?= $progress; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?= $progress; ?>%;"><?= $progress; ?>%</div>
+            <div class="progress-bar" role="progressbar" aria-label="Progress Bar" aria-valuenow="<?= $progress; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?= $progress; ?>%;"><?= $progress; ?>%</div>
         </div>
         <?php if (isset($_NOTE_MODULE['FOOTER_COPYRIGHT']) && strlen($_NOTE_MODULE['FOOTER_COPYRIGHT']) > 2): ?>
             <p><?= ($_NOTE_MODULE['FOOTER_COPYRIGHT']) ?></p>

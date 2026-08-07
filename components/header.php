@@ -57,5 +57,3 @@
     <script src="<?= $noteSurvey->modulePath.'/'.sprintf('page_%s.js',$page_name) ?>"></script>
 <?php endif; ?>
 </head>
-
-<body>
