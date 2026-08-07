@@ -93,7 +93,7 @@ if (function_exists('db_create_tables')) {
         })
     </script>
     <div class="container">
-	    <h3 class="text-info"><i class="fa-solid fa-microchip"></i> Debug mode is ON <button class="btn btn-primary m-2" type="button" id="showHideDebugData">Show / Hide variable info</button></h3>
+	    <h3 class="text-primary"><i class="fa-solid fa-microchip"></i> Debug mode is ON <button class="btn btn-primary m-2" type="button" id="showHideDebugData">Show / Hide variable info</button></h3>
     </div>
 
     <script>
