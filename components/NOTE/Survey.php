@@ -337,7 +337,7 @@ class Survey {
 			return;
 		}
 
-		if ($_NOTE_MODULE['PAGES'][$page_id]['FIELDS'] === NULL) {
+		if (isset($_NOTE_MODULE['PAGES'][$page_id]['FIELDS']) && $_NOTE_MODULE['PAGES'][$page_id]['FIELDS'] === NULL) {
 			$this->Log->append('The page FIELDS array is set as NULL. Skipping checks...', 'notice');
 			return;
 		}
