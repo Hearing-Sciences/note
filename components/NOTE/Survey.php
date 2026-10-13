@@ -388,6 +388,9 @@ class Survey {
 		}
 
 		foreach($fields as $field) {
+			if ($field == 'page') {
+				continue;
+			}
 			$message = [];
 			if (in_array($field, $db_fields) && !in_array($field, $php_fields)) {
 				$message[] = 'Field <strong>'.$field.'</strong> is in the database but not in the configuration definition.';
