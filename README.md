@@ -16,6 +16,10 @@ A lightweight framework for conducting research online. NOTE is intended to make
 
 ## Revision History
 
+### October 13 2026
+
+- Created a snapshot release 2.2.
+
 ### August 6 2026
 
 - Added [Bootstrap Icons](https://icons.getbootstrap.com/).
