@@ -1,0 +1,2 @@
+Access and error log files will be stored here.
+The Nginx process information will be stored here in a .pid file.
