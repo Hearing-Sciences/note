@@ -2,9 +2,6 @@
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-
-error_log(implode(',', parse_url($_SERVER['REQUEST_URI'])));
-
 if (is_dir($_SERVER['DOCUMENT_ROOT'] . '/modules' . $path)) {
     error_log('Module ' . $_SERVER['DOCUMENT_ROOT'] . '/modules' . $path . ' found. Redirecting...');
     $_SERVER['SCRIPT_NAME'] = 'index.php';
