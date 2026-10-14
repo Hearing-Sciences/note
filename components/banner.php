@@ -1,5 +1,5 @@
 <div class="d-flex p-0" style="background-color: #10263b;" role="navigation">
-    <div class="me-5"><img src="img/BrandEvolution-WhiteonNottinghamBlue-Cropped-450x173.png" alt="University of Nottingham Logo" class="mr-4 me-4 p-0" height="130px"></div>
+    <div class="me-5"><img src="img/logo.jpg" alt="Company logo" class="mr-4 me-4 p-0" height="130px"></div>
     <div class="text-white align-self-end ml-auto ms-auto pr-4 pe-4">
         <div class="h2 text-right text-end">
             <?php if (isset($noteSurvey->moduleId) && isset($_NOTE_MODULE['TITLE'])): ?>
