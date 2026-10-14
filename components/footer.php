@@ -15,7 +15,7 @@
         <?php if (isset($_NOTE_MODULE['FOOTER_COPYRIGHT']) && strlen($_NOTE_MODULE['FOOTER_COPYRIGHT']) > 2): ?>
             <p><?= ($_NOTE_MODULE['FOOTER_COPYRIGHT']) ?></p>
         <?php else: ?>
-            <p>The information and materials on this website are the property of the University of Nottingham and/or Nottingham University Hospitals NHS Trust</p>
+            <p>The information and materials on this website are protected by copyright.</p>
         <?php endif; ?>
             
         <?php
