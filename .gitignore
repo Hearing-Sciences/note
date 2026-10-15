@@ -4,6 +4,7 @@
 *.md.backup
 modules/*
 !modules/example/
+!modules/README.md
 dev/
 webfonts/
 utilities/
@@ -16,3 +17,4 @@ maintenance/
 dashboard/
 libs/
 docs/*
+!docs/README.md
