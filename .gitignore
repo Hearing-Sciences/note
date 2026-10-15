@@ -3,6 +3,7 @@
 *.sqlite3
 *.md.backup
 modules/
+!modules/example
 dev/
 webfonts/
 utilities/pwgen/target/debug/incremental/
