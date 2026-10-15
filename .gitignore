@@ -2,7 +2,7 @@
 *.wav
 *.sqlite3
 *.md.backup
-modules/
+modules/*
 !modules/example/
 dev/
 webfonts/
