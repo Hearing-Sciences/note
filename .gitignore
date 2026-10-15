@@ -18,3 +18,7 @@ dashboard/
 libs/
 docs/*
 !docs/README.md
+logs/*.log
+logs/*.pid
+temp/*
+!temp/INFO.txt
