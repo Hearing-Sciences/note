@@ -6,8 +6,7 @@ modules/*
 !modules/example/
 dev/
 webfonts/
-utilities/pwgen/target/debug/incremental/
-utilities/pwgen/target/debug/deps/
+utilities/
 env.old.php
 env copy.php
 env.php
@@ -15,7 +14,5 @@ utils.php
 index.original.php
 maintenance/
 dashboard/
-/dashboard
-dashboard/index.php
-dashboard/report.php
 libs/
+docs/*
