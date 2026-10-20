@@ -1,0 +1,24 @@
+*.mp3
+*.wav
+*.sqlite3
+*.md.backup
+modules/*
+!modules/example/
+!modules/README.md
+dev/
+webfonts/
+utilities/
+env.old.php
+env copy.php
+env.php
+utils.php
+index.original.php
+maintenance/
+dashboard/
+libs/
+docs/*
+!docs/README.md
+logs/*.log
+logs/*.pid
+temp/*
+!temp/INFO.txt
